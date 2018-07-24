@@ -15,14 +15,16 @@ const renderField = ({ input, label, type, meta: { touched, error, warning } }) 
 class Signup extends Component {
   handleFormSubmit(values) {
     // Call action creator to sign up the user
+    console.log(values)
     this.props.signupUser(values);
   }
 
   renderAlert() {
     if (this.props.errorMessage) {
+      console.log(this.props.errorMessage)
       return (
         <div className="alert alert-danger" role="alert">
-          <strong>Uh oh!</strong> {this.props.errorMessage}
+           {this.props.errorMessage}
         </div>
       )
     }
@@ -34,10 +36,8 @@ class Signup extends Component {
     return (
       <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
         <Field name="email" component={renderField} type="email" label="Email"/>
-        <Field name="password" component={renderField} type="password" label="Password"/>
-        <Field name="passwordConfirm" component={renderField} type="password" label="Password Confirmation"/>
         {this.renderAlert()}
-        <button type="submit" className="btn btn-primary">Sign Up</button>
+        <button type="submit" className="btn btn-primary btn-confirm btn-confirm">Confirm</button>
       </form>
     )
   }
@@ -50,19 +50,6 @@ function validate(values) {
   if (!values.email) {
     errors.email = 'Please enter an email'
   }
-
-  if (!values.password) {
-    errors.password = 'Please enter a password'
-  }
-
-  if (!values.passwordConfirm) {
-    errors.passwordConfirm = 'Please enter a password confirmation'
-  }
-
-  if (values.password != values.passwordConfirm) {
-    errors.password = "Passwords must match"
-  }
-
   return errors;
 }
 

@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { browserHistory } from 'react-router';
+//this browser history featuer may be a problem
 import { AUTH_USER, AUTH_ERROR, UNAUTH_USER, FETCH_MESSAGE } from './types';
-
 
 const ROOT_URL = 'http://localhost:3090';
 
+//theoretically nothing here in signup user should actually ever fire
 export function signinUser({ email, password }) {
   return function(dispatch) {
-    // Submit email/password to server
     axios.post(`${ROOT_URL}/signin`, { email, password})
       .then(response => {
         // If request is goood...
@@ -26,9 +26,9 @@ export function signinUser({ email, password }) {
   }
 }
 
-export function signupUser({ email, password }) {
+export function signupUser({ email }) {
   return function(dispatch) {
-    axios.post(`${ROOT_URL}/signup`, { email, password })
+    axios.post(`${ROOT_URL}/signup`, { email })
       .then(response => {
         dispatch({ type: AUTH_USER });
         localStorage.setItem('token', response.data.token);

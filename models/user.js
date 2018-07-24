@@ -5,7 +5,7 @@ const
 
 // User Model
 const userSchema = new Schema({
-  email: { type: String, unique: true, lowercase: true },
+  attendeeName: { type: String, unique: true, lowercase: true },
   password: String
 });
 
@@ -16,6 +16,7 @@ userSchema.pre('save', function(next) {
   const user = this;
 
   // Generate a salt, then run callback
+  //all this will go offline and be disconnected from the main route
   bcrypt.genSalt(10, function(err, salt) {
     if (err) { return next(err); };
 
