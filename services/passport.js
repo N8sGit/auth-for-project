@@ -8,12 +8,12 @@ const
 
 
 // Local Strategy
-const localOptions = { usernameField: 'email' }
-const localLogin = new LocalStrategy(localOptions, function(email, password, done) {
+const localOptions = { usernameField: 'name' }
+const localLogin = new LocalStrategy(localOptions, function(name, undefined,  done) {
   // Verify this username and password, call done with the user
   // if it is the correct username and password
   // otherwise, call done with false
-  User.findOne({ email: email }, function(err, user) {
+  User.findOne({ name: name }, function(err, user) {
     if (err) { return done(err); }
 
     if (!user) { return done(null, false); }

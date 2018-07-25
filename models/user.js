@@ -6,7 +6,7 @@ const
 // User Model
 const userSchema = new Schema({
   attendeeName: { type: String, unique: true, lowercase: true },
-  password: String
+  
 });
 
 // On Save Hook, encrypt password

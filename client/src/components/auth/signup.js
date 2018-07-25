@@ -8,7 +8,7 @@ const renderField = ({ input, label, type, meta: { touched, error, warning } }) 
   <fieldset className="form-group">
     <label htmlFor={input.name}>{label}</label>
     <input className="form-control" {...input} type={type}/>
-    { touched && error && <span className="text-danger">{error}</span> }
+    { touched && error && <span className="text-danger">{'hello'}</span> }
   </fieldset>
 )
 
@@ -35,7 +35,7 @@ class Signup extends Component {
 
     return (
       <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-        <Field name="email" component={renderField} type="email" label="Email"/>
+        <Field name="name" component={renderField} label="Your Name"/>
         {this.renderAlert()}
         <button type="submit" className="btn btn-primary btn-confirm btn-confirm">Confirm</button>
       </form>
@@ -47,8 +47,8 @@ function validate(values) {
   const errors = {};
 
   // Condense with 4each
-  if (!values.email) {
-    errors.email = 'Please enter an email'
+  if (!values.name) {
+    errors.name = 'Please enter an name'
   }
   return errors;
 }

@@ -6,9 +6,9 @@ import { AUTH_USER, AUTH_ERROR, UNAUTH_USER, FETCH_MESSAGE } from './types';
 const ROOT_URL = 'http://localhost:3090';
 
 //theoretically nothing here in signup user should actually ever fire
-export function signinUser({ email, password }) {
+export function signinUser({ name }) {
   return function(dispatch) {
-    axios.post(`${ROOT_URL}/signin`, { email, password})
+    axios.post(`${ROOT_URL}/signin`, { name})
       .then(response => {
         // If request is goood...
         // - Update state to indicate the user is authenticated
@@ -21,14 +21,14 @@ export function signinUser({ email, password }) {
       .catch(() => {
         // If request is bad...
         // - Show an error to the user
-        dispatch(authError('Incorrect username or password'))
+        dispatch(authError('Incorrect name'))
       });
   }
 }
 
-export function signupUser({ email }) {
+export function signupUser({ name }) {
   return function(dispatch) {
-    axios.post(`${ROOT_URL}/signup`, { email })
+    axios.post(`${ROOT_URL}/signup`, { name })
       .then(response => {
         dispatch({ type: AUTH_USER });
         localStorage.setItem('token', response.data.token);

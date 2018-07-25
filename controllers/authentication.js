@@ -10,7 +10,7 @@ function tokenForUser(user) {
 }
 
 exports.signin = function(req, res, next) {
-  // User has already had their attendeeName and password authenticated
+  // User has already had their name and password authenticated
   // so they just need to be given a token.
   res.send({ token: tokenForUser(req.user)  });
 }
@@ -18,27 +18,27 @@ exports.signin = function(req, res, next) {
 // Signs the user up for the service
 exports.signup = function(req, res, next) {
   const 
-    attendeeName = req.body.email,
-    password = req.body.password;
+    name = req.body.name,
+    password = undefined;
   //for now it seems that it errors out if password is removed
-  // Handle the case of someone only providing an attendeeName,
-  if (attendeeName && !password) {
+  // Handle the case of someone only providing an name,
+  if (!name) {
     return res.status(422).send({
       error: 'Type your name'
     })
   }
-  // See if a user with the given attendeeName exists.
-User.findOne({ attendeeName: attendeeName }, function(err, existingUser) {
+  // See if a user with the given name exists.
+User.findOne({ name: name }, function(err, existingUser) {
     if (err) { return next(err); }
 
-    // If a user with attendeeName does exist, return an error
+    // If a user with name does exist, return an error
     if (existingUser) {
       return res.status(422).send( { error: 'That name is in use!' })
     }
 
-    // If a user with an attendeeName does not exist, create and save use record
+    // If a user with an name does not exist, create and save use record
     const user = new User({
-      attendeeName: attendeeName,
+      name: name,
     })
 
     // Save the record to the database
