@@ -8,7 +8,7 @@ const renderField = ({ input, label, type, meta: { touched, error, warning } }) 
   <fieldset className="form-group">
     <label htmlFor={input.name}>{label}</label>
     <input className="form-control" {...input} type={type}/>
-    { touched && error && <span className="text-danger">{'hello'}</span> }
+    { touched && error && <span className="text-danger">{this.props.errorMessage}</span> }
   </fieldset>
 )
 
@@ -21,7 +21,6 @@ class Signup extends Component {
 
   renderAlert() {
     if (this.props.errorMessage) {
-      console.log(this.props.errorMessage)
       return (
         <div className="alert alert-danger" role="alert">
            {this.props.errorMessage}
@@ -48,7 +47,7 @@ function validate(values) {
 
   // Condense with 4each
   if (!values.name) {
-    errors.name = 'Please enter an name'
+    errors.name = 'Please enter a name'
   }
   return errors;
 }

@@ -19,7 +19,6 @@ exports.signin = function(req, res, next) {
 exports.signup = function(req, res, next) {
   const 
     name = req.body.name,
-    password = undefined;
   //for now it seems that it errors out if password is removed
   // Handle the case of someone only providing an name,
   if (!name) {

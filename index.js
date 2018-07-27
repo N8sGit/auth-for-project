@@ -5,17 +5,23 @@ const
   morgan = require('morgan'),
   app = express(),
   router = require('./router'),
+  main = require("./main"),
   mongoose = require('mongoose'),
   cors = require('cors');
-
 // Database Setup
 mongoose.connect('mongodb://localhost:auth/auth');
+
 
 // App/Middleware Setup
 app.use(morgan('combined')); // Logging debugging
 app.use(cors()) // Handles CORS
 app.use(bodyParser.json({ type: '*/*' })); // Parses incoming requests as JSON
 router(app);
+
+app.get('./main', function(req, res){
+  console.log('req',req, 'res', res)
+  console.log('main server rout');
+})
 
 // Server Setup
 const 

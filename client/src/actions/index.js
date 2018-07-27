@@ -6,6 +6,13 @@ import { AUTH_USER, AUTH_ERROR, UNAUTH_USER, FETCH_MESSAGE } from './types';
 const ROOT_URL = 'http://localhost:3090';
 
 //theoretically nothing here in signup user should actually ever fire
+
+
+
+
+
+
+
 export function signinUser({ name }) {
   return function(dispatch) {
     axios.post(`${ROOT_URL}/signin`, { name})

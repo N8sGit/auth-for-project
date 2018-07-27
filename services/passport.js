@@ -6,10 +6,11 @@ const
   ExtractJwt = require('passport-jwt').ExtractJwt,
   LocalStrategy = require('passport-local');
 
-
+console.log('entry point to the passport auth');
 // Local Strategy
-const localOptions = { usernameField: 'name' }
+const localOptions = { nameField: 'name' }
 const localLogin = new LocalStrategy(localOptions, function(name, undefined,  done) {
+  console.log('is this getting entered? ');
   // Verify this username and password, call done with the user
   // if it is the correct username and password
   // otherwise, call done with false

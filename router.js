@@ -13,7 +13,7 @@ module.exports = function(app) {
   app.get('/', requireAuth, function(req, res) {
     res.send({ message: 'Server authentication home route' })
   });
-
+  //send post reqs from here to the index.js server file 
   app.post('/signin', requireSignIn, Authentication.signin);
   app.post('/signup', Authentication.signup);
 }
