@@ -32,7 +32,7 @@ class Header extends Component {
         // only authenticate once
         <button type='submit'> 
         <li className="nav-item" key={1}>
-          <Link className="nav-link" to="/signup">Get Schedule</Link>
+          <Link className="nav-link" to="/main">Get Schedule</Link>
         </li>
         </ button>        
       ]

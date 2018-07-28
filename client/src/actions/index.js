@@ -8,30 +8,39 @@ const ROOT_URL = 'http://localhost:3090';
 //theoretically nothing here in signup user should actually ever fire
 
 
+export function executeMain({ data }){
+  axios.post('/main', { data })
+    .then(response => {
+      response.send({data})
+
+    })
+    .catch(() =>{
+      console.error('Error delivering response at executeMain')
+    })
+} 
 
 
-
-
-
-export function signinUser({ name }) {
-  return function(dispatch) {
-    axios.post(`${ROOT_URL}/signin`, { name})
-      .then(response => {
-        // If request is goood...
-        // - Update state to indicate the user is authenticated
-        dispatch({ type: AUTH_USER });
-        // - Save the JWT token
-        localStorage.setItem('token', response.data.token);
-        // - Redorect to the protected route
-        browserHistory.push('/private');
-      })
-      .catch(() => {
-        // If request is bad...
-        // - Show an error to the user
-        dispatch(authError('Incorrect name'))
-      });
-  }
-}
+//at this point signInUser is just clutter, but I do not yet want to remove it to avoid introducing bugs
+ 
+// export function signinUser({ name }) {
+//   return function(dispatch) {
+//     axios.post(`${ROOT_URL}/signin`, { name})
+//       .then(response => {
+//         // If request is goood...
+//         // - Update state to indicate the user is authenticated
+//         dispatch({ type: AUTH_USER });
+//         // - Save the JWT token
+//         localStorage.setItem('token', response.data.token);
+//         // - Redorect to the protected route
+//         browserHistory.push('/private');
+//       })
+//       .catch(() => {
+//         // If request is bad...
+//         // - Show an error to the user
+//         dispatch(authError('Incorrect name'))
+//       });
+//   }
+// }
 
 export function signupUser({ name }) {
   return function(dispatch) {

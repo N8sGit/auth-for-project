@@ -15,5 +15,5 @@ module.exports = function(app) {
   });
   //send post reqs from here to the index.js server file 
   app.post('/signin', requireSignIn, Authentication.signin);
-  app.post('/signup', Authentication.signup);
+  app.post('/main', {'hello test' : 'hello test'});
 }

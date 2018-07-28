@@ -14,6 +14,8 @@ import Signout from './components/auth/signout';
 import Signup from './components/auth/signup';
 import RequireAuth from './components/auth/require_auth';
 import reducers from './reducers';
+import {executeMain} from '/auth-portal/client/src/actions/index.js'
+
 
 const createStoreWithMiddleware = applyMiddleware(
   reduxThunk
@@ -36,6 +38,7 @@ ReactDOM.render(
         <Route path="signup" component={Signup} />
         <Route path="signout" component={Signout} />
         <Route path="private" component={RequireAuth(Private)} />
+        <Route path='main' component={executeMain} />
       </Route>
     </Router>
   </Provider>
