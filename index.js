@@ -5,11 +5,12 @@ const
   morgan = require('morgan'),
   app = express(),
   router = require('./router'),
-  main = require("./main"),
+  Main = require("./main"),
   mongoose = require('mongoose'),
   cors = require('cors');
 // Database Setup
 mongoose.connect('mongodb://localhost:auth/auth');
+
 
 
 // App/Middleware Setup
@@ -18,9 +19,21 @@ app.use(cors()) // Handles CORS
 app.use(bodyParser.json({ type: '*/*' })); // Parses incoming requests as JSON
 router(app);
 
-app.get('./main', function(req, res){
-  console.log('req',req, 'res', res)
-  console.log('main server rout');
+app.use('/main', require('./main'))
+
+app.use(function(req, res, next){
+  console.log(req.path)
+
+  next()
+});
+app.use((req, res, next) => {
+  const error = new Error('Not Found')
+  error.status = 404
+  next(error)
+})
+
+app.get('/main', function(req, res){
+ 
 })
 
 // Server Setup

@@ -10,34 +10,28 @@ function tokenForUser(user) {
 }
 
 exports.signin = function(req, res, next) {
-  // User has already had their name and password authenticated
+  // User has already had their email and password authenticated
   // so they just need to be given a token.
   res.send({ token: tokenForUser(req.user)  });
 }
 
 // Signs the user up for the service
 exports.signup = function(req, res, next) {
-  const 
-    name = req.body.name,
-  //for now it seems that it errors out if password is removed
-  // Handle the case of someone only providing an name,
-  if (!name) {
-    return res.status(422).send({
-      error: 'Type your name'
-    })
-  }
-  // See if a user with the given name exists.
-User.findOne({ name: name }, function(err, existingUser) {
+    console.log(req.body, 'this is just poking around the signup request at the controller in the client')
+
+  res.send({message: 'this is an example send off'}) 
+
+  User.findOne({ email: email }, function(err, existingUser) {
     if (err) { return next(err); }
 
-    // If a user with name does exist, return an error
+    // If a user with email does exist, return an error
     if (existingUser) {
-      return res.status(422).send( { error: 'That name is in use!' })
+      return res.status(422).send( { error: 'That email is in use!' })
     }
 
-    // If a user with an name does not exist, create and save use record
+    // If a user with an email does not exist, create and save use record
     const user = new User({
-      name: name,
+      email: email,
     })
 
     // Save the record to the database
@@ -47,6 +41,5 @@ User.findOne({ name: name }, function(err, existingUser) {
        // Respond to the request indicating the user was created
       res.json({ token: tokenForUser(user) });
     });
-  });
-
+  })
 }

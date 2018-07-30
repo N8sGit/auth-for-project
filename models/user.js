@@ -5,7 +5,7 @@ const
 
 // User Model
 const userSchema = new Schema({
-  attendeeName: { type: String, unique: true, lowercase: true },
+  name: { type: String, unique: true, lowercase: true },
   
 });
 
