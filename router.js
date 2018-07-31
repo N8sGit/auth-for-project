@@ -1,6 +1,6 @@
 const 
   Authentication = require('./controllers/authentication'),
-  MainController = require ('./controller/main_controller')
+  //MainController = require ('./controller/main_controller')
   passportService = require('./services/passport'),
   passport = require('passport');
 
@@ -15,6 +15,6 @@ module.exports = function(app) {
     res.send({ message: 'Server authentication home route' })
   });
   //send post reqs from here to the index.js server file 
-  app.post('/signin', requireSignIn, MainController.signup);
-  app.post('/main', MainController.signup);
+  app.post('/signin');
+  app.post('/main');
 }

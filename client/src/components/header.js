@@ -1,12 +1,29 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import axios from 'axios';
+
 
 // Container
 class Header extends Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      data: []
+    }
+  }
+
+  componentDidMount(){
+    axios.get(`/main`)
+  .then(res => {
+      console.log('Contact with server confirmed');
+  })
+  .catch(err => console.log(err))
+}
   
   renderLinks() {
-  console.log(this.props.authenticated, 'this.props.authenticated');
+  console.log(this.props.authenticated || null, 'this.props.authenticated');
     if (this.props.authenticated) {
       //I assume this.props.authenticated is just a boolian
       //after 
@@ -30,9 +47,11 @@ class Header extends Component {
       return [
         // signing up is the input entry point here because the user must
         // only authenticate once
-        <button type='submit'> 
+        <button type='submit' onClick = { () =>{
+            axios.get()
+        }} > 
         <li className="nav-item" key={1}>
-          <Link className="nav-link" to="/main">Get Schedule</Link>
+          {/* <Link className="nav-link" to="/main">Get Schedule</Link> */}
         </li>
         </ button>        
       ]

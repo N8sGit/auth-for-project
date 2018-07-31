@@ -18,7 +18,9 @@ module.exports = function(app) {
       res.send({ message: 'Server authentication home route' })
     });
     //send post reqs from here to the index.js server file 
-    app.post('/main', {'hello test' : 'hello' });
+    app.post('/main', function(req, res){
+        console.log('hello');
+    });
   }
 
 exports.main = function(req, res, next){

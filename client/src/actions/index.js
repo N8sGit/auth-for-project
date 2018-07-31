@@ -2,6 +2,7 @@ import axios from 'axios';
 import { browserHistory } from 'react-router';
 //this browser history featuer may be a problem
 import { AUTH_USER, AUTH_ERROR, UNAUTH_USER, FETCH_MESSAGE, EXECUTE_MAIN } from './types';
+console.log(executeMain)
 
 const ROOT_URL = 'http://localhost:3090';
 
@@ -20,7 +21,7 @@ export function executeMain({ data }){
 } 
 
 
-//at this point signInUser is just clutter, but I do not yet want to remove it to avoid introducing bugs
+//at this point signInUser is just clutter, but I do not yet want to remove it 
  
 // export function signinUser({ name }) {
 //   return function(dispatch) {
@@ -42,39 +43,39 @@ export function executeMain({ data }){
 //   }
 // }
 
-export function signupUser({ name }) {
-  return function(dispatch) {
-    axios.post(`main`, { name })
-      .then(response => {
-        dispatch({ type: EXECUTE_MAIN });
-        localStorage.setItem('token', response.data.token);
-        browserHistory.push('/private')
-      })
-      .catch(error => dispatch(authError(error.response.data.error)));
-  }
-}
+// export function signupUser({ name }) {
+//   return function(dispatch) {
+//     axios.post(`${ROOT_URL}/signup`, { name })
+//       .then(response => {
+//         dispatch({ type: AUTH_USER });
+//         localStorage.setItem('token', response.data.token);
+//         browserHistory.push('/private')
+//       })
+//       .catch(error => dispatch(authError(error.response.data.error)));
+//   }
+// }
 
-export function authError(error) {
-  return {
-    type: AUTH_ERROR,
-    payload: error
-  }
-}
+// export function authError(error) {
+//   return {
+//     type: AUTH_ERROR,
+//     payload: error
+//   }
+// }
 
-export function signoutUser() {
-  localStorage.removeItem('token');
-  return { type: UNAUTH_USER };
-}
+// export function signoutUser() {
+//   localStorage.removeItem('token');
+//   return { type: UNAUTH_USER };
+// }
 
-export function fetchMessage() {
-  return function(dispatch) {
-    axios.get(ROOT_URL, {
-      headers: { authorization: localStorage.getItem('token') }
-    }).then(response => {
-        dispatch({
-          type: FETCH_MESSAGE,
-          payload: response.data.message
-        })
-      });
-  }
-}
+// export function fetchMessage() {
+//   return function(dispatch) {
+//     axios.get(ROOT_URL, {
+//       headers: { authorization: localStorage.getItem('token') }
+//     }).then(response => {
+//         dispatch({
+//           type: FETCH_MESSAGE,
+//           payload: response.data.message
+//         })
+//       });
+//   }
+// }
