@@ -8,9 +8,10 @@ const
   router = require('./router'),
   // Main = require("./main"),
   mongoose = require('mongoose'),
-  cors = require('cors');
+  cors = require('cors'),
   axios = require('axios')
 // Database Setup
+
 mongoose.connect('mongodb://localhost:auth/auth');
 
 let testData = [
@@ -57,19 +58,16 @@ let key = {
 app.use(morgan('combined')); // Logging debugging
 app.use(cors()) // Handles CORS
 app.use(bodyParser.json({ type: '*/*' })); // Parses incoming requests as JSON
+app.use('*', function(req, res, next){
+  console.log(req.path, 'all paths')
+   next()
+});
 router(app);
 
 //app.use('/main', require('./main'))
 
-app.use(function(req, res, next){
-  console.log(req.path, 'all paths')
-   next()
-});
 
-app.use('/', function(req, res, next){
-  console.log(req, 'req + plus this');
-  next()
-})
+
 
 app.get('/main', function(req, res, next){
   console.log('hello');
@@ -78,11 +76,7 @@ app.get('/main', function(req, res, next){
   next()
 })
 
-app.use((req, res, next) => {
-  const error = new Error('Not Found')
-  error.status = 404
-  next(error)
-})
+
 
 
 

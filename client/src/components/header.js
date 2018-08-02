@@ -15,14 +15,10 @@ class Header extends Component {
   }
 
   componentDidMount(){
-    axios.get(`/main`, function(req, res){
-      console.log(req || null , res || null);
-  })
+    axios.get(`/`)
   .then(res => {
-    console.log('Contact with server confirmed');
-    console.log(res, 'res?');
-    console.log(res.message, 'message?')
-    if(!res.message) console.log('response message missing!')
+    console.log(res);
+    console.log('promise entered');
   }) 
     .catch(err => console.log(err + 'error detected inside axios promise'))
 }
@@ -49,7 +45,6 @@ class Header extends Component {
   }
 
   render() {
-    console.log(this.renderLinks, 'renderlinks in return')
     return (
       <nav className="">
         <Link to="/" className="navbar-brand">Fost Scheduling Portal</Link>
