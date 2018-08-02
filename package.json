@@ -1,14 +1,14 @@
 {
-  "name": "express-authentication-boilerplate",
+  "name": "authentication",
   "version": "1.0.0",
-  "description": "Basic signup and signin authentication boilerplate.",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js",
     "lint": "eslint ./ --ignore-path .gitignore"
   },
-  "author": "James Ives",
+  "author": "",
   "license": "MIT",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",

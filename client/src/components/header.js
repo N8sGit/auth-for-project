@@ -15,40 +15,30 @@ class Header extends Component {
   }
 
   componentDidMount(){
-    axios.get(`/main`)
-  .then(res => {
-      console.log('Contact with server confirmed');
+    axios.get(`/`, function(req, res){
+
   })
-  .catch(err => console.log(err))
+  .then(res => {
+    console.log('Contact with server confirmed');
+    console.log(res, 'res?');
+    console.log(res.message, 'message?')
+    if(!res.message) console.log('response message missing?')
+  }) 
+    .catch(err => console.log(err + 'error detected inside axios promise'))
 }
+
   
   renderLinks() {
-  console.log(this.props.authenticated || null, 'this.props.authenticated');
-    if (this.props.authenticated) {
-      //I assume this.props.authenticated is just a boolian
-      //after 
-      // The user will either not see this view because they will be redirected 
-      //to booms
-      //OR
-      // They will be taken inside this view component (TBD) which is simple display for
-      //the attendee /w urls
-      return (
-        <div className='attendee-list'>
-        <li className="nav-item">
-          <Link className="nav-link" to="/signout">signout</Link>
-
-          {/* This Link will eventually enter the /fetchURL route */}
-        </li>
-        </div>
-       
-      )
-    } else {
+     {
       // Show a link to sign in or sign up
       return [
         // signing up is the input entry point here because the user must
         // only authenticate once
+        //button also needs to submit values for the Last Name and DOB
         <button type='submit' onClick = { () =>{
-            axios.get()
+            axios.get('/main', function(req, res){
+              req.send({hello: 'hello'})
+            })
         }} > 
         <li className="nav-item" key={1}>
           {/* <Link className="nav-link" to="/main">Get Schedule</Link> */}
@@ -73,7 +63,7 @@ class Header extends Component {
 
 function mapStateToProps(state) {
   return {
-    authenticated: state.auth.authenticated
+  
   };
 }
 

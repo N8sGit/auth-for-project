@@ -1,4 +1,5 @@
 const 
+  path = require('path')
   express = require('express'),
   http = require('http'),
   bodyParser = require('body-parser'),
@@ -8,8 +9,10 @@ const
   // Main = require("./main"),
   mongoose = require('mongoose'),
   cors = require('cors');
+  axios = require('axios')
 // Database Setup
 mongoose.connect('mongodb://localhost:auth/auth');
+
 let testData = [
   {
 		"First Name": "Emma",
@@ -58,14 +61,23 @@ router(app);
 
 //app.use('/main', require('./main'))
 
-app.use(function(req, res, next){
-  console.log(req.path)
+app.use(function (req, res, next) {
+  res.status(404).send("Sorry can't find that!")
+})
 
-  next()
+app.use(function(req, res, next){
+  console.log(req.path, 'all paths')
+   next()
 });
 
-app.get('/main', function(req, res){
+app.use('/', function(req, res, next){
+  console.log(req, 'req + plus this');
+})
+
+app.get('/', function(req, res){
   console.log('hello');
+  let message = 'this is the backend. You heard back from us.'
+  res.send({message: message })
 })
 
 app.use((req, res, next) => {
