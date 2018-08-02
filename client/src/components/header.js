@@ -15,14 +15,14 @@ class Header extends Component {
   }
 
   componentDidMount(){
-    axios.get(`/`, function(req, res){
-
+    axios.get(`/main`, function(req, res){
+      console.log(req || null , res || null);
   })
   .then(res => {
     console.log('Contact with server confirmed');
     console.log(res, 'res?');
     console.log(res.message, 'message?')
-    if(!res.message) console.log('response message missing?')
+    if(!res.message) console.log('response message missing!')
   }) 
     .catch(err => console.log(err + 'error detected inside axios promise'))
 }
@@ -37,7 +37,7 @@ class Header extends Component {
         //button also needs to submit values for the Last Name and DOB
         <button type='submit' onClick = { () =>{
             axios.get('/main', function(req, res){
-              req.send({hello: 'hello'})
+              console.log(res.message, 'message on click?')
             })
         }} > 
         <li className="nav-item" key={1}>

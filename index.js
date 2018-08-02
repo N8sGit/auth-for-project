@@ -61,10 +61,6 @@ router(app);
 
 //app.use('/main', require('./main'))
 
-app.use(function (req, res, next) {
-  res.status(404).send("Sorry can't find that!")
-})
-
 app.use(function(req, res, next){
   console.log(req.path, 'all paths')
    next()
@@ -72,12 +68,14 @@ app.use(function(req, res, next){
 
 app.use('/', function(req, res, next){
   console.log(req, 'req + plus this');
+  next()
 })
 
-app.get('/', function(req, res){
+app.get('/main', function(req, res, next){
   console.log('hello');
   let message = 'this is the backend. You heard back from us.'
   res.send({message: message })
+  next()
 })
 
 app.use((req, res, next) => {
