@@ -59,8 +59,9 @@ app.use(cors()) // Handles CORS
 app.use(bodyParser.json({ type: '*/*' })); // Parses incoming requests as JSON
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.use(function(req, res){
-  console.dir(req.path, '\n all paths')
+app.use(function(req, res, next){
+	console.dir(req.path, '\n all paths')
+	next()
 });
 
 app.get('/main', function(req,res){

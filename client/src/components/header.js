@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import axios from 'axios';
 
-const baseURL = "http://localhost:3090"
-axios.defaults.headers.common[baseURL]
 
 // Container
 class Header extends Component {
@@ -18,12 +16,12 @@ class Header extends Component {
 
   componentDidMount(){
     
-    axios.get('/main', function(){})
+    axios.get('http://localhost:3090/main', function(){})
       .then(res =>{
         console.log(res);
       })
     
-    axios.get(`/`)
+    axios.get(`http://localhost:3090/`)
       .then(res => {
       console.log(res);
       console.log('promise entered');
