@@ -2,9 +2,7 @@ const
   jwt = require('jwt-simple'),
   User = require('../models/user'),
   config = require('../config');
-import {executeMain} from '../client/src/actions/'
 
-console.log(executeMain, 'executeMain at main_controller')
 
 // Generates a JWT token.
 function tokenForUser(user) {
@@ -13,28 +11,10 @@ function tokenForUser(user) {
 }
 
 module.exports = function(app) {
-    // Protected route that requires you to pass through requireAuth
-    app.get('/', function(req, res) {
-      res.send({ message: 'Server authentication home route' })
-    });
-    //send post reqs from here to the index.js server file 
-    app.post('/main', function(req, res){
-        console.log('hello');
-    });
-  }
-
-exports.main = function(req, res, next){
-    res.send().then(function(){
-        console.log('hello there')
-    } )
-  }
-
+}
 // Signs the user up for the service
 exports.signup = function(req, res, next) {
-    console.log(req.body, 'this is just poking around the signup request at the controller in the client')
-
-  res.send({message: 'this is an example send off'}) 
-
+   
 //   User.findOne({ name: name }, function(err, existingUser) {
 //     if (err) { return next(err); }
 

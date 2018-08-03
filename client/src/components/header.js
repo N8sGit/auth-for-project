@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import axios from 'axios';
 
+const baseURL = "http://localhost:3090"
+axios.defaults.headers.common[baseURL]
 
 // Container
 class Header extends Component {
@@ -15,14 +17,19 @@ class Header extends Component {
   }
 
   componentDidMount(){
-    const instance = axios.create({baseURL: 'http://localhost:3090'})
+    
+    axios.get('/main', function(){})
+      .then(res =>{
+        console.log(res);
+      })
+    
+    axios.get(`/`)
+      .then(res => {
+      console.log(res);
+      console.log('promise entered');
+      }) 
+        .catch(err => console.log(err + 'error detected inside axios promise'))
 
-    instance.get(`/`)
-  .then(res => {
-    console.log(res);
-    console.log('promise entered');
-  }) 
-    .catch(err => console.log(err + 'error detected inside axios promise'))
 }
 
   

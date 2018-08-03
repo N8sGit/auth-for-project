@@ -5,7 +5,6 @@ const
   bodyParser = require('body-parser'),
   morgan = require('morgan'),
   app = express(),
-  // Main = require("./main"),
   mongoose = require('mongoose'),
   cors = require('cors'),
   axios = require('axios')
@@ -52,7 +51,8 @@ let testData = [
 let key = {
   "key": "f3ad371b4798b2368670127033955259ee7dc160"
 }
-console.log('hello')
+
+let testMessage = 'Hello from the backend'
 // App/Middleware Setup
 app.use(morgan('combined')); // Logging debugging
 app.use(cors()) // Handles CORS
@@ -60,15 +60,19 @@ app.use(bodyParser.json({ type: '*/*' })); // Parses incoming requests as JSON
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(function(req, res){
-  console.dir(req.path, 'all paths')
+  console.dir(req.path, '\n all paths')
 });
 
-//app.use('/main', require('./main'))
-
+app.get('/main', function(req,res){
+  let package = { message : testMessage, data: testData[1] }
+  res.send(package)
+})
 
 app.get('/', function(req, res){
- res.send({message: 'hello'})
+ res.send({message: testMessage})
 })
+
+
 
 
 
@@ -76,9 +80,8 @@ app.get('/', function(req, res){
 
 // Server Setup
 const 
-  port = process.env.PORT || 3090,
+	port = process.env.PORT || 3090,
   server = http.createServer(app);
-
 server.listen(port);
 
 console.log('Server is now running and listening on port: ', port)
