@@ -15,7 +15,9 @@ class Header extends Component {
   }
 
   componentDidMount(){
-    axios.get(`/`)
+    const instance = axios.create({baseURL: 'http://localhost:3090'})
+
+    instance.get(`/`)
   .then(res => {
     console.log(res);
     console.log('promise entered');

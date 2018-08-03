@@ -1,7 +1,6 @@
 const Main = require('express').Router()
 //const {User} = require('../db/models')
 // const MainController = require('./controllers/main_controller')
-const data = require('./data/')
 //console.log(MainController,'Main controler at main.js router')
 
 Main.get('/', (req, res, next) => {

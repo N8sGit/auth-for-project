@@ -5,7 +5,6 @@ const
   bodyParser = require('body-parser'),
   morgan = require('morgan'),
   app = express(),
-  router = require('./router'),
   // Main = require("./main"),
   mongoose = require('mongoose'),
   cors = require('cors'),
@@ -53,27 +52,22 @@ let testData = [
 let key = {
   "key": "f3ad371b4798b2368670127033955259ee7dc160"
 }
-
+console.log('hello')
 // App/Middleware Setup
 app.use(morgan('combined')); // Logging debugging
 app.use(cors()) // Handles CORS
 app.use(bodyParser.json({ type: '*/*' })); // Parses incoming requests as JSON
-app.use('*', function(req, res, next){
-  console.log(req.path, 'all paths')
-   next()
+app.use(bodyParser.urlencoded({ extended: true }))
+
+app.use(function(req, res){
+  console.dir(req.path, 'all paths')
 });
-router(app);
 
 //app.use('/main', require('./main'))
 
 
-
-
-app.get('/main', function(req, res, next){
-  console.log('hello');
-  let message = 'this is the backend. You heard back from us.'
-  res.send({message: message })
-  next()
+app.get('/', function(req, res){
+ res.send({message: 'hello'})
 })
 
 
