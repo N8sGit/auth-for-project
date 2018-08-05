@@ -15,6 +15,7 @@ import Signup from './components/auth/signup';
 import RequireAuth from './components/auth/require_auth';
 import reducers from './reducers';
 
+
 const createStoreWithMiddleware = applyMiddleware(
   reduxThunk
 )(createStore);
@@ -26,6 +27,8 @@ const token = localStorage.getItem('token')
 if (token) {
   store.dispatch({ type: AUTH_USER })
 }
+
+
 
 ReactDOM.render(
   <Provider store={store}>

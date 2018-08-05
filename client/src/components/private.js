@@ -4,10 +4,12 @@ import * as actions from '../actions'
 
 class Private extends Component {
   componentWillMount() {
+   console.log(this.props.fetchMessage(),'this.props.fetchMessage()') 
     this.props.fetchMessage();
   }
 
   render() {
+    console.log(this.props.message, 'this.props.messsage')
     return (
       <div>{this.props.message}</div>
     )

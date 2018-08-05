@@ -17,30 +17,21 @@ exports.signin = function(req, res, next) {
 
 // Signs the user up for the service
 exports.signup = function(req, res, next) {
-  const 
-    email = req.body.email,
-    password = req.body.password;
+    console.log(req.body, 'this is just poking around the signup request at the controller in the client')
 
-  // Handle the case of someone only providing an email, or password, not both.
-  if (!email || !password) {
-    return res.status(422).send({
-      error: 'You must provide an email and password!'
-    })
-  }
+  res.send({message: 'this is an example send off'}) 
 
-  // See if a user with the given email exists.
   User.findOne({ email: email }, function(err, existingUser) {
     if (err) { return next(err); }
 
     // If a user with email does exist, return an error
     if (existingUser) {
-      return res.status(422).send( { error: 'Email is in use!' })
+      return res.status(422).send( { error: 'That email is in use!' })
     }
 
     // If a user with an email does not exist, create and save use record
     const user = new User({
       email: email,
-      password: password
     })
 
     // Save the record to the database
@@ -50,6 +41,5 @@ exports.signup = function(req, res, next) {
        // Respond to the request indicating the user was created
       res.json({ token: tokenForUser(user) });
     });
-  });
-
+  })
 }

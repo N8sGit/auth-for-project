@@ -1,35 +1,60 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import axios from 'axios';
+
 
 // Container
-
 class Header extends Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      data: []
+    }
+  }
+
+  componentDidMount(){
+    
+    axios.get('http://localhost:3090/main', function(){})
+      .then(res =>{
+        console.log(res);
+      })
+    
+    axios.get(`http://localhost:3090/`)
+      .then(res => {
+      console.log(res);
+      console.log('promise entered');
+      }) 
+        .catch(err => console.log(err + 'error detected inside axios promise'))
+
+}
+
+  
   renderLinks() {
-    if (this.props.authenticated) {
-      // Show a link to sign out
-      return (
-        <li className="nav-item">
-          <Link className="nav-link" to="/signout">Sign Out</Link>
-        </li>
-      )
-    } else {
+     {
       // Show a link to sign in or sign up
       return [
+        // signing up is the input entry point here because the user must
+        // only authenticate once
+        //button also needs to submit values for the Last Name and DOB
+        <button type='submit' onClick = { () =>{
+            axios.get('/main', function(req, res){
+              console.log(res.message, 'message on click?')
+            })
+        }} > 
         <li className="nav-item" key={1}>
-          <Link className="nav-link" to="/signin">Sign In</Link>
-        </li>,
-        <li className="nav-item" key={2}>
-          <Link className="nav-link" to="/signup">Sign Up</Link>
+          {/* <Link className="nav-link" to="/main">Get Schedule</Link> */}
         </li>
+        </ button>        
       ]
     }
   }
 
   render() {
     return (
-      <nav className="navbar navbar-light">
-        <Link to="/" className="navbar-brand">Redux Auth</Link>
+      <nav className="">
+        <Link to="/" className="navbar-brand">Fost Scheduling Portal</Link>
         <ul className="nav navbar-nav">
           {this.renderLinks()}
         </ul>
@@ -40,7 +65,7 @@ class Header extends Component {
 
 function mapStateToProps(state) {
   return {
-    authenticated: state.auth.authenticated
+  
   };
 }
 
