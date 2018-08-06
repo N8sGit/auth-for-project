@@ -65,7 +65,8 @@ app.use(function(req, res, next){
 });
 
 app.get('/main', function(req,res){
-  let package = { message : testMessage, data: testData[1] }
+	console.log(req, 'request at main route')
+	let package = { message : testMessage, data: testData[1] }
   res.send(package)
 })
 
