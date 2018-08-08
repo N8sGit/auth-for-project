@@ -14,36 +14,36 @@ mongoose.connect('mongodb://localhost:auth/auth');
 
 let testData = [
   {
-		"First Name": "Emma",
-		"Last Name": "Test 1",
-		"Email": "fostdummy+1@gmail.com",
-		"DOB": "01-01-81",
-		"Zip": "10001",
-		"Reg URL": "https://boomset.com/apps/eventpage/72056/update-sessions/attendee/24266591/d967d33e72ea1986d004dca59d5bd54a"
+		"firstname": "Emma",
+		"lastname": "Amme",
+		"email": "fostdummy+1@gmail.com",
+		"dob": "01-01-81",
+		"zip": "10001",
+		"url": 'https://boomset.com/apps/eventpage/72056/update-sessions/attendee/24266591/d967d33e72ea1986d004dca59d5bd54a'
 	},
 	{
-		"First Name": "Steve",
-		"Last Name": "Test 2",
-		"Email": "fostdummy+2@gmail.com",
-		"DOB": "02-02-82",
+		"firstname": "Steve",
+		"lastname": "Evets",
+		"email": "fostdummy+2@gmail.com",
+		"dob": "02-02-82",
 		"Zip": "10002",
-		"Reg URL": "https://boomset.com/apps/eventpage/72056/update-sessions/attendee/24266592/e61a0369fd9c99a56b0250f7b731cbbe"
+		"url": "https://boomset.com/apps/eventpage/72056/update-sessions/attendee/24266592/e61a0369fd9c99a56b0250f7b731cbbe"
 	},
 	{
-		"First Name": "Shirly",
-		"Last Name": "Test 3",
-		"Email": "fostdummy+3@gmail.com",
-		"DOB": "03-03-83",
+		"firstname": "Shirly",
+		"lastname": "Ylrihs",
+		"email": "fostdummy+3@gmail.com",
+		"dob": "03-03-83",
 		"Zip": "10003",
-		"Reg URL": "https://boomset.com/apps/eventpage/72056/update-sessions/attendee/24266594/bc574c9bb9160692713bffbf89ef0c0a"
+		"url": "https://boomset.com/apps/eventpage/72056/update-sessions/attendee/24266594/bc574c9bb9160692713bffbf89ef0c0a"
 	},
 	{
-		"First Name": "Bill",
-		"Last Name": "Test 4",
-		"Email": "fostdummy+4@gmail.com",
-		"DOB": "04-04-84",
+		"firstname": "Bill",
+		"lastname": "Llib",
+		"email": "fostdummy+4@gmail.com",
+		"dob": "04-04-84",
 		"Zip": "10004",
-		"Reg URL": "https://boomset.com/apps/eventpage/72056/update-sessions/attendee/24266595/f6c4f6b43c8309627eaf67303e95abbf"
+		"url": "https://boomset.com/apps/eventpage/72056/update-sessions/attendee/24266595/f6c4f6b43c8309627eaf67303e95abbf"
 	},
 
 ];
@@ -64,14 +64,54 @@ app.use(function(req, res, next){
 	next()
 });
 
-app.get('/main', function(req,res){
-	console.log(req, 'request at main route')
-	let package = { message : testMessage, data: testData[1] }
-  res.send(package)
-})
+// app.post('/', function(req,res){
+// 	if(!req.body.lastname){
+// 		res.send({message: 'error, no inputs found'})
+// 	}
+// 	let last = req.body.lastname
+// 	// last = last.replace(/ /g,'')
+// 	// last = last.toLowerCase()
+// 	// last = last[0].toUpperCase() + last.slice(1)
+// 	// console.log(last, 'last name in backend');
+// 	var source;
+// 	var sourceIndex;
+// 	//Validate string so that it is always the same as the format of the database;
+// 	if(testData.some(function(value, index){
+// 		if(value[last]){
+// 			sourceIndex = index 
+// 			return true 
+// 		}
+// 	})){
+// 		source = testData[sourceIndex]
+// 	}
+// 		if(!source){ 
+// 			res.send({message: 'Attendee not found.'})
+// 		}
+// 		else res.redirect(`${source.url}`)
+// })
 
-app.get('/', function(req, res){
- res.send({message: testMessage})
+app.post('/', function(req, res){
+	if(!req.body.lastname){
+		console.log('No inputs!') 
+	}
+	var source;
+	var sourceIndex;
+	//Validate string so that it is always the same as the format of the database;
+	if(testData.some(function(value, index){
+		if(value[req.body.lastname]){
+			sourceIndex = index 
+			console.log(sourceIndex, 'source index');
+			return true 
+		}
+	})){
+		source = testData[sourceIndex]
+		console.log(source, 'the source');
+		console.log(source.url, 'source url');
+	}
+		if(!source){ 
+			res.send({message: 'Attendee not found.'})
+		}
+		else res.redirect(`${source.url}`)
 })
 
 

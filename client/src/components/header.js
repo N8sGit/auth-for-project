@@ -14,15 +14,12 @@ class Header extends Component {
       lastname: '',
       DOB : ''
     }
+    // this.handleChange.bind(this)
+    // this.handleSubmit.bind(this)
   }
 
   componentDidMount(){
-    
-    axios.get('http://localhost:3090/main', function(){})
-      .then(res =>{
-        console.log(res);
-      })
-    
+  
     axios.get(`http://localhost:3090/`)
       .then(res => {
       console.log(res);
@@ -31,24 +28,30 @@ class Header extends Component {
         .catch(err => console.log(err + 'error detected inside componentDidMount promise'))
 
 }
-handleChange(event) {
-  this.setState({lastname: event.target.value});
-}
 
-handleSubmit(){
-  axios.get('http://localhost:3090/main', function(req, res){
+
+handleChange = (event) => {
+  console.log('handleChange fired!');
+  this.setState({lastname: event.target.value});
+  console.log(this.state.lastname, 'lastname updated');
+ }
+
+handleSubmit = () => {
+  console.log('submit fired!');
+  if(!this.state.lastname){
+    alert('please submit a last name')
+  }
+  axios.post('http://localhost:3090/', function(req, res){
     let lastname = this.state.lastname
     let packet
-    if(!lastname){
-      alert('Please enter your last name')
-    }
-    else packet = {message: 'Greetings from the frontend', content: lastname}
-    req.body = packet
-    return res
+    if(lastname){ packet = {message: 'Greetings from the frontend', lastname: lastname}
+      req.body = packet
+  }
+  else prompt('Please enter your details.') 
+  return res
   })
     .then(function(response){
-      console.log(response);
-      this.setState({data: response.url})
+      console.log(response, 'backend resposne');
     })
       .catch(err => console.log(err + 'error detected inside submit request'))
 }
@@ -67,10 +70,10 @@ handleSubmit(){
           Last Name:
           <input type="text" value={this.state.lastname} onChange={this.handleChange} />
         </label>
-        <button type='submit' onSubmit={this.handleSubmit}>
-        <input type="submit" value="Submit" />
-        </button> 
-     </form>  
+        <button type='button' onClick ={ () => { this.handleSubmit} }> Confirm </button> 
+    
+    
+    </form>
   </div>      
       ]
     }
