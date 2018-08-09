@@ -11,8 +11,9 @@ class Header extends Component {
     super(props);
     this.state = {
       data: '',
-      lastname: '',
-      DOB : ''
+      lastname: 'amme',
+      DOB : '',
+      hasRegistered: false 
     }
     // this.handleChange.bind(this)
     // this.handleSubmit.bind(this)
@@ -20,12 +21,12 @@ class Header extends Component {
 
   componentDidMount(){
   
-    axios.get(`http://localhost:3090/`)
-      .then(res => {
-      console.log(res);
-      console.log('promise entered');
-      }) 
-        .catch(err => console.log(err + 'error detected inside componentDidMount promise'))
+    // axios.get(`http://localhost:3090/`)
+    //   .then(res => {
+    //   console.log(res);
+    //   console.log('promise entered');
+    //   }) 
+    //     .catch(err => console.log(err + ' error detected inside componentDidMount promise'))
 
 }
 
@@ -39,21 +40,14 @@ handleChange = (event) => {
 handleSubmit = () => {
   console.log('submit fired!');
   if(!this.state.lastname){
-    alert('please submit a last name')
+    alert('Please submit a last name')
   }
-  axios.post('http://localhost:3090/', function(req, res){
-    let lastname = this.state.lastname
-    let packet
-    if(lastname){ packet = {message: 'Greetings from the frontend', lastname: lastname}
-      req.body = packet
-  }
-  else prompt('Please enter your details.') 
-  return res
+  axios.post('http://localhost:3090/', {message: 'this is data from the frontend', lastname: this.state.lastname.toLowerCase().trim()})
+    .then( (response) => {
+    console.log(response, 'server response');
+    console.log('submit completed! Check out this redirect!');
   })
-    .then(function(response){
-      console.log(response, 'backend resposne');
-    })
-      .catch(err => console.log(err + 'error detected inside submit request'))
+      .catch(err => console.log(err + ' error detected inside submit request'))
 }
 
   
@@ -70,7 +64,7 @@ handleSubmit = () => {
           Last Name:
           <input type="text" value={this.state.lastname} onChange={this.handleChange} />
         </label>
-        <button type='button' onClick ={ () => { this.handleSubmit} }> Confirm </button> 
+        <button type='button' onClick ={ () => { this.handleSubmit()} }> Confirm </button> 
     
     
     </form>

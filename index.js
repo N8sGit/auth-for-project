@@ -12,34 +12,34 @@ const
 
 mongoose.connect('mongodb://localhost:auth/auth');
 
-let testData = [
+var testData = [
   {
-		"firstname": "Emma",
-		"lastname": "Amme",
+		"firstname": "emma",
+		"lastname": "amme",
 		"email": "fostdummy+1@gmail.com",
 		"dob": "01-01-81",
 		"zip": "10001",
 		"url": 'https://boomset.com/apps/eventpage/72056/update-sessions/attendee/24266591/d967d33e72ea1986d004dca59d5bd54a'
 	},
 	{
-		"firstname": "Steve",
-		"lastname": "Evets",
+		"firstname": "steve",
+		"lastname": "evets",
 		"email": "fostdummy+2@gmail.com",
 		"dob": "02-02-82",
 		"Zip": "10002",
 		"url": "https://boomset.com/apps/eventpage/72056/update-sessions/attendee/24266592/e61a0369fd9c99a56b0250f7b731cbbe"
 	},
 	{
-		"firstname": "Shirly",
-		"lastname": "Ylrihs",
+		"firstname": "shirly",
+		"lastname": "ylrihs",
 		"email": "fostdummy+3@gmail.com",
 		"dob": "03-03-83",
 		"Zip": "10003",
 		"url": "https://boomset.com/apps/eventpage/72056/update-sessions/attendee/24266594/bc574c9bb9160692713bffbf89ef0c0a"
 	},
 	{
-		"firstname": "Bill",
-		"lastname": "Llib",
+		"firstname": "bill",
+		"lastname": "llib",
 		"email": "fostdummy+4@gmail.com",
 		"dob": "04-04-84",
 		"Zip": "10004",
@@ -64,46 +64,25 @@ app.use(function(req, res, next){
 	next()
 });
 
-// app.post('/', function(req,res){
-// 	if(!req.body.lastname){
-// 		res.send({message: 'error, no inputs found'})
-// 	}
-// 	let last = req.body.lastname
-// 	// last = last.replace(/ /g,'')
-// 	// last = last.toLowerCase()
-// 	// last = last[0].toUpperCase() + last.slice(1)
-// 	// console.log(last, 'last name in backend');
-// 	var source;
-// 	var sourceIndex;
-// 	//Validate string so that it is always the same as the format of the database;
-// 	if(testData.some(function(value, index){
-// 		if(value[last]){
-// 			sourceIndex = index 
-// 			return true 
-// 		}
-// 	})){
-// 		source = testData[sourceIndex]
-// 	}
-// 		if(!source){ 
-// 			res.send({message: 'Attendee not found.'})
-// 		}
-// 		else res.redirect(`${source.url}`)
-// })
 
 app.post('/', function(req, res){
+	console.log(req, 'post req');
 	if(!req.body.lastname){
-		console.log('No inputs!') 
+		console.error('No inputs!') 
 	}
 	var source;
 	var sourceIndex;
-	//Validate string so that it is always the same as the format of the database;
-	if(testData.some(function(value, index){
-		if(value[req.body.lastname]){
+	var confirmAttendee = testData.some(function(value, index){
+		if(value[req.body.lastname] || value.lastname){
+			console.log(index, '.some function index');
 			sourceIndex = index 
-			console.log(sourceIndex, 'source index');
+			console.log(sourceIndex, 'index of the object in the array coresponding to the location of the relevant data');
 			return true 
 		}
-	})){
+	})
+console.log(confirmAttendee, 'true if present, false if nay');
+
+	if(confirmAttendee){
 		source = testData[sourceIndex]
 		console.log(source, 'the source');
 		console.log(source.url, 'source url');
