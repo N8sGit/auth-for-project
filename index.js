@@ -6,7 +6,7 @@ const
   morgan = require('morgan'),
   app = express(),
   mongoose = require('mongoose'),
-  cors = require('cors'),
+  // cors = require('cors'),
   axios = require('axios')
 // Database Setup
 
@@ -19,7 +19,7 @@ var testData = [
 		"email": "fostdummy+1@gmail.com",
 		"dob": "01-01-81",
 		"zip": "10001",
-		"url": 'https://boomset.com/apps/eventpage/72056/update-sessions/attendee/24266591/d967d33e72ea1986d004dca59d5bd54a'
+		"url": 'https://example.com'
 	},
 	{
 		"firstname": "steve",
@@ -55,9 +55,27 @@ let key = {
 let testMessage = 'Hello from the backend'
 // App/Middleware Setup
 app.use(morgan('combined')); // Logging debugging
-app.use(cors()) // Handles CORS
+// var corsOptions = {
+//   origin: 'http://localhost:8080',
+// 	optionsSuccessStatus: 200,
+// }
+// app.use(cors(corsOptions)) // Handles CORS
 app.use(bodyParser.json({ type: '*/*' })); // Parses incoming requests as JSON
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.static('./public'));
+
+// app.all('*', function (req, res, next) {
+// 	res.header('Access-Control-Allow-Origin', '*');
+// 	res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+// 	res.header('Access-Control-Allow-Origin', 'Content-Type');
+// 	next();
+// });
+
+app.get('*', function(req, res) {
+  res.sendFile(path.resolve(__dirname, 'public/index.html'));
+});
+
+
 
 app.use(function(req, res, next){
 	console.dir(req.path, '\n all paths')

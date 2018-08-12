@@ -19,8 +19,16 @@ module.exports = {
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
+  headers: {
+    "Access-Control-Allow-Origin": "Content-Type",
+    "Access-Control-Allow-Origin": "http://localhost:8080",
+    "Access-Control-Allow-Headers": "content-type, X-Requested-With, Authorization",
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS"
+
+
+  },
   devServer: {
     historyApiFallback: true,
-    contentBase: './'
+    contentBase: './',
   }
 };
