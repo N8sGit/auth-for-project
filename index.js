@@ -64,15 +64,15 @@ app.use(bodyParser.json({ type: '*/*' })); // Parses incoming requests as JSON
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static('./public'));
 
-// app.all('*', function (req, res, next) {
-// 	res.header('Access-Control-Allow-Origin', '*');
-// 	res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
-// 	res.header('Access-Control-Allow-Origin', 'Content-Type');
-// 	next();
-// });
 
-app.get('*', function(req, res) {
+
+app.get('/', function(req, res) {
+	console.log('hello there matey');
   res.sendFile(path.resolve(__dirname, 'public/index.html'));
+});
+
+app.get('/bundle', function(req, res){
+	res.sendFile(path.resolve(__dirname, '/client'));
 });
 
 

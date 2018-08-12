@@ -4,7 +4,7 @@
   "description": "React application that interacts with a JWT",
   "main": "index.js",
   "scripts": {
-    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js"
+    "start": "webpack -w"
   },
   "author": "James Ives",
   "license": "MIT",
@@ -32,6 +32,7 @@
     "react-router": "^2.0.1",
     "redux": "^3.0.4",
     "redux-form": "^7.0.3",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "webpack-livereload-plugin": "^2.1.1"
   }
 }
