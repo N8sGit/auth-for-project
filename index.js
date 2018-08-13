@@ -75,6 +75,12 @@ app.get('/bundle.js', function(req, res){
 	//res.sendFile look it up
 });
 
+app.get('/style/style.css', function(req,res){
+	console.log('this sends the stylesheet');
+	console.log(res, 'this is the stylesheet?');
+	res.sendFile(path.resolve(__dirname, './client/src/style.css'))
+})
+
 // /Users/nateanecone/work/auth-portal/client/bundle.js
 
 app.use(function(req, res, next){

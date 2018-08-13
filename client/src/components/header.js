@@ -19,6 +19,9 @@ class Header extends Component {
     // this.handleSubmit.bind(this)
   }
 
+componentDidMount(){
+
+}
 
 handleChange = (event) => {
   this.setState({lastname: event.target.value});
@@ -56,7 +59,7 @@ handleSubmit = () => {
         //button also needs to submit values for the Last Name and dob
   <div>
       <form onSubmit={this.handleSubmit}>
-        <label>
+        <label id='lasname'>
           Last Name:
           <input type="text" value={this.state.lastname} onChange={this.handleChange} />
         </label>
