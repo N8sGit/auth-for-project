@@ -88,25 +88,28 @@ app.post('/', function(req, res){
 	if(!req.body.lastname){
 		console.error('No inputs!') 
 	}
-	var source;
-	var sourceIndex;
-	var confirmAttendee = testData.some(function(value, index){
-		if(value[req.body.lastname] || value.lastname){
-			console.log(index, '.some function index');
-			sourceIndex = index 
-			console.log(sourceIndex, 'index of the object in the array coresponding to the location of the relevant data');
-			return true 
+	var source, sourceIndex, confirmAttendee, url;
+	// var confirmAttendee = testData.some(function(value, index){
+	// 	if(value[req.body.lastname] || value.lastname){
+	// 		console.log(index, '.some function index');
+	// 		sourceIndex = index 
+	// 		console.log(sourceIndex, 'index of the object in the array coresponding to the location of the relevant data');
+	// 		return true 
+	// 	}
+	// })
+	function confirmAttendee(){
+	for(let i = 0; i<testData.length; i++){
+		if(testData[i].lastname === req.body.lastname){
+			source = testData[i]
+			sourceIndex = i
+			url = source.url
+			return true
 		}
-	})
-console.log(confirmAttendee, 'true if present, false if nay');
-
-	if(confirmAttendee){
-		source = testData[sourceIndex]
-		var url = source.url
-		console.log(source, 'the source');
-		console.log(source.url, 'source url');
-		
 	}
+	return false 
+}
+	confirmAttendee()
+	console.log(confirmAttendee());
 
 	function confirmDate(source){
 		console.log(req.body.dob, 'req dob');

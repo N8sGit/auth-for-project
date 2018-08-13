@@ -11,24 +11,13 @@ class Header extends Component {
     super(props);
     this.state = {
       data: '',
-      lastname: 'amme',
+      lastname: '',
       dob : '',
       hasRegistered: false 
     }
     // this.handleChange.bind(this)
     // this.handleSubmit.bind(this)
   }
-
-  componentDidMount(){
-  
-    // axios.get(`http://localhost:3090/`)
-    //   .then(res => {
-    //   console.log(res);
-    //   console.log('promise entered');
-    //   }) 
-    //     .catch(err => console.log(err + ' error detected inside componentDidMount promise'))
-
-}
 
 
 handleChange = (event) => {
