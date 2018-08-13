@@ -75,6 +75,12 @@ app.get('/bundle.js', function(req, res){
 	//res.sendFile look it up
 });
 
+app.get('/style/style.css', function(req,res){
+	console.log('this sends the stylesheet');
+	console.log(res, 'this is the stylesheet?');
+	res.sendFile(path.resolve(__dirname, './client/src/style.css'))
+})
+
 // /Users/nateanecone/work/auth-portal/client/bundle.js
 
 app.use(function(req, res, next){
@@ -88,29 +94,47 @@ app.post('/', function(req, res){
 	if(!req.body.lastname){
 		console.error('No inputs!') 
 	}
-	var source;
-	var sourceIndex;
-	var confirmAttendee = testData.some(function(value, index){
-		if(value[req.body.lastname] || value.lastname){
-			console.log(index, '.some function index');
-			sourceIndex = index 
-			console.log(sourceIndex, 'index of the object in the array coresponding to the location of the relevant data');
-			return true 
+	var source, sourceIndex, confirmAttendee, url;
+	// var confirmAttendee = testData.some(function(value, index){
+	// 	if(value[req.body.lastname] || value.lastname){
+	// 		console.log(index, '.some function index');
+	// 		sourceIndex = index 
+	// 		console.log(sourceIndex, 'index of the object in the array coresponding to the location of the relevant data');
+	// 		return true 
+	// 	}
+	// })
+	function confirmAttendee(){
+	for(let i = 0; i<testData.length; i++){
+		if(testData[i].lastname === req.body.lastname){
+			source = testData[i]
+			sourceIndex = i
+			url = source.url
+			return true
 		}
-	})
-console.log(confirmAttendee, 'true if present, false if nay');
+	}
+	return false 
+}
+	confirmAttendee()
+	console.log(confirmAttendee());
 
-	if(confirmAttendee){
-		source = testData[sourceIndex]
-		var url = source.url
-		console.log(source, 'the source');
-		console.log(source.url, 'source url');
+	function confirmDate(source){
+		console.log(req.body.dob, 'req dob');
+		let yob = source.dob.slice(-2)
+		console.log(yob, 'yob');
+		let reqYob = req.body.dob.slice(2,4)
+		console.log(reqYob, 'reqyob');
+		if(yob === reqYob){
+			return true
+		}
+		else return false 
+	}
+	
+
+	if(source && confirmDate(source)){ 
+		res.send({message:"data for the front end", url: url})
 		
 	}
-		if(!source){ 
-			res.send({message: 'Attendee not found.'})
-		}
-		else res.send({message:"data for the front end", url: url})
+		else res.send({message: 'Attendee not found.'})
 })
 
 
