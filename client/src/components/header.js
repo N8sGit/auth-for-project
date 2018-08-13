@@ -44,11 +44,11 @@ handleSubmit = () => {
   }
   axios.post('http://localhost:3090/', {message: 'this is data from the frontend', lastname: this.state.lastname.toLowerCase().trim()})
     .then( (response) => {
-      console.log(response.url)
-    if(response.url){
-       window.location.href=response.url 
+      console.log(response.data.url)
+    if(response.data.url){
+       window.location.href=response.data.url 
     }
-    
+    console.log(response, 'server response');
     console.log('submit completed! Check out this redirect!');
   })
       .catch(err => console.log(err + ' error detected inside submit request'))

@@ -105,12 +105,12 @@ console.log(confirmAttendee, 'true if present, false if nay');
 		var url = source.url
 		console.log(source, 'the source');
 		console.log(source.url, 'source url');
-		res.send({message:"data for the front end", url})
+		
 	}
 		if(!source){ 
 			res.send({message: 'Attendee not found.'})
 		}
-		else res.redirect(source.url)
+		else res.send({message:"data for the front end", url: url})
 })
 
 
