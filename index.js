@@ -6,44 +6,44 @@ const
   morgan = require('morgan'),
   app = express(),
   mongoose = require('mongoose'),
-  cors = require('cors'),
+  // cors = require('cors'),
   axios = require('axios')
 // Database Setup
 
 mongoose.connect('mongodb://localhost:auth/auth');
 
-let testData = [
+var testData = [
   {
-		"First Name": "Emma",
-		"Last Name": "Test 1",
-		"Email": "fostdummy+1@gmail.com",
-		"DOB": "01-01-81",
-		"Zip": "10001",
-		"Reg URL": "https://boomset.com/apps/eventpage/72056/update-sessions/attendee/24266591/d967d33e72ea1986d004dca59d5bd54a"
+		"firstname": "emma",
+		"lastname": "amme",
+		"email": "fostdummy+1@gmail.com",
+		"dob": "01-01-81",
+		"zip": "10001",
+		"url": 'https://boomset.com/apps/eventpage/72056/update-sessions/attendee/24266592/e61a0369fd9c99a56b0250f7b731cbbe'
 	},
 	{
-		"First Name": "Steve",
-		"Last Name": "Test 2",
-		"Email": "fostdummy+2@gmail.com",
-		"DOB": "02-02-82",
+		"firstname": "steve",
+		"lastname": "evets",
+		"email": "fostdummy+2@gmail.com",
+		"dob": "02-02-82",
 		"Zip": "10002",
-		"Reg URL": "https://boomset.com/apps/eventpage/72056/update-sessions/attendee/24266592/e61a0369fd9c99a56b0250f7b731cbbe"
+		"url": "https://boomset.com/apps/eventpage/72056/update-sessions/attendee/24266592/e61a0369fd9c99a56b0250f7b731cbbe"
 	},
 	{
-		"First Name": "Shirly",
-		"Last Name": "Test 3",
-		"Email": "fostdummy+3@gmail.com",
-		"DOB": "03-03-83",
+		"firstname": "shirly",
+		"lastname": "ylrihs",
+		"email": "fostdummy+3@gmail.com",
+		"dob": "03-03-83",
 		"Zip": "10003",
-		"Reg URL": "https://boomset.com/apps/eventpage/72056/update-sessions/attendee/24266594/bc574c9bb9160692713bffbf89ef0c0a"
+		"url": "https://boomset.com/apps/eventpage/72056/update-sessions/attendee/24266594/bc574c9bb9160692713bffbf89ef0c0a"
 	},
 	{
-		"First Name": "Bill",
-		"Last Name": "Test 4",
-		"Email": "fostdummy+4@gmail.com",
-		"DOB": "04-04-84",
+		"firstname": "bill",
+		"lastname": "llib",
+		"email": "fostdummy+4@gmail.com",
+		"dob": "04-04-84",
 		"Zip": "10004",
-		"Reg URL": "https://boomset.com/apps/eventpage/72056/update-sessions/attendee/24266595/f6c4f6b43c8309627eaf67303e95abbf"
+		"url": "https://boomset.com/apps/eventpage/72056/update-sessions/attendee/24266595/f6c4f6b43c8309627eaf67303e95abbf"
 	},
 
 ];
@@ -55,22 +55,62 @@ let key = {
 let testMessage = 'Hello from the backend'
 // App/Middleware Setup
 app.use(morgan('combined')); // Logging debugging
-app.use(cors()) // Handles CORS
+
 app.use(bodyParser.json({ type: '*/*' })); // Parses incoming requests as JSON
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.static('./public'));
+
+
+app.get('/', function(req, res) {
+	console.log('hello there matey');
+  res.sendFile(path.resolve(__dirname, './client/public/index.html'));
+});
+
+app.get('/bundle.js', function(req, res){
+	console.log('hit!');
+	console.log(__dirname, 'what is this?');
+
+	res.sendFile(path.resolve(__dirname, './client/public/bundle.js'));
+
+	//res.sendFile look it up
+});
+
+// /Users/nateanecone/work/auth-portal/client/bundle.js
 
 app.use(function(req, res, next){
 	console.dir(req.path, '\n all paths')
 	next()
 });
 
-app.get('/main', function(req,res){
-  let package = { message : testMessage, data: testData[1] }
-  res.send(package)
-})
 
-app.get('/', function(req, res){
- res.send({message: testMessage})
+app.post('/', function(req, res){
+	console.log(req, 'post req');
+	if(!req.body.lastname){
+		console.error('No inputs!') 
+	}
+	var source;
+	var sourceIndex;
+	var confirmAttendee = testData.some(function(value, index){
+		if(value[req.body.lastname] || value.lastname){
+			console.log(index, '.some function index');
+			sourceIndex = index 
+			console.log(sourceIndex, 'index of the object in the array coresponding to the location of the relevant data');
+			return true 
+		}
+	})
+console.log(confirmAttendee, 'true if present, false if nay');
+
+	if(confirmAttendee){
+		source = testData[sourceIndex]
+		var url = source.url
+		console.log(source, 'the source');
+		console.log(source.url, 'source url');
+		
+	}
+		if(!source){ 
+			res.send({message: 'Attendee not found.'})
+		}
+		else res.send({message:"data for the front end", url: url})
 })
 
 
