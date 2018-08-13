@@ -55,27 +55,27 @@ let key = {
 let testMessage = 'Hello from the backend'
 // App/Middleware Setup
 app.use(morgan('combined')); // Logging debugging
-// var corsOptions = {
-//   origin: 'http://localhost:8080',
-// 	optionsSuccessStatus: 200,
-// }
-// app.use(cors(corsOptions)) // Handles CORS
+
 app.use(bodyParser.json({ type: '*/*' })); // Parses incoming requests as JSON
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static('./public'));
 
 
-
 app.get('/', function(req, res) {
 	console.log('hello there matey');
-  res.sendFile(path.resolve(__dirname, 'public/index.html'));
+  res.sendFile(path.resolve(__dirname, './client/public/index.html'));
 });
 
-app.get('/bundle', function(req, res){
-	res.sendFile(path.resolve(__dirname, '/client'));
+app.get('/bundle.js', function(req, res){
+	console.log('hit!');
+	console.log(__dirname, 'what is this?');
+
+	res.sendFile(path.resolve(__dirname, './client/public/bundle.js'));
+
+	//res.sendFile look it up
 });
 
-
+// /Users/nateanecone/work/auth-portal/client/bundle.js
 
 app.use(function(req, res, next){
 	console.dir(req.path, '\n all paths')
