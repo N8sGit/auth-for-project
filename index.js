@@ -107,10 +107,25 @@ console.log(confirmAttendee, 'true if present, false if nay');
 		console.log(source.url, 'source url');
 		
 	}
-		if(!source){ 
-			res.send({message: 'Attendee not found.'})
+
+	function confirmDate(source){
+		console.log(req.body.dob, 'req dob');
+		let yob = source.dob.slice(-2)
+		console.log(yob, 'yob');
+		let reqYob = req.body.dob.slice(2,4)
+		console.log(reqYob, 'reqyob');
+		if(yob === reqYob){
+			return true
 		}
-		else res.send({message:"data for the front end", url: url})
+		else return false 
+	}
+	
+
+	if(source && confirmDate(source)){ 
+		res.send({message:"data for the front end", url: url})
+		
+	}
+		else res.send({message: 'Attendee not found.'})
 })
 
 
