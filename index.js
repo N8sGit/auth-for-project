@@ -19,7 +19,7 @@ var testData = [
 		"email": "fostdummy+1@gmail.com",
 		"dob": "01-01-81",
 		"zip": "10001",
-		"url": 'https://example.com'
+		"url": 'https://boomset.com/apps/eventpage/72056/update-sessions/attendee/24266592/e61a0369fd9c99a56b0250f7b731cbbe'
 	},
 	{
 		"firstname": "steve",
@@ -102,13 +102,15 @@ console.log(confirmAttendee, 'true if present, false if nay');
 
 	if(confirmAttendee){
 		source = testData[sourceIndex]
+		var url = source.url
 		console.log(source, 'the source');
 		console.log(source.url, 'source url');
+		res.send({message:"data for the front end", url})
 	}
 		if(!source){ 
 			res.send({message: 'Attendee not found.'})
 		}
-		else res.redirect(`${source.url}`)
+		else res.redirect(source.url)
 })
 
 
