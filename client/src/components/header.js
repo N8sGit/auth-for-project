@@ -19,9 +19,6 @@ class Header extends Component {
     // this.handleSubmit.bind(this)
   }
 
-componentDidMount(){
-
-}
 
 handleChange = (event) => {
   this.setState({lastname: event.target.value});
@@ -58,16 +55,16 @@ handleSubmit = () => {
         // only authenticate once
         //button also needs to submit values for the Last Name and dob
   <div>
-      <form onSubmit={this.handleSubmit}>
-        <label id='lasname'>
+      <form id='input-form' onSubmit={this.handleSubmit}>
+        <label id='lastname'>
           Last Name:
           <input type="text" value={this.state.lastname} onChange={this.handleChange} />
         </label>
         <label>
           DOB:
-          <input type='date' value= {this.state.dob} onChange={this.handleDate} />
+          <input  type='date' value= {this.state.dob} onChange={this.handleDate} />
         </label>
-        <button type='button' onClick ={ () => { this.handleSubmit()} }> Confirm </button> 
+        <button id='input-button' type='button' onClick ={ () => { this.handleSubmit()} }> Confirm </button> 
     
     
     </form>

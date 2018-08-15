@@ -4,9 +4,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/style/style.css">
     <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/48938155eb24b4ccdde09426066869504c6dab3c/dist/css/bootstrap.min.css">
+    <script  type='text/javascript'>
+      console.log(document.cookies, 'document cookies');
+        var logOutCookies = () => {
+          console.log(document.cookie, 'cookies in index.html script tag');
+      
+        }
+        function logOutCookies (){
+          console.log(document.cookie, 'cookies on index.html');
+        }
+       </script>
   </head>
   <body>
+      
     <div class="container"></div>
   </body>
-  <script src="/bundle.js"></script>
+  <script  src="/bundle.js"></script>
+  
 </html>

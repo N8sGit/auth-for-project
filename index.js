@@ -1,14 +1,13 @@
 const 
   path = require('path')
-  express = require('express'),
+	express = require('express'),
+	cookieParser = require('cookie-parser')
   http = require('http'),
   bodyParser = require('body-parser'),
   morgan = require('morgan'),
   app = express(),
   mongoose = require('mongoose'),
-  // cors = require('cors'),
   axios = require('axios')
-// Database Setup
 
 mongoose.connect('mongodb://localhost:auth/auth');
 
@@ -59,29 +58,26 @@ app.use(morgan('combined')); // Logging debugging
 app.use(bodyParser.json({ type: '*/*' })); // Parses incoming requests as JSON
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static('./public'));
+app.use(cookieParser())
 
 
 app.get('/', function(req, res) {
-	console.log('hello there matey');
-  res.sendFile(path.resolve(__dirname, './client/public/index.html'));
+	console.log(req.cookies, 'cookies bae');
+	
+	res.cookie('testCookie', '1', { expires: new Date(Date.now() + 900)});
+
+	res.sendFile(path.resolve(__dirname, './client/public/index.html'));
+	
 });
 
 app.get('/bundle.js', function(req, res){
-	console.log('hit!');
-	console.log(__dirname, 'what is this?');
-
 	res.sendFile(path.resolve(__dirname, './client/public/bundle.js'));
-
-	//res.sendFile look it up
 });
 
 app.get('/style/style.css', function(req,res){
-	console.log('this sends the stylesheet');
-	console.log(res, 'this is the stylesheet?');
+
 	res.sendFile(path.resolve(__dirname, './client/src/style.css'))
 })
-
-// /Users/nateanecone/work/auth-portal/client/bundle.js
 
 app.use(function(req, res, next){
 	console.dir(req.path, '\n all paths')
@@ -95,14 +91,7 @@ app.post('/', function(req, res){
 		console.error('No inputs!') 
 	}
 	var source, sourceIndex, confirmAttendee, url;
-	// var confirmAttendee = testData.some(function(value, index){
-	// 	if(value[req.body.lastname] || value.lastname){
-	// 		console.log(index, '.some function index');
-	// 		sourceIndex = index 
-	// 		console.log(sourceIndex, 'index of the object in the array coresponding to the location of the relevant data');
-	// 		return true 
-	// 	}
-	// })
+	
 	function confirmAttendee(){
 	for(let i = 0; i<testData.length; i++){
 		if(testData[i].lastname === req.body.lastname){
