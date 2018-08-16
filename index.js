@@ -64,14 +64,16 @@ app.use(cookieParser())
 app.get('/', function(req, res) {
 	console.log(req.cookies, 'cookies bae');
 	
-	res.cookie('testCookie', '1', { expires: new Date(Date.now() + 900)});
+	res.cookie('FOST', { expires: new Date(Date.now() + 900)});
 
 	res.sendFile(path.resolve(__dirname, './client/public/index.html'));
 	
 });
 
 app.get('/bundle.js', function(req, res){
+
 	res.sendFile(path.resolve(__dirname, './client/public/bundle.js'));
+	
 });
 
 app.get('/style/style.css', function(req,res){
