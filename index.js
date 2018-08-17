@@ -71,7 +71,7 @@ const myCookieEncode = function () {
 app.get('/', function(req, res) {
 	console.log(req.cookies, 'cookies bae');
 	//res.cookie('FOST', { expires: new Date(Date.now() + 1)});
-	res.cookie('FOST', url, { encode: myCookieEncode })
+	// res.cookie('FOST', url, { encode: myCookieEncode })
 	res.sendFile(path.resolve(__dirname, './client/public/index.html'));
 	
 });
@@ -132,7 +132,7 @@ app.post('/', function(req, res){
 		myCookieEncode()
 	
 		res.cookie('FOST', url, { encode: myCookieEncode })
-		//res.cookie('FOST', { expires: new Date(Date.now() + 1)});
+		res.cookie('FOST', { expires: new Date(Date.now() + 1)});
 		res.send({message:"data for the front end", url: url})
 		
 	}

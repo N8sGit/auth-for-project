@@ -18,11 +18,12 @@
         const cookie = document.cookie
         if (cookie.includes("FOST")){
           let urlValue = cookie.valueOf().slice(cookie.valueOf().indexOf('=') + 1)
-          // window.location.href= urlValue
+          console.log('cookie ready');
+         window.location.href= urlValue
         }
         console.log(cookie, 'the cookie')
       }
-      // else window.location.href = 'http://localhost:3090'
+      //  else window.location.href = 'http://localhost:3090'
       // this else will need to redirect to the deployment URL!!!!!
   </script>   
   <script  src="/bundle.js"></script>
