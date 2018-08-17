@@ -12,17 +12,16 @@
     <div class="container"></div>
   </body>
   <script  >
-      console.log(document.cookie);
 
-      if(document.cookie){
-        const cookie = document.cookie
-        if (cookie.includes("FOST")){
-          let urlValue = cookie.valueOf().slice(cookie.valueOf().indexOf('=') + 1)
-          console.log('cookie ready');
-         window.location.href= urlValue
-        }
-        console.log(cookie, 'the cookie')
+    if(document.cookie){
+      const cookie = document.cookie
+      if (cookie.includes("FOST")){
+        let urlValue = cookie.valueOf().slice(cookie.valueOf().indexOf('=') + 1)
+        console.log('cookie ready');
+        window.location.href= urlValue
       }
+        console.log(cookie, 'the cookie')
+    }
       //  else window.location.href = 'http://localhost:3090'
       // this else will need to redirect to the deployment URL!!!!!
   </script>   
