@@ -60,10 +60,18 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static('./public'));
 app.use(cookieParser())
 
+var url = 'www.example.com'
+
+const myCookieEncode = function () {
+	return url;
+};
+
+
 
 app.get('/', function(req, res) {
 	console.log(req.cookies, 'cookies bae');
 	//res.cookie('FOST', { expires: new Date(Date.now() + 1)});
+	res.cookie('FOST', url, { encode: myCookieEncode })
 	res.sendFile(path.resolve(__dirname, './client/public/index.html'));
 	
 });
@@ -75,7 +83,7 @@ app.get('/bundle.js', function(req, res){
 });
 
 app.get('/style/style.css', function(req,res){
-
+var notFound =
 	res.sendFile(path.resolve(__dirname, './client/src/style.css'))
 })
 
@@ -90,7 +98,7 @@ app.post('/', function(req, res){
 	if(!req.body.lastname){
 		console.error('No inputs!') 
 	}
-	var source, sourceIndex, confirmAttendee, url;
+	var source, sourceIndex, confirmAttendee;
 	
 	function confirmAttendee(){
 	for(let i = 0; i<testData.length; i++){
@@ -101,7 +109,7 @@ app.post('/', function(req, res){
 			return true
 		}
 	}
-	return false 
+	return res.send({message :'Attendee not found', notFound})
 }
 	confirmAttendee()
 	console.log(confirmAttendee());
@@ -120,16 +128,15 @@ app.post('/', function(req, res){
 	
 
 	if(source && confirmDate(source)){ 
-		const myCookieEncode = function () {
-			return url;
-	};
+		
+		myCookieEncode()
 	
 		res.cookie('FOST', url, { encode: myCookieEncode })
 		//res.cookie('FOST', { expires: new Date(Date.now() + 1)});
 		res.send({message:"data for the front end", url: url})
 		
 	}
-		else res.send({message: 'Attendee not found.'})
+		else res.send({message: 'Attendee not found.', notFound})
 })
 
 

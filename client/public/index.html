@@ -11,19 +11,20 @@
   <body>
     <div class="container"></div>
   </body>
-  <!-- <script  >
+  <script  >
       console.log(document.cookie);
 
       if(document.cookie){
         const cookie = document.cookie
         if (cookie.includes("FOST")){
-          window.location.href='https://boomset.com/apps/eventpage/72056/update-sessions/attendee/24266592/e61a0369fd9c99a56b0250f7b731cbbe'
+          let urlValue = cookie.valueOf().slice(cookie.valueOf().indexOf('=') + 1)
+          // window.location.href= urlValue
         }
         console.log(cookie, 'the cookie')
       }
-      else window.location.href = 'http://localhost:3090'
+      // else window.location.href = 'http://localhost:3090'
       // this else will need to redirect to the deployment URL!!!!!
-  </script>    -->
+  </script>   
   <script  src="/bundle.js"></script>
   
 </html>
