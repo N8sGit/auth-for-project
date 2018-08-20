@@ -60,13 +60,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static('./public'));
 app.use(cookieParser())
 
-var url = 'www.example.com'
-
-const myCookieEncode = function () {
-	return url;
-};
-
-
+var testUrl = 'www.example.com'
 
 app.get('/', function(req, res) {
 	console.log(req.cookies, 'cookies bae');
@@ -98,7 +92,7 @@ app.post('/', function(req, res){
 	if(!req.body.lastname){
 		console.error('No inputs!') 
 	}
-	var source, sourceIndex, confirmAttendee;
+	var source, sourceIndex, confirmAttendee, url;
 	
 	function confirmAttendee(){
 	for(let i = 0; i<testData.length; i++){
@@ -128,10 +122,8 @@ app.post('/', function(req, res){
 	
 
 	if(source && confirmDate(source)){ 
-		
-		myCookieEncode()
 	
-		res.cookie('FOST', url, { encode: myCookieEncode, expires: new Date(Date.now() + 6000)})
+		res.cookie('FOST', url, { expires: new Date(Date.now() + 6000)})
 		res.send({message:"data for the front end", url: url})
 		
 	}

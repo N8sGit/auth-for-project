@@ -12,16 +12,19 @@
     <div class="container"></div>
   </body>
   <script  >
-
-    if(document.cookie){
-      const cookie = document.cookie
-      if (cookie.includes("FOST")){
-        let urlValue = cookie.valueOf().slice(cookie.valueOf().indexOf('=') + 1)
-        console.log('cookie ready');
-        window.location.href= urlValue
-      }
-        console.log(cookie, 'the cookie')
+    function getCook(cookiename) {
+    // Get name followed by anything except a semicolon
+      var cookiestring=RegExp(""+cookiename+"[^;]+").exec(document.cookie);
+    // Return everything after the equal sign, or an empty string if the cookie name not found
+      var cookie = decodeURIComponent(!!cookiestring ? cookiestring.toString().replace(/^[^=]+./,"") : "");
+      console.log(cookie, 'cookie in new spiffy function');
+      return cookie 
     }
+  var cookieValue = getCook('FOST');
+console.log(cookieValue, 'cookieValue');
+  if(cookieValue){
+        window.location.href= urlValue
+  }
       //  else window.location.href = 'http://localhost:3090'
       // this else will need to redirect to the deployment URL!!!!!
   </script>   
