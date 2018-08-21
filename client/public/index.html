@@ -12,17 +12,22 @@
     <div class="container"></div>
   </body>
   <script  >
+    // debugger function in case of need
+    function debug (){
+      debugger
+      console.log(cookieValue);
+    }
+
+
     function getCook(cookiename) {
     // Get name followed by anything except a semicolon
       var cookiestring=RegExp(""+cookiename+"[^;]+").exec(document.cookie);
     // Return everything after the equal sign, or an empty string if the cookie name not found
       var cookie = decodeURIComponent(!!cookiestring ? cookiestring.toString().replace(/^[^=]+./,"") : "");
-      console.log(cookie, 'cookie in new spiffy function');
       return cookie 
     }
   var cookieValue = getCook('FOST');
   if(cookieValue){
-    console.log('user confirmed');
     window.location.href= cookieValue
   }
       //  else window.location.href = 'http://localhost:3090'
