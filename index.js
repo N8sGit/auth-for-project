@@ -52,6 +52,7 @@ let key = {
 }
 
 let testMessage = 'Hello from the backend'
+
 // App/Middleware Setup
 app.use(morgan('combined')); // Logging debugging
 
@@ -61,13 +62,8 @@ app.use(express.static('./public'));
 app.use(cookieParser())
 
 var testUrl = 'www.example.com'
-
 app.get('/', function(req, res) {
-	console.log(req.cookies, 'cookies bae');
-	//res.cookie('FOST', { expires: new Date(Date.now() + 1)});
-	// res.cookie('FOST', url, { encode: myCookieEncode })
 	res.sendFile(path.resolve(__dirname, './client/public/index.html'));
-	
 });
 
 app.get('/bundle.js', function(req, res){
@@ -77,7 +73,6 @@ app.get('/bundle.js', function(req, res){
 });
 
 app.get('/style/style.css', function(req,res){
-var notFound =
 	res.sendFile(path.resolve(__dirname, './client/src/style.css'))
 })
 
@@ -88,7 +83,6 @@ app.use(function(req, res, next){
 
 
 app.post('/', function(req, res){
-	console.log(req, 'post req');
 	if(!req.body.lastname){
 		console.error('No inputs!') 
 	}
@@ -106,14 +100,10 @@ app.post('/', function(req, res){
 	return res.send({message :'Attendee not found', notFound})
 }
 	confirmAttendee()
-	console.log(confirmAttendee());
 
 	function confirmDate(source){
-		console.log(req.body.dob, 'req dob');
 		let yob = source.dob.slice(-2)
-		console.log(yob, 'yob');
 		let reqYob = req.body.dob.slice(2,4)
-		console.log(reqYob, 'reqyob');
 		if(yob === reqYob){
 			return true
 		}
@@ -122,8 +112,7 @@ app.post('/', function(req, res){
 	
 
 	if(source && confirmDate(source)){ 
-	
-		res.cookie('FOST', url, { expires: new Date(Date.now() + 6000)})
+		res.cookie('FOST', url, { expires: new Date(Date.now() + 100000000)})
 		res.send({message:"data for the front end", url: url})
 		
 	}
