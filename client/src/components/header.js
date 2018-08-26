@@ -33,15 +33,13 @@ handleSubmit = () => {
   if(!this.state.lastname || !this.state.dob){
     alert('Please submit a last name and date of birth')
   }
-  axios.post('http://localhost:3090/', {message: 'this is data from the frontend', dob: this.state.dob.replace('/','-'), 
+  axios.post('/', {message: 'this is data from the frontend', dob: this.state.dob.replace('/','-'), 
   lastname: this.state.lastname.toLowerCase().trim()}
   )
     .then( (response) => {
-      console.log(response.data.url)
     if(response.data.url){
        window.location.href=response.data.url 
     }
-    console.log(response, 'server response');
   })
       .catch(err => console.log(err + ' error detected inside submit request'))
 }
