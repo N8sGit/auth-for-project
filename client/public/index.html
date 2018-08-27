@@ -12,35 +12,27 @@
     <div class="container"></div>
   </body>
   <script  >
-      console.log(document.cookie);
+    // debugger function in case of need
+    function debug (){
+      debugger
+      console.log(cookieValue);
+    }
 
-      if(document.cookie){
-        console.log('YEPPERS');
-      }
 
-
-       // console.log(document, 'Document, document.cookie, docment.cookies');  
+    function getCook(cookiename) {
+    // Get name followed by anything except a semicolon
+      var cookiestring=RegExp(""+cookiename+"[^;]+").exec(document.cookie);
+    // Return everything after the equal sign, or an empty string if the cookie name not found
+      var cookie = decodeURIComponent(!!cookiestring ? cookiestring.toString().replace(/^[^=]+./,"") : "");
+      return cookie 
+    }
+  var cookieValue = getCook('FOST');
+  if(cookieValue){
+    window.location.href= cookieValue
+  }
+      //  else window.location.href = 'http://localhost:3090'
+      // this else will need to redirect to the deployment URL!!!!!
   </script>   
   <script  src="/bundle.js"></script>
   
 </html>
-
-
-<!-- <html>
-  <head>
-    <meta charset='utf-8'>
-    <meta name='viewport' content='width=device-width initial-scale=1.0'>
-    <title>Welcome</title>
-
-    <link rel="stylesheet" href="/style.css" />
-    <script defer src="/bundle.js"></script>
-    
-    <script
-  src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous"></script>
-  </head>
-  <body>
-    <div id="app"></div>
-  </body>
-</html> -->
