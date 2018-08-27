@@ -3,7 +3,7 @@ bundle.js
 bundle.js.map
 npm-debug.log
 .DS_Store
-
+client/public/bundle.js.map
 # IntelliJ
 *.iml
 /.idea
