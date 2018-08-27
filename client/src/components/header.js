@@ -37,9 +37,11 @@ handleSubmit = () => {
   lastname: this.state.lastname.toLowerCase().trim()}
   )
     .then( (response) => {
+      console.log(response.data.url)
     if(response.data.url){
        window.location.href=response.data.url 
     }
+    console.log(response, 'server response');
   })
       .catch(err => console.log(err + ' error detected inside submit request'))
 }
