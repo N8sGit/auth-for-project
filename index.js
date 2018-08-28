@@ -6,10 +6,8 @@ const
   bodyParser = require('body-parser'),
   morgan = require('morgan'),
   app = express(),
-  mongoose = require('mongoose'),
   axios = require('axios')
 
-mongoose.connect('mongodb://localhost:auth/auth');
 
 var testData = [
   {

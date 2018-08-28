@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack -w"
   },
-  "author": "James Ives",
+  "author": "",
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.2.1",
