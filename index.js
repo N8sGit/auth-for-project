@@ -91,11 +91,11 @@ app.post('/', function(req, res){
 	for(let i = 0; i<testData.length; i++){
 		if(testData[i].lastname === req.body.lastname){
 			source = testData[i]
-			sourceIndex = i
 			url = source.url
-			return true
+			return
 		}
 	}
+	return false 
 }
 	confirmAttendee()
 
@@ -115,7 +115,7 @@ app.post('/', function(req, res){
 		res.send({message:"data for the front end", url: url})
 		
 	}
-		else res.send({errorMessage})
+	else res.send({errorMessage})
 })
 
 
