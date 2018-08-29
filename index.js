@@ -81,10 +81,11 @@ app.use(function(req, res, next){
 
 
 app.post('/', function(req, res){
+	let errorMessage = 'Attendee not found. Please re-enter your information or contact FOST for assistance'
 	if(!req.body.lastname){
 		console.error('No inputs!') 
 	}
-	var source, sourceIndex, confirmAttendee, url;
+	var source, confirmAttendee, url;
 	
 	function confirmAttendee(){
 	for(let i = 0; i<testData.length; i++){
@@ -95,7 +96,6 @@ app.post('/', function(req, res){
 			return true
 		}
 	}
-	return res.send({message :'Attendee not found', notFound})
 }
 	confirmAttendee()
 
@@ -110,11 +110,12 @@ app.post('/', function(req, res){
 	
 
 	if(source && confirmDate(source)){ 
-		res.cookie('FOST', url, { expires: new Date(Date.now() + 100000000)})
+		//date will need to be set to be after confernece
+		res.cookie('FOST', url, { expires: new Date(Date.now() + 1000000000000000000)})
 		res.send({message:"data for the front end", url: url})
 		
 	}
-		else res.send({message: 'Attendee not found.', notFound})
+		else res.send({errorMessage})
 })
 
 

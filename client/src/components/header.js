@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import axios from 'axios';
+import Error from './error'
 
 
 // Container
@@ -13,7 +14,7 @@ class Header extends Component {
       data: '',
       lastname: '',
       dob : '',
-      hasRegistered: false 
+      errorMessage: ''
     }
     // this.handleChange.bind(this)
     // this.handleSubmit.bind(this)
@@ -41,7 +42,9 @@ handleSubmit = () => {
     if(response.data.url){
        window.location.href=response.data.url 
     }
-    console.log(response, 'server response');
+    else {
+      this.setState({errorMessage : response.data.errorMessage})
+    }
   })
       .catch(err => console.log(err + ' error detected inside submit request'))
 }
@@ -68,6 +71,7 @@ handleSubmit = () => {
     
     
     </form>
+    { this.state.errorMessage ? <Error errorMessage={this.state.errorMessage} /> : ""}
   </div>      
       ]
     }

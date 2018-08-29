@@ -27407,6 +27407,10 @@
 	
 	var _axios2 = _interopRequireDefault(_axios);
 	
+	var _error = __webpack_require__(550);
+	
+	var _error2 = _interopRequireDefault(_error);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -27442,8 +27446,9 @@
 	        console.log(response.data.url);
 	        if (response.data.url) {
 	          window.location.href = response.data.url;
+	        } else {
+	          _this.setState({ errorMessage: response.data.errorMessage });
 	        }
-	        console.log(response, 'server response');
 	      }).catch(function (err) {
 	        return console.log(err + ' error detected inside submit request');
 	      });
@@ -27453,7 +27458,7 @@
 	      data: '',
 	      lastname: '',
 	      dob: '',
-	      hasRegistered: false
+	      errorMessage: ''
 	      // this.handleChange.bind(this)
 	      // this.handleSubmit.bind(this)
 	    };return _this;
@@ -27495,7 +27500,8 @@
 	                } },
 	              ' Confirm '
 	            )
-	          )
+	          ),
+	          this.state.errorMessage ? _react2.default.createElement(_error2.default, { errorMessage: this.state.errorMessage }) : ""
 	        )];
 	      }
 	    }
@@ -42902,6 +42908,62 @@
 	};
 	
 	var _types = __webpack_require__(258);
+
+/***/ }),
+/* 550 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Error = function (_React$Component) {
+	    _inherits(Error, _React$Component);
+	
+	    function Error(props) {
+	        _classCallCheck(this, Error);
+	
+	        return _possibleConstructorReturn(this, (Error.__proto__ || Object.getPrototypeOf(Error)).call(this, props));
+	    }
+	
+	    _createClass(Error, [{
+	        key: 'render',
+	        value: function render() {
+	            console.log(this.props.errorMessage);
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(
+	                    'p',
+	                    null,
+	                    ' ',
+	                    this.props.errorMessage,
+	                    ' '
+	                )
+	            );
+	        }
+	    }]);
+	
+	    return Error;
+	}(_react2.default.Component);
+	
+	exports.default = Error;
 
 /***/ })
 /******/ ]);
