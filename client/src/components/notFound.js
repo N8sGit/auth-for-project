@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from 'react-responsive-modal';
  
-export default class Error extends React.Component {
+export default class NotFound extends React.Component {
   state = {
     open: false,
   };
@@ -20,7 +20,7 @@ export default class Error extends React.Component {
       <div>
         <button onClick={this.onOpenModal}>Open modal</button>
         <Modal open={open} onClose={this.onCloseModal} center>
-          <h2>Please enter both a last name and a date of birth.</h2>
+          <h2>Schedule not found. Please try to re-enter your information or contact FOST representatives for assistance.</h2>
         </Modal>
       </div>
     );

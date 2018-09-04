@@ -81,7 +81,7 @@ app.use(function(req, res, next){
 
 
 app.post('/', function(req, res){
-	let errorMessage = 'Attendee not found. Please re-enter your information or contact FOST for assistance'
+	let notFound = 'Attendee not found. Please re-enter your information or contact FOST for assistance'
 	if(!req.body.lastname){
 		console.error('No inputs!') 
 	}
@@ -115,7 +115,7 @@ app.post('/', function(req, res){
 		res.send({message:"data for the front end", url: url})
 		
 	}
-	else res.send({errorMessage})
+	else res.send({notFound})
 })
 
 

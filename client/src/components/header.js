@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import axios from 'axios';
 import Error from './error'
+import NotFound from './notFound'
 
 
 // Container
@@ -14,7 +15,7 @@ class Header extends Component {
       data: '',
       lastname: '',
       dob : '',
-      errorMessage: ''
+      notFound: ''
     }
     // this.handleChange.bind(this)
     // this.handleSubmit.bind(this)
@@ -43,7 +44,7 @@ handleSubmit = () => {
          window.location.href=response.data.url 
       }
       else {
-        this.setState({errorMessage : response.data.errorMessage})
+        this.setState({notFound : response.data.notFound})
       }
     })
       .catch(err => console.log(err + ' error detected inside submit request'))
@@ -68,7 +69,7 @@ handleSubmit = () => {
     
     
     </form>
-    { this.state.errorMessage ? <Error errorMessage={this.state.errorMessage} /> : ""}
+    { this.state.notFound ? <NotFound /> : ""}
   </div>      
       ]
     }
