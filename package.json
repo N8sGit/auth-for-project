@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js",
+    "start-dev": "NODE_ENV='development' nodemon index.js",
     "lint": "eslint ./ --ignore-path .gitignore"
   },
   "author": "",
@@ -25,7 +25,6 @@
     "nodemon": "^1.11.0",
     "passport": "^0.4.0",
     "passport-jwt": "^3.0.0",
-    "passport-local": "^1.0.0",
-    "react-responsive-modal": "^3.3.0"
+    "passport-local": "^1.0.0"
   }
 }

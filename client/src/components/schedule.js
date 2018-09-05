@@ -8,7 +8,10 @@ export default class Display extends React.Component{
     render(){
         return (
             <div> 
-              This is where the custom display page will go  
+                <link src={this.props.url}> Manage your schedule here </link>
+                <div id ="schedule-list"> 
+                {/* <ul> elements go here, will be injected programmatically */}
+                </div>
             </div>
         )
     }

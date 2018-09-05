@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import axios from 'axios';
 import Error from './error'
 import NotFound from './notFound'
+import Display from './schedule'
 
 
 // Container
@@ -15,7 +16,9 @@ class Header extends Component {
       data: '',
       lastname: '',
       dob : '',
-      notFound: ''
+      notFound: '',
+      url: ''
+
     }
     // this.handleChange.bind(this)
     // this.handleSubmit.bind(this)
@@ -41,7 +44,8 @@ handleSubmit = () => {
   )
     .then( (response) => {
       if(response.data.url){
-         window.location.href=response.data.url 
+        this.setState({url: response.data.url})
+         //window.location.href=response.data.url 
       }
       else {
         this.setState({notFound : response.data.notFound})
@@ -55,7 +59,7 @@ handleSubmit = () => {
      {
       return [
      
-  <div>
+  this.state.url ? <Schedule url = {this.state.url} /> : <div>
       <form id='input-form' onSubmit={this.handleSubmit}>
         <label id='lastname'>
           Last Name:

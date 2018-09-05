@@ -45,11 +45,9 @@ var testData = [
 
 ];
 
-let key = {
+const boomsetKey = {
   "key": "f3ad371b4798b2368670127033955259ee7dc160"
 }
-
-let testMessage = 'Hello from the backend'
 
 // App/Middleware Setup
 app.use(morgan('combined')); // Logging debugging
@@ -59,7 +57,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static('./public'));
 app.use(cookieParser())
 
-var testUrl = 'www.example.com'
 app.get('/', function(req, res) {
 	res.sendFile(path.resolve(__dirname, './client/public/index.html'));
 });
