@@ -20,9 +20,16 @@ class Header extends Component {
       url: ''
 
     }
-    // this.handleChange.bind(this)
-    // this.handleSubmit.bind(this)
   }
+
+  // componentDidMount = () =>{
+  //   if(cookieValue){
+  //     console.log('hi');
+  //     this.setState({url: cookieValue})
+  //     location.reload()
+  //   }
+  // }
+
 
 handleChange = (event) => {
   this.setState({lastname: event.target.value});

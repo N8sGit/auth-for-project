@@ -6,8 +6,8 @@ const
   bodyParser = require('body-parser'),
   morgan = require('morgan'),
   app = express(),
-  axios = require('axios')
-
+  axios = require('axios');
+  boomsetKey = require('./secret');
 
 var testData = [
   {
@@ -45,10 +45,6 @@ var testData = [
 
 ];
 
-const boomsetKey = {
-  "key": "f3ad371b4798b2368670127033955259ee7dc160"
-}
-
 // App/Middleware Setup
 app.use(morgan('combined')); // Logging debugging
 
@@ -75,6 +71,14 @@ app.use(function(req, res, next){
 	console.dir(req.path, '\n all paths')
 	next()
 });
+
+
+axios.get('https://www.boomset.com/restapi/', {headers: 'Authorization'})
+	.then(function(response){
+		console.log(response);
+	})
+
+
 
 
 app.post('/', function(req, res){

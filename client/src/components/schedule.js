@@ -1,18 +1,27 @@
 import React from "react"
 
+let exampleEvents = [{ eventName: 'event1', time: '2pm'},{eventName: 'event2', time: '5pm'}, {eventName: 'event2', time: '1pm'}]
+
 export default class Display extends React.Component {
     constructor(props){
         super(props)
     }
 
     render(){
-        console.log(this.props.url);
+    console.log(this.props.url);
         return (
-            <div> 
-                <link src={this.props.url}> Manage your schedule here </link>
-                <div id ="schedule-list"> 
-                {/* <ul> elements go here, will be injected programmatically */}
-                </div>
+            <div id='schedule-list'> 
+                 <a href={this.props.url}> Click here to manage your schedule </a>
+                { 
+                exampleEvents.map(event => {
+                    return (
+                        <div>
+                        <h2> Event: {event.eventName}</h2>
+                        <ol> Time: {event.time}</ol>
+                        </div>
+                    )
+                })
+                }
             </div>
         )
     }

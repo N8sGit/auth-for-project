@@ -3,16 +3,23 @@ import Header from './header';
 import Display from './schedule'
 import {getCook} from '../utils';
 
+const cookieValue = getCook('FOST');
 export default class App extends Component {
-  constructor(){
+  constructor(props){
+    super(props)
     this.state = {
-      url: ''
+      url: '',
+      hasRegistered: false
     }
   }
-  componentWillMount = () => {
-    const cookieValue = getCook('FOST');
+  componentDidMount = () =>{
     if(cookieValue){
-      console.log(cookieValue, 'cookie valu eat header.js component will mount');
+      this.setState({url: cookieValue, hasRegistered: true})
+    }
+  }
+
+  componentWillMount = () => {
+    if(cookieValue){
       this.setState({url: cookieValue})
     }
   }
@@ -25,9 +32,8 @@ export default class App extends Component {
         {this.props.children}
       </div>
     )
-  }
-  
-  else { return <Display url={url} /> }
+  } 
+  else  return <Display url={url} /> 
   
   }
 }
