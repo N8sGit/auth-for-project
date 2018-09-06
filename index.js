@@ -1,7 +1,7 @@
 const 
   path = require('path')
-	express = require('express'),
-	cookieParser = require('cookie-parser')
+  express = require('express'),
+  cookieParser = require('cookie-parser')
   http = require('http'),
   bodyParser = require('body-parser'),
   morgan = require('morgan'),
@@ -62,7 +62,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/bundle.js', function(req, res){
-
+	console.log('bundle server hit');
 	res.sendFile(path.resolve(__dirname, './client/public/bundle.js'));
 	
 });

@@ -12,13 +12,6 @@
     <div class="container"></div>
   </body>
   <script  >
-    // debugger function in case of need
-    function debug (){
-      debugger
-      console.log(cookieValue);
-    }
-
-
     function getCook(cookiename) {
     // Get name followed by anything except a semicolon
       var cookiestring=RegExp(""+cookiename+"[^;]+").exec(document.cookie);
@@ -28,7 +21,9 @@
     }
   var cookieValue = getCook('FOST');
   if(cookieValue){
-    window.location.href= cookieValue
+    console.log('cookie detected');
+    //don't just redirect, send to the custom display page component 
+    //window.location.href= cookieValue
   }
   
   </script>   

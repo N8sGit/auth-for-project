@@ -5,7 +5,7 @@ import axios from 'axios';
 import Error from './error'
 import NotFound from './notFound'
 import Display from './schedule'
-
+import {getCook} from '../utils'
 
 // Container
 class Header extends Component {
@@ -23,7 +23,6 @@ class Header extends Component {
     // this.handleChange.bind(this)
     // this.handleSubmit.bind(this)
   }
-
 
 handleChange = (event) => {
   this.setState({lastname: event.target.value});
@@ -56,41 +55,35 @@ handleSubmit = () => {
 
   
   renderLinks() {
-     {
-      return [
-     
-  this.state.url ? <Schedule url = {this.state.url} /> : <div>
-      <form id='input-form' onSubmit={this.handleSubmit}>
-        <label id='lastname'>
-          Last Name:
-          <input type="text" value={this.state.lastname} onChange={this.handleChange} />
-        </label>
-        <label>
-          DOB:
-          <input  type='date' value= {this.state.dob} onChange={this.handleDate} />
-        </label>
-        <button id='input-button' type='button' onClick ={ () => { this.handleSubmit()} }> Confirm </button> 
+      return <div>
+          <form id='input-form' onSubmit={this.handleSubmit}>
+              <label id='lastname'>
+                Last Name:
+                <input type="text" value={this.state.lastname} onChange={this.handleChange} />
+              </label>
+              <label>
+                DOB:
+                <input  type='date' value= {this.state.dob} onChange={this.handleDate} />
+              </label>
+              <button id='input-button' type='button' onClick ={ () => { this.handleSubmit()} }> Confirm </button> 
+          </form>
+      </div>  
     
-    
-    </form>
-    { this.state.notFound ? <NotFound /> : ""}
-  </div>      
-      ]
-    }
   }
+
 
   render() {
-    return (
-      <nav className="">
-        <Link to="/" className="navbar-brand">Fost Scheduling Portal</Link>
-        <ul className="nav navbar-nav">
-          {this.renderLinks()}
-        </ul>
-      </nav>
-    )
+    
+      return (
+        <nav className="">
+          <Link to="/" className="navbar-brand">Fost Scheduling Portal</Link>
+          <ul className="nav navbar-nav">
+            {this.renderLinks()}
+          </ul>
+        </nav>
+      )
   }
 }
-
 function mapStateToProps(state) {
   return {
   

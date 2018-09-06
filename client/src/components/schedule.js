@@ -1,11 +1,12 @@
 import React from "react"
 
-export default class Display extends React.Component{
+export default class Display extends React.Component {
     constructor(props){
         super(props)
     }
 
     render(){
+        console.log(this.props.url);
         return (
             <div> 
                 <link src={this.props.url}> Manage your schedule here </link>
