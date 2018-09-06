@@ -1,13 +1,13 @@
 const 
   path = require('path')
-	express = require('express'),
-	cookieParser = require('cookie-parser')
+  express = require('express'),
+  cookieParser = require('cookie-parser')
   http = require('http'),
   bodyParser = require('body-parser'),
   morgan = require('morgan'),
   app = express(),
-  axios = require('axios')
-
+  axios = require('axios');
+  boomsetKey = require('./secret');
 
 var testData = [
   {
@@ -45,12 +45,6 @@ var testData = [
 
 ];
 
-let key = {
-  "key": "f3ad371b4798b2368670127033955259ee7dc160"
-}
-
-let testMessage = 'Hello from the backend'
-
 // App/Middleware Setup
 app.use(morgan('combined')); // Logging debugging
 
@@ -59,13 +53,12 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static('./public'));
 app.use(cookieParser())
 
-var testUrl = 'www.example.com'
 app.get('/', function(req, res) {
 	res.sendFile(path.resolve(__dirname, './client/public/index.html'));
 });
 
 app.get('/bundle.js', function(req, res){
-
+	console.log('bundle server hit');
 	res.sendFile(path.resolve(__dirname, './client/public/bundle.js'));
 	
 });
@@ -80,22 +73,30 @@ app.use(function(req, res, next){
 });
 
 
+axios.get('https://www.boomset.com/restapi/', {headers: 'Authorization'})
+	.then(function(response){
+		console.log(response);
+	})
+
+
+
+
 app.post('/', function(req, res){
+	let notFound = 'Attendee not found. Please re-enter your information or contact FOST for assistance'
 	if(!req.body.lastname){
 		console.error('No inputs!') 
 	}
-	var source, sourceIndex, confirmAttendee, url;
+	var source, confirmAttendee, url;
 	
 	function confirmAttendee(){
 	for(let i = 0; i<testData.length; i++){
 		if(testData[i].lastname === req.body.lastname){
 			source = testData[i]
-			sourceIndex = i
 			url = source.url
-			return true
+			return
 		}
 	}
-	return res.send({message :'Attendee not found', notFound})
+	return false 
 }
 	confirmAttendee()
 
@@ -110,11 +111,12 @@ app.post('/', function(req, res){
 	
 
 	if(source && confirmDate(source)){ 
-		res.cookie('FOST', url, { expires: new Date(Date.now() + 100000000)})
+		//date will need to be set to be after confernece
+		res.cookie('FOST', url, { expires: new Date(Date.now() + 1000000000000000000)})
 		res.send({message:"data for the front end", url: url})
 		
 	}
-		else res.send({message: 'Attendee not found.', notFound})
+	else res.send({notFound})
 })
 
 
