@@ -6,44 +6,13 @@ const
   bodyParser = require('body-parser'),
   morgan = require('morgan'),
   app = express(),
-  axios = require('axios');
-  boomsetKey = require('./secret');
+  axios = require('axios'),
+  boomsetKey = require('./secret'),
+  rawData = require('./data')
 
-var testData = [
-  {
-		"firstname": "emma",
-		"lastname": "amme",
-		"email": "fostdummy+1@gmail.com",
-		"dob": "01-01-81",
-		"zip": "10001",
-		"url": 'https://boomset.com/apps/eventpage/72056/update-sessions/attendee/24266592/e61a0369fd9c99a56b0250f7b731cbbe'
-	},
-	{
-		"firstname": "steve",
-		"lastname": "evets",
-		"email": "fostdummy+2@gmail.com",
-		"dob": "02-02-82",
-		"Zip": "10002",
-		"url": "https://boomset.com/apps/eventpage/72056/update-sessions/attendee/24266592/e61a0369fd9c99a56b0250f7b731cbbe"
-	},
-	{
-		"firstname": "shirly",
-		"lastname": "ylrihs",
-		"email": "fostdummy+3@gmail.com",
-		"dob": "03-03-83",
-		"Zip": "10003",
-		"url": "https://boomset.com/apps/eventpage/72056/update-sessions/attendee/24266594/bc574c9bb9160692713bffbf89ef0c0a"
-	},
-	{
-		"firstname": "bill",
-		"lastname": "llib",
-		"email": "fostdummy+4@gmail.com",
-		"dob": "04-04-84",
-		"Zip": "10004",
-		"url": "https://boomset.com/apps/eventpage/72056/update-sessions/attendee/24266595/f6c4f6b43c8309627eaf67303e95abbf"
-	},
 
-];
+const data = Array.from(rawData)
+console.log(data, Array.isArray(data));
 
 // App/Middleware Setup
 app.use(morgan('combined')); // Logging debugging
@@ -89,9 +58,9 @@ app.post('/', function(req, res){
 	var source, confirmAttendee, url;
 	
 	function confirmAttendee(){
-	for(let i = 0; i<testData.length; i++){
-		if(testData[i].lastname === req.body.lastname){
-			source = testData[i]
+	for(let i = 0; i<data.length; i++){
+		if(data[i].lastname === req.body.lastname){
+			source = data[i]
 			url = source.url
 			return
 		}
