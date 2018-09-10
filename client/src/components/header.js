@@ -16,19 +16,11 @@ class Header extends Component {
       data: '',
       lastname: '',
       zip : '',
-      notFound: '',
-      url: ''
-
+      url: '',
+      submitErr : false,
+      notFound: false
     }
   }
-
-  // componentDidMount = () =>{
-  //   if(cookieValue){
-  //     console.log('hi');
-  //     this.setState({url: cookieValue})
-  //     location.reload()
-  //   }
-  // }
 
 
 handleChange = (event) => {
@@ -41,7 +33,8 @@ handleChange = (event) => {
 
 handleSubmit = () => {
   if(!this.state.lastname || !this.state.zip){
-    alert('Please submit a last name and date of birth')
+    this.setState({submitErr: true})
+    return
   }
   
   axios.post('/', {message: 'this is data from the frontend', zip: this.state.zip, 
@@ -54,7 +47,7 @@ handleSubmit = () => {
          //window.location.href=response.data.url 
       }
       else {
-        this.setState({notFound : response.data.notFound})
+        this.setState({notFound : true})
       }
     })
       .catch(err => console.log(err + ' error detected inside submit request'))
@@ -72,8 +65,10 @@ handleSubmit = () => {
                 ZIP:
                 <input  type='date' value = {this.state.zip} onChange={this.handleDate} />
               </label>
-              <button id='input-button' type='button' onClick ={ () => { this.handleSubmit()} }> Confirm </button> 
+              <button id='input-button' type='button' onClick ={ () => { this.handleSubmit()} }> Confirm </button>
           </form>
+          { this.state.submitErr ? <p className='submit-error'> Please enter a last name and ZIP code. </p> : '' }
+          {this.state.notFound ? <p className = 'submit-error'> Attendee not found. Please try re-entering your info </p> : ''}
       </div>  
     
   }

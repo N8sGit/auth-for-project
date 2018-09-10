@@ -27489,7 +27489,8 @@
 	
 	    _this.handleSubmit = function () {
 	      if (!_this.state.lastname || !_this.state.zip) {
-	        alert('Please submit a last name and date of birth');
+	        _this.setState({ submitErr: true });
+	        return;
 	      }
 	
 	      _axios2.default.post('/', { message: 'this is data from the frontend', zip: _this.state.zip,
@@ -27499,7 +27500,7 @@
 	          _this.props.updateParent();
 	          //window.location.href=response.data.url 
 	        } else {
-	          _this.setState({ notFound: response.data.notFound });
+	          _this.setState({ notFound: true });
 	        }
 	      }).catch(function (err) {
 	        return console.log(err + ' error detected inside submit request');
@@ -27510,21 +27511,12 @@
 	      data: '',
 	      lastname: '',
 	      zip: '',
-	      notFound: '',
-	      url: ''
-	
+	      url: '',
+	      submitErr: false,
+	      notFound: false
 	    };
 	    return _this;
 	  }
-	
-	  // componentDidMount = () =>{
-	  //   if(cookieValue){
-	  //     console.log('hi');
-	  //     this.setState({url: cookieValue})
-	  //     location.reload()
-	  //   }
-	  // }
-	
 	
 	  _createClass(Header, [{
 	    key: 'renderLinks',
@@ -27556,7 +27548,17 @@
 	              } },
 	            ' Confirm '
 	          )
-	        )
+	        ),
+	        this.state.submitErr ? _react2.default.createElement(
+	          'p',
+	          { className: 'submit-error' },
+	          ' Please enter a last name and ZIP code. '
+	        ) : '',
+	        this.state.notFound ? _react2.default.createElement(
+	          'p',
+	          { className: 'submit-error' },
+	          ' Attendee not found. Please try re-entering your info '
+	        ) : ''
 	      );
 	    }
 	  }, {
