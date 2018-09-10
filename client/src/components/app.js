@@ -9,26 +9,40 @@ export default class App extends Component {
     super(props)
     this.state = {
       url: '',
-      hasRegistered: false
-    }
-  }
-  componentDidMount = () =>{
-    if(cookieValue){
-      this.setState({url: cookieValue, hasRegistered: true})
     }
   }
 
   componentWillMount = () => {
+    console.log('will mount');
     if(cookieValue){
       this.setState({url: cookieValue})
     }
   }
+
+  componentDidMount = () => {
+    console.log('did mount');
+    if(cookieValue){
+      this.setState({url: cookieValue})
+    }
+  }
+
+  componentDidUpdate = () =>{
+    console.log('did update');
+   if(this.state.url) this.setState({url: cookieValue})
+  }
+
+  updateParent = () => {
+    if(cookieValue){
+      this.setState({url : cookieValue})
+    }
+  }
+
     render() {
     let url = this.state.url
    if(!url) {
     return (
       <div>
-        <Header />
+        <Header updateParent = {this.updateParent} />
         {this.props.children}
       </div>
     )

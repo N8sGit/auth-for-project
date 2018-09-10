@@ -27373,21 +27373,33 @@
 	
 	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 	
-	    _this.componentDidMount = function () {
+	    _this.componentWillMount = function () {
+	      console.log('will mount');
 	      if (cookieValue) {
-	        _this.setState({ url: cookieValue, hasRegistered: true });
+	        _this.setState({ url: cookieValue });
 	      }
 	    };
 	
-	    _this.componentWillMount = function () {
+	    _this.componentDidMount = function () {
+	      console.log('did mount');
+	      if (cookieValue) {
+	        _this.setState({ url: cookieValue });
+	      }
+	    };
+	
+	    _this.componentDidUpdate = function () {
+	      console.log('did update');
+	      if (_this.state.url) _this.setState({ url: cookieValue });
+	    };
+	
+	    _this.updateParent = function () {
 	      if (cookieValue) {
 	        _this.setState({ url: cookieValue });
 	      }
 	    };
 	
 	    _this.state = {
-	      url: '',
-	      hasRegistered: false
+	      url: ''
 	    };
 	    return _this;
 	  }
@@ -27400,7 +27412,7 @@
 	        return _react2.default.createElement(
 	          'div',
 	          null,
-	          _react2.default.createElement(_header2.default, null),
+	          _react2.default.createElement(_header2.default, { updateParent: this.updateParent }),
 	          this.props.children
 	        );
 	      } else return _react2.default.createElement(_schedule2.default, { url: url });
@@ -27472,19 +27484,19 @@
 	    };
 	
 	    _this.handleDate = function (event) {
-	      _this.setState({ dob: event.target.value });
+	      _this.setState({ zip: event.target.value });
 	    };
 	
 	    _this.handleSubmit = function () {
-	      console.log('submit fired!');
-	      if (!_this.state.lastname || !_this.state.dob) {
+	      if (!_this.state.lastname || !_this.state.zip) {
 	        alert('Please submit a last name and date of birth');
 	      }
 	
-	      _axios2.default.post('/', { message: 'this is data from the frontend', dob: _this.state.dob.replace('/', '-'),
+	      _axios2.default.post('/', { message: 'this is data from the frontend', zip: _this.state.zip,
 	        lastname: _this.state.lastname.toLowerCase().trim() }).then(function (response) {
 	        if (response.data.url) {
 	          _this.setState({ url: response.data.url });
+	          _this.props.updateParent();
 	          //window.location.href=response.data.url 
 	        } else {
 	          _this.setState({ notFound: response.data.notFound });
@@ -27497,7 +27509,7 @@
 	    _this.state = {
 	      data: '',
 	      lastname: '',
-	      dob: '',
+	      zip: '',
 	      notFound: '',
 	      url: ''
 	
@@ -27534,8 +27546,8 @@
 	          _react2.default.createElement(
 	            'label',
 	            null,
-	            'DOB:',
-	            _react2.default.createElement('input', { type: 'date', value: this.state.dob, onChange: this.handleDate })
+	            'ZIP:',
+	            _react2.default.createElement('input', { type: 'date', value: this.state.zip, onChange: this.handleDate })
 	          ),
 	          _react2.default.createElement(
 	            'button',

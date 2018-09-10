@@ -12,7 +12,6 @@ const
 
 
 const data = Array.from(rawData)
-console.log(data, Array.isArray(data));
 
 // App/Middleware Setup
 app.use(morgan('combined')); // Logging debugging
@@ -51,6 +50,7 @@ axios.get('https://www.boomset.com/restapi/', {headers: 'Authorization'})
 
 
 app.post('/', function(req, res){
+	console.log(req, 'request');
 	let notFound = 'Attendee not found. Please re-enter your information or contact FOST for assistance'
 	if(!req.body.lastname){
 		console.error('No inputs!') 
@@ -59,7 +59,7 @@ app.post('/', function(req, res){
 	
 	function confirmAttendee(){
 	for(let i = 0; i<data.length; i++){
-		if(data[i].lastname === req.body.lastname){
+		if(data[i].lastname.toLowerCase() === req.body.lastname){
 			source = data[i]
 			url = source.url
 			return
@@ -70,9 +70,7 @@ app.post('/', function(req, res){
 	confirmAttendee()
 
 	function confirmDate(source){
-		let yob = source.dob.slice(-2)
-		let reqYob = req.body.dob.slice(2,4)
-		if(yob === reqYob){
+		if(source.zip === req.body.zip){
 			return true
 		}
 		else return false 
@@ -80,6 +78,7 @@ app.post('/', function(req, res){
 	
 
 	if(source && confirmDate(source)){ 
+		console.log('source?');
 		//date will need to be set to be after confernece
 		res.cookie('FOST', url, { expires: new Date(Date.now() + 1000000000000000000)})
 		res.send({message:"data for the front end", url: url})

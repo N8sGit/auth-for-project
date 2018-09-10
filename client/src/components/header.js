@@ -15,7 +15,7 @@ class Header extends Component {
     this.state = {
       data: '',
       lastname: '',
-      dob : '',
+      zip : '',
       notFound: '',
       url: ''
 
@@ -36,21 +36,21 @@ handleChange = (event) => {
  }
 
  handleDate = (event) => {
-  this.setState({dob: event.target.value})
+  this.setState({zip: event.target.value})
  }
 
 handleSubmit = () => {
-  console.log('submit fired!');
-  if(!this.state.lastname || !this.state.dob){
+  if(!this.state.lastname || !this.state.zip){
     alert('Please submit a last name and date of birth')
   }
   
-  axios.post('/', {message: 'this is data from the frontend', dob: this.state.dob.replace('/','-'), 
+  axios.post('/', {message: 'this is data from the frontend', zip: this.state.zip, 
     lastname: this.state.lastname.toLowerCase().trim()}
   )
     .then( (response) => {
       if(response.data.url){
         this.setState({url: response.data.url})
+        this.props.updateParent()
          //window.location.href=response.data.url 
       }
       else {
@@ -69,8 +69,8 @@ handleSubmit = () => {
                 <input type="text" value={this.state.lastname} onChange={this.handleChange} />
               </label>
               <label>
-                DOB:
-                <input  type='date' value= {this.state.dob} onChange={this.handleDate} />
+                ZIP:
+                <input  type='date' value = {this.state.zip} onChange={this.handleDate} />
               </label>
               <button id='input-button' type='button' onClick ={ () => { this.handleSubmit()} }> Confirm </button> 
           </form>
