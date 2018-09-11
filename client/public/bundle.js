@@ -27371,7 +27371,7 @@
 	
 	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 	
-	    _this.updateParent = function () {
+	    _this.checkCookie = function () {
 	      var cookieValue = (0, _utils.getCook)('FOST');
 	      if (cookieValue) {
 	        _this.setState({ url: cookieValue });
@@ -27385,15 +27385,19 @@
 	  }
 	
 	  _createClass(App, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.checkCookie();
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
-	      console.log(this.state.url);
 	      var url = this.state.url;
 	      if (!url) {
 	        return _react2.default.createElement(
 	          'div',
 	          null,
-	          _react2.default.createElement(_header2.default, { updateParent: this.updateParent }),
+	          _react2.default.createElement(_header2.default, { checkCookie: this.checkCookie }),
 	          this.props.children
 	        );
 	      } else return _react2.default.createElement(_schedule2.default, { url: url });
@@ -27470,7 +27474,7 @@
 	        lastName: _this.state.lastName.toLowerCase().trim() }).then(function (response) {
 	        if (response.data.url) {
 	          _this.setState({ url: response.data.url });
-	          _this.props.updateParent();
+	          _this.props.checkCookie();
 	        } else {
 	          _this.setState({ notFound: true });
 	        }

@@ -12,20 +12,23 @@ export default class App extends Component {
     }
   }
 
-  updateParent = () => {
+  checkCookie = () => {
     const cookieValue = getCook('FOST');
     if(cookieValue){
       this.setState({url : cookieValue})
     }
   }
 
+  componentDidMount () {
+    this.checkCookie()
+  }
+
     render() {
-      console.log(this.state.url);
     let url = this.state.url
    if(!url) {
     return (
       <div>
-        <Header updateParent = {this.updateParent} />
+        <Header checkCookie = {this.checkCookie} />
         {this.props.children}
       </div>
     )
