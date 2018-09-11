@@ -12,25 +12,6 @@ export default class App extends Component {
     }
   }
 
-  componentWillMount = () => {
-    console.log('will mount');
-    if(cookieValue){
-      this.setState({url: cookieValue})
-    }
-  }
-
-  componentDidMount = () => {
-    console.log('did mount');
-    if(cookieValue){
-      this.setState({url: cookieValue})
-    }
-  }
-
-  componentDidUpdate = () =>{
-    console.log('did update');
-   if(this.state.url) this.setState({url: cookieValue})
-  }
-
   updateParent = () => {
     if(cookieValue){
       this.setState({url : cookieValue})

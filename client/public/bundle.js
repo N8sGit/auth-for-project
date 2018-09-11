@@ -27373,25 +27373,6 @@
 	
 	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 	
-	    _this.componentWillMount = function () {
-	      console.log('will mount');
-	      if (cookieValue) {
-	        _this.setState({ url: cookieValue });
-	      }
-	    };
-	
-	    _this.componentDidMount = function () {
-	      console.log('did mount');
-	      if (cookieValue) {
-	        _this.setState({ url: cookieValue });
-	      }
-	    };
-	
-	    _this.componentDidUpdate = function () {
-	      console.log('did update');
-	      if (_this.state.url) _this.setState({ url: cookieValue });
-	    };
-	
 	    _this.updateParent = function () {
 	      if (cookieValue) {
 	        _this.setState({ url: cookieValue });
@@ -27480,27 +27461,29 @@
 	    var _this = _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).call(this, props));
 	
 	    _this.handleChange = function (event) {
-	      _this.setState({ lastname: event.target.value });
+	      _this.setState({ lastName: event.target.value });
 	    };
 	
-	    _this.handleDate = function (event) {
+	    _this.handleZip = function (event) {
 	      _this.setState({ zip: event.target.value });
 	    };
 	
 	    _this.handleSubmit = function () {
-	      if (!_this.state.lastname || !_this.state.zip) {
+	      if (!_this.state.lastName || !_this.state.zip) {
 	        _this.setState({ submitErr: true });
 	        return;
 	      }
 	
 	      _axios2.default.post('/', { message: 'this is data from the frontend', zip: _this.state.zip,
-	        lastname: _this.state.lastname.toLowerCase().trim() }).then(function (response) {
+	        lastName: _this.state.lastName.toLowerCase().trim() }).then(function (response) {
 	        if (response.data.url) {
 	          _this.setState({ url: response.data.url });
-	          _this.props.updateParent();
+	          console.log(_this.state.url, 'urel?');
+	          // this.props.updateParent()
 	          //window.location.href=response.data.url 
 	        } else {
 	          _this.setState({ notFound: true });
+	          return;
 	        }
 	      }).catch(function (err) {
 	        return console.log(err + ' error detected inside submit request');
@@ -27509,7 +27492,7 @@
 	
 	    _this.state = {
 	      data: '',
-	      lastname: '',
+	      lastName: '',
 	      zip: '',
 	      url: '',
 	      submitErr: false,
@@ -27531,15 +27514,15 @@
 	          { id: 'input-form', onSubmit: this.handleSubmit },
 	          _react2.default.createElement(
 	            'label',
-	            { id: 'lastname' },
+	            { id: 'lastName' },
 	            'Last Name:',
-	            _react2.default.createElement('input', { type: 'text', value: this.state.lastname, onChange: this.handleChange })
+	            _react2.default.createElement('input', { type: 'text', value: this.state.lastName, onChange: this.handleChange })
 	          ),
 	          _react2.default.createElement(
 	            'label',
 	            null,
 	            'ZIP:',
-	            _react2.default.createElement('input', { type: 'date', value: this.state.zip, onChange: this.handleDate })
+	            _react2.default.createElement('input', { type: 'text', value: this.state.zip, onChange: this.handleZip })
 	          ),
 	          _react2.default.createElement(
 	            'button',
@@ -27564,7 +27547,7 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	
+	      console.log(this.state.notFound, this.state.submitErr);
 	      return _react2.default.createElement(
 	        'nav',
 	        { className: '' },
