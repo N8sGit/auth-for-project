@@ -3,7 +3,7 @@ import Header from './header';
 import Display from './schedule'
 import {getCook} from '../utils';
 
-const cookieValue = getCook('FOST');
+
 export default class App extends Component {
   constructor(props){
     super(props)
@@ -13,12 +13,14 @@ export default class App extends Component {
   }
 
   updateParent = () => {
+    const cookieValue = getCook('FOST');
     if(cookieValue){
       this.setState({url : cookieValue})
     }
   }
 
     render() {
+      console.log(this.state.url);
     let url = this.state.url
    if(!url) {
     return (

@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import axios from 'axios';
-import Error from './error'
-import NotFound from './notFound'
 import Display from './schedule'
 import {getCook} from '../utils'
 
@@ -43,13 +41,10 @@ handleSubmit = () => {
     .then( (response) => {
       if(response.data.url){
         this.setState({url: response.data.url})
-        console.log(this.state.url, 'urel?');
-       // this.props.updateParent()
-         //window.location.href=response.data.url 
+        this.props.updateParent()
       }
       else {
         this.setState({notFound : true})
-        return
       }
     })
       .catch(err => console.log(err + ' error detected inside submit request'))
@@ -77,21 +72,28 @@ handleSubmit = () => {
 
 
   render() {
-    console.log(this.state.notFound, this.state.submitErr);
-      return (
+    let cookieValue = getCook('FOST')
+    if(cookieValue){
+      return <Display url = {cookieValue} />
+    }
+     else return (
+    <div>
         <nav className="">
           <Link to="/" className="navbar-brand">Fost Scheduling Portal</Link>
           <ul className="nav navbar-nav">
             {this.renderLinks()}
           </ul>
         </nav>
+    
+    <div >
+      <h1> One-time Schedule Verification </h1>
+      <p> To obtain your schedule please enter your last name and date of birth </p> 
+      <p> You will then be redirected to your schedule </p>
+    </div>
+  
+  </div>
       )
   }
 }
-function mapStateToProps(state) {
-  return {
-  
-  };
-}
 
-export default connect(mapStateToProps)(Header);
+export default connect()(Header);

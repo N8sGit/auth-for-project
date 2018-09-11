@@ -27363,8 +27363,6 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var cookieValue = (0, _utils.getCook)('FOST');
-	
 	var App = function (_Component) {
 	  _inherits(App, _Component);
 	
@@ -27374,6 +27372,7 @@
 	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 	
 	    _this.updateParent = function () {
+	      var cookieValue = (0, _utils.getCook)('FOST');
 	      if (cookieValue) {
 	        _this.setState({ url: cookieValue });
 	      }
@@ -27388,6 +27387,7 @@
 	  _createClass(App, [{
 	    key: 'render',
 	    value: function render() {
+	      console.log(this.state.url);
 	      var url = this.state.url;
 	      if (!url) {
 	        return _react2.default.createElement(
@@ -27428,14 +27428,6 @@
 	var _axios = __webpack_require__(262);
 	
 	var _axios2 = _interopRequireDefault(_axios);
-	
-	var _error = __webpack_require__(288);
-	
-	var _error2 = _interopRequireDefault(_error);
-	
-	var _notFound = __webpack_require__(289);
-	
-	var _notFound2 = _interopRequireDefault(_notFound);
 	
 	var _schedule = __webpack_require__(290);
 	
@@ -27478,12 +27470,9 @@
 	        lastName: _this.state.lastName.toLowerCase().trim() }).then(function (response) {
 	        if (response.data.url) {
 	          _this.setState({ url: response.data.url });
-	          console.log(_this.state.url, 'urel?');
-	          // this.props.updateParent()
-	          //window.location.href=response.data.url 
+	          _this.props.updateParent();
 	        } else {
 	          _this.setState({ notFound: true });
-	          return;
 	        }
 	      }).catch(function (err) {
 	        return console.log(err + ' error detected inside submit request');
@@ -27547,19 +27536,44 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      console.log(this.state.notFound, this.state.submitErr);
-	      return _react2.default.createElement(
-	        'nav',
-	        { className: '' },
+	      var cookieValue = (0, _utils.getCook)('FOST');
+	      if (cookieValue) {
+	        return _react2.default.createElement(_schedule2.default, { url: cookieValue });
+	      } else return _react2.default.createElement(
+	        'div',
+	        null,
 	        _react2.default.createElement(
-	          _reactRouter.Link,
-	          { to: '/', className: 'navbar-brand' },
-	          'Fost Scheduling Portal'
+	          'nav',
+	          { className: '' },
+	          _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: '/', className: 'navbar-brand' },
+	            'Fost Scheduling Portal'
+	          ),
+	          _react2.default.createElement(
+	            'ul',
+	            { className: 'nav navbar-nav' },
+	            this.renderLinks()
+	          )
 	        ),
 	        _react2.default.createElement(
-	          'ul',
-	          { className: 'nav navbar-nav' },
-	          this.renderLinks()
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'h1',
+	            null,
+	            ' One-time Schedule Verification '
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            ' To obtain your schedule please enter your last name and date of birth '
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            ' You will then be redirected to your schedule '
+	          )
 	        )
 	      );
 	    }
@@ -27568,11 +27582,7 @@
 	  return Header;
 	}(_react.Component);
 	
-	function mapStateToProps(state) {
-	  return {};
-	}
-	
-	exports.default = (0, _reactRedux.connect)(mapStateToProps)(Header);
+	exports.default = (0, _reactRedux.connect)()(Header);
 
 /***/ }),
 /* 262 */
@@ -29104,73 +29114,8 @@
 
 
 /***/ }),
-/* 288 */
-/***/ (function(module, exports) {
-
-	// import React from 'react';
-	
-	// export default class Error extends React.Component {
-	//   state = {
-	//     open: false,
-	//   };
-	
-	//   onOpenModal = () => {
-	//     this.setState({ open: true });
-	//   };
-	
-	//   onCloseModal = () => {
-	//     this.setState({ open: false });
-	//   };
-	
-	//   render() {
-	//     const { open } = this.state;
-	//     return (
-	//       <div>
-	//         {/* <button onClick={this.onOpenModal}>Open modal</button>
-	//         <Modal open={open} onClose={this.onCloseModal} center>
-	//           <h2>Please enter both a last name and a date of birth.</h2>
-	//         </Modal> */}
-	//       </div>
-	//     );
-	//   }
-	// }
-	"use strict";
-
-/***/ }),
-/* 289 */
-/***/ (function(module, exports) {
-
-	// import React from 'react';
-	// import Modal from 'react-responsive-modal';
-	
-	// export default class NotFound extends React.Component {
-	//   state = {
-	//     open: false,
-	//   };
-	
-	//   onOpenModal = () => {
-	//     this.setState({ open: true });
-	//   };
-	
-	//   onCloseModal = () => {
-	//     this.setState({ open: false });
-	//   };
-	
-	//   render() {
-	//     const { open } = this.state;
-	//     return (
-	//       <div>
-	//         <button onClick={this.onOpenModal}>Open modal</button>
-	//         <Modal open={open} onClose={this.onCloseModal} center>
-	//           <h2>Schedule not found. Please try to re-enter your information or contact FOST representatives for assistance.</h2>
-	//         </Modal>
-	//       </div>
-	//     );
-	//   }
-	// }
-	"use strict";
-
-/***/ }),
+/* 288 */,
+/* 289 */,
 /* 290 */
 /***/ (function(module, exports, __webpack_require__) {
 
