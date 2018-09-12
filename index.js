@@ -40,11 +40,14 @@ app.use(function(req, res, next){
 });
 
 
-axios.get('https://www.boomset.com/restapi/', {headers: 'Authorization'})
-	.then(function(response){
-		console.log(response);
+app.get('/boomset')
+	.then((response) => {
+		axios.get('https://www.boomset.com/apps/api/events/', 
+        { headers: {Authorization: `Token ${boomsetKey}`}
+        })
 	})
-
+	
+	.catch(err => console.error( err + ' error at api request'))
 
 
 
