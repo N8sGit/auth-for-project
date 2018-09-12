@@ -72,14 +72,10 @@ handleSubmit = () => {
 
 
   render() {
-    let cookieValue = getCook('FOST')
-    if(cookieValue){
-      return <Display url = {cookieValue} />
-    }
-     else return (
+    return (
     <div>
         <nav className="">
-          <Link to="/" className="navbar-brand">Fost Scheduling Portal</Link>
+          <h1 to="/" className="navbar-brand">Fost Scheduling Portal</h1>
           <ul className="nav navbar-nav">
             {this.renderLinks()}
           </ul>

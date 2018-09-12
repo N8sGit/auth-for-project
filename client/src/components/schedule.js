@@ -1,4 +1,7 @@
 import React from "react"
+import axios from 'axios'
+// import {boomsetKey} from '../../../secret'
+// console.log(boomsetKey, 'key?');
 
 let exampleEvents = [{ eventName: 'event1', time: '2pm'},{eventName: 'event2', time: '5pm'}, {eventName: 'event2', time: '1pm'}]
 
@@ -6,6 +9,18 @@ export default class Display extends React.Component {
     constructor(props){
         super(props)
     }
+
+    componentDidMount(){
+        axios.get('https://www.boomset.com/apps/api/events/', 
+        { headers: {Authorization: `Token f3ad371b4798b2368670127033955259ee7dc160`}
+        })
+            .then((response) => {
+                console.log(response.data, 'response data');
+                }
+            )
+            .catch(err => console.error( err + ' error at api request'))
+    }
+
 
     render(){
     console.log(this.props.url);
