@@ -40,9 +40,14 @@ app.use(function(req, res, next){
 });
 
 app.get('/boomset', function(req, res) {
+	console.log('route hit');
 	axios.get('https://www.boomset.com/apps/api/events/', 
 	{ headers: {Authorization: `Token f3ad371b4798b2368670127033955259ee7dc160`}
+	}).then(function(response){
+		console.log(response, 'api resposne');
+		res.send({ message: "this is the api call packet", response})
 	})
+	  .catch(err => console.error( error + ' error at boomset api call'))
 });
 
 
@@ -59,7 +64,6 @@ app.post('/', function(req, res){
 	for(let i = 0; i<data.length; i++){
 		if(data[i].lastName.toLowerCase() === req.body.lastName){
 			source = data[i]
-			console.log(source, 'source in confirm?');
 			url = source.url
 			return true
 		}
