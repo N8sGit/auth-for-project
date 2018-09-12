@@ -39,15 +39,11 @@ app.use(function(req, res, next){
 	next()
 });
 
-
-app.get('/boomset')
-	.then((response) => {
-		axios.get('https://www.boomset.com/apps/api/events/', 
-        { headers: {Authorization: `Token ${boomsetKey}`}
-        })
+app.get('/boomset', function(req, res) {
+	axios.get('https://www.boomset.com/apps/api/events/', 
+	{ headers: {Authorization: `Token f3ad371b4798b2368670127033955259ee7dc160`}
 	})
-	
-	.catch(err => console.error( err + ' error at api request'))
+});
 
 
 

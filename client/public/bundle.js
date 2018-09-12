@@ -29154,9 +29154,9 @@
 	    _createClass(Display, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            // axios.get('https://www.boomset.com/apps/api/events/', 
-	            // { headers: {Authorization: `Token f3ad371b4798b2368670127033955259ee7dc160`}
-	            // })
+	            _axios2.default.get('/boomset', function (req, res) {
+	                console.log(res, 'res in axios get inside schedule.js');
+	            });
 	        }
 	    }, {
 	        key: 'render',
