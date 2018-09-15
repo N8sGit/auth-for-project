@@ -27383,7 +27383,6 @@
 	        return;
 	      }
 	      _axios2.default.post('/source', { url: cookieValue }).then(function (response) {
-	        console.log(response.data, 'source response data');
 	        _this.setState({ source: response.data.source });
 	      });
 	    };
@@ -27405,6 +27404,7 @@
 	    key: 'render',
 	    value: function render() {
 	      var url = this.state.url;
+	      var source = this.state.source;
 	      if (!url) {
 	        return _react2.default.createElement(
 	          'div',
@@ -27412,7 +27412,7 @@
 	          _react2.default.createElement(_header2.default, { checkCookie: this.checkCookie }),
 	          this.props.children
 	        );
-	      } else return _react2.default.createElement(_schedule2.default, { url: url });
+	      } else return _react2.default.createElement(_schedule2.default, { url: url, email: source.email });
 	    }
 	  }]);
 	
@@ -29171,20 +29171,21 @@
 	    _createClass(Display, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            _axios2.default.post('/boomset', function (req, res) {
-	                console.log(res, 'res in axios get inside schedule.js');
+	            _axios2.default.post('/boomset', { email: this.props.email }).then(function (response) {
+	                console.log(response, 'response at boomset axios req in frontend');
 	            });
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            console.log(this.props.url);
+	            var url = this.props.url;
+	            console.log(this.props.email, 'email');
 	            return _react2.default.createElement(
 	                'div',
 	                { id: 'schedule-list' },
 	                _react2.default.createElement(
 	                    'a',
-	                    { href: this.props.url },
+	                    { href: url },
 	                    ' Click here to manage your schedule '
 	                ),
 	                exampleEvents.map(function (event) {

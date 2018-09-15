@@ -11,17 +11,19 @@ export default class Display extends React.Component {
     }
 
     componentDidMount(){
-        axios.post('/boomset', function(req,res){
-            console.log(res, 'res in axios get inside schedule.js');
-        })
+        axios.post('/boomset', {email: this.props.email})
+            .then((response) =>{
+                console.log(response, 'response at boomset axios req in frontend');
+            })
     }
 
 
     render(){
-    console.log(this.props.url);
+    let url = this.props.url
+    console.log(this.props.email, 'email');
         return (
             <div id='schedule-list'> 
-                 <a href={this.props.url}> Click here to manage your schedule </a>
+                 <a href={url}> Click here to manage your schedule </a>
                 { 
                 exampleEvents.map(event => {
                     return (

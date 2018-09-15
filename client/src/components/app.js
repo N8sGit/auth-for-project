@@ -21,14 +21,13 @@ export default class App extends Component {
     }
   }
 
-  getSource = () =>{
+  getSource = () => {
     const cookieValue = getCook('FOST')
     if(!cookieValue){
       return 
     }
     axios.post('/source', { url: cookieValue})
       .then((response) =>{
-        console.log(response.data, 'source response data');
         this.setState({source: response.data.source})
       })
   }
@@ -40,6 +39,7 @@ export default class App extends Component {
 
     render() {
     let url = this.state.url
+    let source = this.state.source
    if(!url) {
     return (
       <div>
@@ -48,7 +48,7 @@ export default class App extends Component {
       </div>
     )
   } 
-  else  return <Display url={url} /> 
+  else  return <Display url = {url} email = {source.email} /> 
   
   }
 }
