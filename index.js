@@ -39,7 +39,7 @@ app.use(function(req, res, next){
 	next()
 });
 
-app.get('/boomset', function(req, res) {
+app.post('/boomset', function(req, res) {
 	console.log('route hit');
 	axios.get('https://www.boomset.com/apps/api/events/', 
 	{ headers: {Authorization: `Token f3ad371b4798b2368670127033955259ee7dc160`}
@@ -47,9 +47,26 @@ app.get('/boomset', function(req, res) {
 		console.log(response, 'api resposne');
 		res.send({ message: "this is the api call packet", response})
 	})
-	  .catch(err => console.error( error + ' error at boomset api call'))
+	  .catch(err => console.error( err + ' error at boomset api call'))
 });
 
+
+
+app.post('/source', function(req,res){
+	let source; 	
+	
+	function confirmSource(){
+		for(let i = 0; i<data.length; i++){
+			if(data[i].url === req.body.url){
+				source = data[i]
+				return true
+			}
+		}
+		return false 
+	}
+	confirmSource();
+	res.send({source})
+})
 
 
 app.post('/', function(req, res){
@@ -58,7 +75,7 @@ app.post('/', function(req, res){
 	if(!req.body.lastName || !req.body.zip){
 		res.send({errorMessage : notFound})
 	}
-	var source, confirmAttendee, url;
+	let source, url;
 	
 	function confirmAttendee(){
 	for(let i = 0; i<data.length; i++){
@@ -82,7 +99,7 @@ app.post('/', function(req, res){
 
 	if(source && confirmZip(source)){ 
 		res.cookie('FOST', url, { expires: new Date(Date.now() + 1000000000000000000)})
-		res.send({message:"data for the front end", url: url})
+		res.send({message:"data for the front end", url, source})
 		
 	}
 	else res.send({notFound})

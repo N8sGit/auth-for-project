@@ -11,7 +11,7 @@ export default class Display extends React.Component {
     }
 
     componentDidMount(){
-        axios.get('/boomset', function(req,res){
+        axios.post('/boomset', function(req,res){
             console.log(res, 'res in axios get inside schedule.js');
         })
     }

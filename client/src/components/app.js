@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from './header';
 import Display from './schedule'
 import {getCook} from '../utils';
+import axios from 'axios'
 
 
 export default class App extends Component {
@@ -9,6 +10,7 @@ export default class App extends Component {
     super(props)
     this.state = {
       url: '',
+      source: {}
     }
   }
 
@@ -19,7 +21,20 @@ export default class App extends Component {
     }
   }
 
+  getSource = () =>{
+    const cookieValue = getCook('FOST')
+    if(!cookieValue){
+      return 
+    }
+    axios.post('/source', { url: cookieValue})
+      .then((response) =>{
+        console.log(response.data, 'source response data');
+        this.setState({source: response.data.source})
+      })
+  }
+
   componentDidMount () {
+    this.getSource()
     this.checkCookie()
   }
 
