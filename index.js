@@ -41,11 +41,11 @@ app.use(function(req, res, next){
 
 app.post('/boomset', function(req, res) {
 	console.log('route hit');
-	axios.get('https://www.boomset.com/apps/api/events/', 
+	axios.get('https://www.boomset.com/apps/api/events/72056', 
 	{ headers: {Authorization: `Token f3ad371b4798b2368670127033955259ee7dc160`}
 	}).then(function(response){
-		console.log(response, 'api resposne');
-		res.send({ message: "this is the api call packet", response})
+		console.log(response.data, 'api resposne');
+		//res.send({ message: "this is the api call packet", response})
 	})
 	  .catch(err => console.error( err + ' error at boomset api call'))
 });

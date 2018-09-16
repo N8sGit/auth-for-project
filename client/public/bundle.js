@@ -29171,7 +29171,9 @@
 	    _createClass(Display, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            _axios2.default.post('/boomset', { email: this.props.email }).then(function (response) {
+	            console.log('component did mount in schedule.js');
+	            _axios2.default.post('/boomset', { email: this.props.email, url: this.props.url }).then(function (response) {
+	                console.log('route hit in schedule.js');
 	                console.log(response, 'response at boomset axios req in frontend');
 	            });
 	        }
@@ -29179,7 +29181,6 @@
 	        key: 'render',
 	        value: function render() {
 	            var url = this.props.url;
-	            console.log(this.props.email, 'email');
 	            return _react2.default.createElement(
 	                'div',
 	                { id: 'schedule-list' },
