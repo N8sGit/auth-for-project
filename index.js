@@ -6,6 +6,7 @@ const
   bodyParser = require('body-parser'),
   morgan = require('morgan'),
   app = express(),
+  cheerio = require('cheerio'),
   axios = require('axios'),
   boomsetKey = require('./secret'),
   rawData = require('./data')
@@ -41,10 +42,11 @@ app.use(function(req, res, next){
 
 app.post('/boomset', function(req, res) {
 	console.log('route hit');
-	axios.get('https://www.boomset.com/apps/api/events/72056', 
+	axios.get('https://www.boomset.com/restapi/eventsessions/settings/72056/get_sessions', 
 	{ headers: {Authorization: `Token f3ad371b4798b2368670127033955259ee7dc160`}
 	}).then(function(response){
-		console.log(response.data, 'api resposne');
+		console.dir(response, 'api resposne');
+		return response 
 		//res.send({ message: "this is the api call packet", response})
 	})
 	  .catch(err => console.error( err + ' error at boomset api call'))
