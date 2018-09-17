@@ -8,11 +8,14 @@ let exampleEvents = [{ eventName: 'event1', time: '2pm'},{eventName: 'event2', t
 export default class Display extends React.Component {
     constructor(props){
         super(props)
+        this.state = {
+            source: this.props.source
+        }
     }
 
     componentDidMount(){
         console.log('component did mount in schedule.js');
-        axios.post('/boomset', {email: this.props.email, url: this.props.url})
+        axios.post('/boomset', {email: this.props.email, url: this.props.url, source: this.props.source})
             .then((response) => {
                 console.log('route hit in schedule.js');
                 console.log(response, 'response at boomset axios req in frontend');
@@ -22,6 +25,7 @@ export default class Display extends React.Component {
 
     render(){
     let url = this.props.url
+    ;
         return (
             <div id='schedule-list'> 
                  <a href={url}> Click here to manage your schedule </a>

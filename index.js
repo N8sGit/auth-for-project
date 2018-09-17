@@ -11,8 +11,8 @@ const
   boomsetKey = require('./secret'),
   rawData = require('./data')
 
-
 const data = Array.from(rawData)
+
 // App/Middleware Setup
 app.use(morgan('combined')); // Logging debugging
 
@@ -41,12 +41,35 @@ app.use(function(req, res, next){
 });
 
 app.post('/boomset', function(req, res) {
-	console.log('route hit');
+	let attendeeData = req.body
+	console.log(attendeeData.source, 'source on backend?');
 	axios.get('https://www.boomset.com/restapi/eventsessions/settings/72056/get_sessions', 
-	{ headers: {Authorization: `Token f3ad371b4798b2368670127033955259ee7dc160`}
-	}).then(function(response){
-		console.dir(response, 'api resposne');
-		return response 
+	{ headers: {Authorization: `Token ${boomsetKey.key}`}
+	})
+		.then(function(response){
+			arrRes = Array.from(response.data)
+		
+			axios.get(`https://www.boomset.com/restapi/guestlist/72056`, { headers: 
+			 {Authorization: `Token ${boomsetKey.key}`}}
+			)
+			 .then((response) => {
+				console.log(response.data, 'resposne data');
+				let eventAttendees = Array.from(response.data)
+				console.log(eventAttendees, 'event attendees');
+				console.log(eventAttendees[0].sessions, 'user sessions?');
+				console.log(eventAttendees[0].contact, 'user contact?');
+			
+				})
+			  	  .catch(err => console.error(err + ' error inside attendee get'))
+		
+		
+		
+		
+		// console.log(arrRes.length, 'arrRes');
+		// for(let i = 0; i<arrRes.length; i++){
+			
+		// }
+
 		//res.send({ message: "this is the api call packet", response})
 	})
 	  .catch(err => console.error( err + ' error at boomset api call'))

@@ -27381,8 +27381,7 @@
 	      var cookieValue = (0, _utils.getCook)('FOST');
 	      if (!cookieValue) {
 	        return;
-	      }
-	      _axios2.default.post('/source', { url: cookieValue }).then(function (response) {
+	      } else _axios2.default.post('/source', { url: cookieValue }).then(function (response) {
 	        _this.setState({ source: response.data.source });
 	      });
 	    };
@@ -27405,6 +27404,8 @@
 	    value: function render() {
 	      var url = this.state.url;
 	      var source = this.state.source;
+	      console.log(this.state.source);
+	      console.log(this.state.source);
 	      if (!url) {
 	        return _react2.default.createElement(
 	          'div',
@@ -27412,7 +27413,7 @@
 	          _react2.default.createElement(_header2.default, { checkCookie: this.checkCookie }),
 	          this.props.children
 	        );
-	      } else return _react2.default.createElement(_schedule2.default, { url: url, email: source.email });
+	      } else if (source.hasOwnProperty('email')) return _react2.default.createElement(_schedule2.default, { url: url, source: source, email: source.email });
 	    }
 	  }]);
 	
@@ -29165,14 +29166,19 @@
 	    function Display(props) {
 	        _classCallCheck(this, Display);
 	
-	        return _possibleConstructorReturn(this, (Display.__proto__ || Object.getPrototypeOf(Display)).call(this, props));
+	        var _this = _possibleConstructorReturn(this, (Display.__proto__ || Object.getPrototypeOf(Display)).call(this, props));
+	
+	        _this.state = {
+	            source: _this.props.source
+	        };
+	        return _this;
 	    }
 	
 	    _createClass(Display, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
 	            console.log('component did mount in schedule.js');
-	            _axios2.default.post('/boomset', { email: this.props.email, url: this.props.url }).then(function (response) {
+	            _axios2.default.post('/boomset', { email: this.props.email, url: this.props.url, source: this.props.source }).then(function (response) {
 	                console.log('route hit in schedule.js');
 	                console.log(response, 'response at boomset axios req in frontend');
 	            });
