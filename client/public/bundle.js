@@ -29158,7 +29158,6 @@
 	// import {boomsetKey} from '../../../secret'
 	// console.log(boomsetKey, 'key?');
 	
-	var exampleEvents = [{ eventName: 'event1', time: '2pm' }, { eventName: 'event2', time: '5pm' }, { eventName: 'event2', time: '1pm' }];
 	
 	var Display = function (_React$Component) {
 	    _inherits(Display, _React$Component);
@@ -29169,7 +29168,8 @@
 	        var _this = _possibleConstructorReturn(this, (Display.__proto__ || Object.getPrototypeOf(Display)).call(this, props));
 	
 	        _this.state = {
-	            source: _this.props.source
+	            source: _this.props.source,
+	            sessions: []
 	        };
 	        return _this;
 	    }
@@ -29177,16 +29177,19 @@
 	    _createClass(Display, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            console.log('component did mount in schedule.js');
+	            var _this2 = this;
+	
 	            _axios2.default.post('/boomset', { email: this.props.email, url: this.props.url, source: this.props.source }).then(function (response) {
-	                console.log('route hit in schedule.js');
-	                console.log(response, 'response at boomset axios req in frontend');
+	                _this2.setState({ sessions: response.data.result });
 	            });
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
 	            var url = this.props.url;
+	            var sessions = this.state.sessions;
+	            console.log(this.state.sessions);
+	            ;
 	            return _react2.default.createElement(
 	                'div',
 	                { id: 'schedule-list' },
@@ -29195,7 +29198,7 @@
 	                    { href: url },
 	                    ' Click here to manage your schedule '
 	                ),
-	                exampleEvents.map(function (event) {
+	                sessions.map(function (event) {
 	                    return _react2.default.createElement(
 	                        'div',
 	                        null,
@@ -29203,13 +29206,7 @@
 	                            'h2',
 	                            null,
 	                            ' Event: ',
-	                            event.eventName
-	                        ),
-	                        _react2.default.createElement(
-	                            'ol',
-	                            null,
-	                            ' Time: ',
-	                            event.time
+	                            event.name
 	                        )
 	                    );
 	                })

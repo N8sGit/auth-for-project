@@ -41,24 +41,35 @@ app.use(function(req, res, next){
 });
 
 app.post('/boomset', function(req, res) {
-	let attendeeData = req.body
-	console.log(attendeeData.source, 'source on backend?');
+	let attendeeData = req.body.source
+	console.log(attendeeData, 'source on backend?');
 	axios.get('https://www.boomset.com/restapi/eventsessions/settings/72056/get_sessions', 
 	{ headers: {Authorization: `Token ${boomsetKey.key}`}
 	})
 		.then(function(response){
-			arrRes = Array.from(response.data)
-		
+			sessionsArr = Array.from(response.data)
+			
+			//console.log(sessionsArr, 'sesh ar');
 			axios.get(`https://www.boomset.com/restapi/guestlist/72056`, { headers: 
 			 {Authorization: `Token ${boomsetKey.key}`}}
 			)
 			 .then((response) => {
-				console.log(response.data, 'resposne data');
-				let eventAttendees = Array.from(response.data)
-				console.log(eventAttendees, 'event attendees');
-				console.log(eventAttendees[0].sessions, 'user sessions?');
-				console.log(eventAttendees[0].contact, 'user contact?');
+				let eventAttendees = Array.from(response.data.results)
+				let foundAttendee = eventAttendees.find(function(value){
+					return value.contact.email === attendeeData.email
+				})
+				let sessionIds = foundAttendee.sessions.out
+				let result = []
+				for(let i =0; i<sessionsArr.length; i++){
+					if (sessionIds.includes(sessionsArr[i].id.toString())){
+						result.push(sessionsArr[i])
+					} 
+				}
+				return result 
 			
+				})
+				.then(result => {
+					res.send( {result})
 				})
 			  	  .catch(err => console.error(err + ' error inside attendee get'))
 		
