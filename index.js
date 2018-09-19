@@ -6,10 +6,10 @@ const
   bodyParser = require('body-parser'),
   morgan = require('morgan'),
   app = express(),
+  cheerio = require('cheerio'),
   axios = require('axios'),
   boomsetKey = require('./secret'),
   rawData = require('./data')
-
 
 const data = Array.from(rawData)
 
@@ -40,36 +40,92 @@ app.use(function(req, res, next){
 	next()
 });
 
-
-axios.get('https://www.boomset.com/restapi/', {headers: 'Authorization'})
-	.then(function(response){
-		console.log(response);
+app.post('/boomset', function(req, res) {
+	let attendeeData = req.body.source
+	console.log(attendeeData, 'source on backend?');
+	axios.get('https://www.boomset.com/restapi/eventsessions/settings/72056/get_sessions', 
+	{ headers: {Authorization: `Token ${boomsetKey.key}`}
 	})
+		.then(function(response){
+			sessionsArr = Array.from(response.data)
+			
+			//console.log(sessionsArr, 'sesh ar');
+			axios.get(`https://www.boomset.com/restapi/guestlist/72056`, { headers: 
+			 {Authorization: `Token ${boomsetKey.key}`}}
+			)
+			 .then((response) => {
+				let eventAttendees = Array.from(response.data.results)
+				let foundAttendee = eventAttendees.find(function(value){
+					return value.contact.email === attendeeData.email
+				})
+				let sessionIds = foundAttendee.sessions.out
+				let result = []
+				for(let i =0; i<sessionsArr.length; i++){
+					if (sessionIds.includes(sessionsArr[i].id.toString())){
+						result.push(sessionsArr[i])
+					} 
+				}
+				return result 
+			
+				})
+				.then(result => {
+					res.send( {result})
+				})
+			  	  .catch(err => console.error(err + ' error inside attendee get'))
+		
+		
+		
+		
+		// console.log(arrRes.length, 'arrRes');
+		// for(let i = 0; i<arrRes.length; i++){
+			
+		// }
+
+		//res.send({ message: "this is the api call packet", response})
+	})
+	  .catch(err => console.error( err + ' error at boomset api call'))
+});
 
 
+
+app.post('/source', function(req,res){
+	let source; 	
+	
+	function confirmSource(){
+		for(let i = 0; i<data.length; i++){
+			if(data[i].url === req.body.url){
+				source = data[i]
+				return true
+			}
+		}
+		return false 
+	}
+	confirmSource();
+	res.send({source})
+})
 
 
 app.post('/', function(req, res){
 	console.log(req, 'request');
-	let notFound = 'Attendee not found. Please re-enter your information or contact FOST for assistance'
-	if(!req.body.lastname){
-		console.error('No inputs!') 
+	let notFound = 'Attendee not found. Please re-enter your information or contact FOST representatives for assistance'
+	if(!req.body.lastName || !req.body.zip){
+		res.send({errorMessage : notFound})
 	}
-	var source, confirmAttendee, url;
+	let source, url;
 	
 	function confirmAttendee(){
 	for(let i = 0; i<data.length; i++){
-		if(data[i].lastname.toLowerCase() === req.body.lastname){
+		if(data[i].lastName.toLowerCase() === req.body.lastName){
 			source = data[i]
 			url = source.url
-			return
+			return true
 		}
 	}
 	return false 
 }
 	confirmAttendee()
 
-	function confirmDate(source){
+	function confirmZip(source){
 		if(source.zip === req.body.zip){
 			return true
 		}
@@ -77,11 +133,9 @@ app.post('/', function(req, res){
 	}
 	
 
-	if(source && confirmDate(source)){ 
-		console.log('source?');
-		//date will need to be set to be after confernece
+	if(source && confirmZip(source)){ 
 		res.cookie('FOST', url, { expires: new Date(Date.now() + 1000000000000000000)})
-		res.send({message:"data for the front end", url: url})
+		res.send({message:"data for the front end", url, source})
 		
 	}
 	else res.send({notFound})
