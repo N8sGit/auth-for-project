@@ -25,12 +25,16 @@ export default class Display extends React.Component {
     let url = this.props.url
     let sessions = this.state.sessions
     console.log(this.state.sessions);
+    console.log(this.state.sessions[0]);
     ;
         return (
             <div id='schedule-list'> 
                  <a href={url}> Click here to manage your schedule </a>
                 { 
                 sessions.map(event => {
+                    let dates = [event.humanize_dates.starts, event.humanize_dates.ends]
+                    let name = event.name
+                    let location = event.location_info || 'TBD'
                     return (
                         <div>
                         <h2> Event: {event.name}</h2>

@@ -29189,6 +29189,7 @@
 	            var url = this.props.url;
 	            var sessions = this.state.sessions;
 	            console.log(this.state.sessions);
+	            console.log(this.state.sessions[0]);
 	            ;
 	            return _react2.default.createElement(
 	                'div',
@@ -29199,6 +29200,9 @@
 	                    ' Click here to manage your schedule '
 	                ),
 	                sessions.map(function (event) {
+	                    var dates = [event.humanize_dates.starts, event.humanize_dates.ends];
+	                    var name = event.name;
+	                    var location = event.location_info || 'TBD';
 	                    return _react2.default.createElement(
 	                        'div',
 	                        null,
