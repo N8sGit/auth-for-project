@@ -27404,8 +27404,7 @@
 	    value: function render() {
 	      var url = this.state.url;
 	      var source = this.state.source;
-	      console.log(this.state.source);
-	      console.log(this.state.source);
+	
 	      if (!url) {
 	        return _react2.default.createElement(
 	          'div',
@@ -29169,18 +29168,19 @@
 	
 	        _this.state = {
 	            source: _this.props.source,
-	            sessions: []
+	            sessions: [],
+	            tags: []
 	        };
 	        return _this;
 	    }
 	
 	    _createClass(Display, [{
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {
+	        key: 'componentWillMount',
+	        value: function componentWillMount() {
 	            var _this2 = this;
 	
 	            _axios2.default.post('/boomset', { email: this.props.email, url: this.props.url, source: this.props.source }).then(function (response) {
-	                _this2.setState({ sessions: response.data.result });
+	                _this2.setState({ sessions: response.data.result, tags: response.data.tagRefs });
 	            });
 	        }
 	    }, {
@@ -29188,9 +29188,7 @@
 	        value: function render() {
 	            var url = this.props.url;
 	            var sessions = this.state.sessions;
-	            console.log(this.state.sessions);
-	            console.log(this.state.sessions[0]);
-	            ;
+	            var tags = this.state.tags;
 	            return _react2.default.createElement(
 	                'div',
 	                { id: 'schedule-list' },
@@ -29199,18 +29197,46 @@
 	                    { href: url },
 	                    ' Click here to manage your schedule '
 	                ),
-	                sessions.map(function (event) {
+	                sessions.map(function (event, index) {
 	                    var dates = [event.humanize_dates.starts, event.humanize_dates.ends];
 	                    var name = event.name;
 	                    var location = event.location_info || 'TBD';
+	                    if (tags[index].tracks.length < 2) {
+	                        tags[index].tracks[1] = '';
+	                    }
 	                    return _react2.default.createElement(
 	                        'div',
-	                        null,
+	                        { className: 'events' },
 	                        _react2.default.createElement(
-	                            'h2',
+	                            'h3',
 	                            null,
-	                            ' Event: ',
+	                            ' ',
+	                            tags[index] ? tags[index].tracks[0] : '',
+	                            ' : ',
+	                            tags[index].tracks[1] || '',
+	                            ' '
+	                        ),
+	                        _react2.default.createElement(
+	                            'strong',
+	                            null,
+	                            ' ',
 	                            event.name
+	                        ),
+	                        _react2.default.createElement(
+	                            'ul',
+	                            null,
+	                            ' Room # : ',
+	                            location,
+	                            '  '
+	                        ),
+	                        _react2.default.createElement(
+	                            'ul',
+	                            null,
+	                            'Starts: ',
+	                            dates[0],
+	                            ' Ends : ',
+	                            dates[1],
+	                            ' '
 	                        )
 	                    );
 	                })

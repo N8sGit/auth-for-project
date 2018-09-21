@@ -65,11 +65,9 @@ app.post('/boomset', function(req, res) {
 						result.push(sessionsArr[i])
 					} 
 				}
-				console.log(result, 'sessons');
 				tagRefs = result.map( (value, index) => {
 					return { id: result[index].id, tags: result[index].tags, tracks: []}
 				})
-				console.log(tagRefs, 'tagrefs');
 					return result 
 			
 				})
@@ -79,31 +77,25 @@ app.post('/boomset', function(req, res) {
 					)
 					 .then(response =>{
 						 let tags = {...response.data.session_tags}
-						console.log(tags, '????');
 						
-						tagRefs.map((value, index) => {
-							tagRefs[index].tags.map((tag) =>{
-								for(let prop in tags){
-									if(tags[prop].id === tag){
-										tagRefs[index].tracks.push(tags[prop].tag)
+							tagRefs.map((value, index) => {
+								tagRefs[index].tags.map((tag) =>{
+									for(let prop in tags){
+										if(tags[prop].id === tag){
+											tagRefs[index].tracks.push(tags[prop].tag)
+										}
 									}
-								}
+								})
 							})
-						})
-
-						console.log(tagRefs, 'tagrefs completed');
-
-						
-						
-
-					})
-					 .catch(err => console.error(err + ' error at session metadata retrieval'))
-
-						res.send( {result})
-					})
-				
-				})
-			  	  .catch(err => console.error(err + ' error inside attendee get'))
+						return {result, tagRefs}					
+					   })
+						.then(output =>{
+							res.send(output)
+			})
+				.catch(err => console.error(err + ' error at session metadata retrieval'))
+		})
+	})
+	.catch(err => console.error(err + ' error inside attendee get'))
 
 });
 

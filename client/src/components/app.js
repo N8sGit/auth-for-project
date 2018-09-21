@@ -40,8 +40,7 @@ export default class App extends Component {
     render() {
     let url = this.state.url
     let source = this.state.source
-    console.log(this.state.source)
-    console.log(this.state.source);
+   
    if(!url) {
     return (
       <div>
