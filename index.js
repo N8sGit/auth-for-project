@@ -42,48 +42,61 @@ app.use(function(req, res, next){
 
 app.post('/boomset', function(req, res) {
 	let attendeeData = req.body.source
-	console.log(attendeeData, 'source on backend?');
+	let sessionIds, sessionsArr, tagRefs
+	
 	axios.get('https://www.boomset.com/restapi/eventsessions/settings/72056/get_sessions', 
 	{ headers: {Authorization: `Token ${boomsetKey.key}`}
 	})
 		.then(function(response){
 			sessionsArr = Array.from(response.data)
 			
-			//console.log(sessionsArr, 'sesh ar');
 			axios.get(`https://www.boomset.com/restapi/guestlist/72056`, { headers: 
 			 {Authorization: `Token ${boomsetKey.key}`}}
 			)
 			 .then((response) => {
-				let eventAttendees = Array.from(response.data.results)
-				let foundAttendee = eventAttendees.find(function(value){
+				  let eventAttendees = Array.from(response.data.results)
+				  let foundAttendee = eventAttendees.find(function(value){
 					return value.contact.email === attendeeData.email
 				})
-				let sessionIds = foundAttendee.sessions.out
+				 sessionIds = foundAttendee.sessions.out
 				let result = []
 				for(let i =0; i<sessionsArr.length; i++){
 					if (sessionIds.includes(sessionsArr[i].id.toString())){
 						result.push(sessionsArr[i])
 					} 
 				}
-				return result 
+				tagRefs = result.map( (value, index) => {
+					return { id: result[index].id, tags: result[index].tags, tracks: []}
+				})
+					return result 
 			
 				})
-				.then(result => {
-					res.send( {result})
-				})
-			  	  .catch(err => console.error(err + ' error inside attendee get'))
-		
-		
-		
-		
-		// console.log(arrRes.length, 'arrRes');
-		// for(let i = 0; i<arrRes.length; i++){
-			
-		// }
-
-		//res.send({ message: "this is the api call packet", response})
+				  .then(result => {
+					axios.get(`https://www.boomset.com/restapi/events/72056/info`,{ headers: 
+						{Authorization: `Token ${boomsetKey.key}`}} 
+					)
+					 .then(response =>{
+						 let tags = {...response.data.session_tags}
+						
+							tagRefs.map((value, index) => {
+								tagRefs[index].tags.map((tag) =>{
+									for(let prop in tags){
+										if(tags[prop].id === tag){
+											tagRefs[index].tracks.push(tags[prop].tag)
+										}
+									}
+								})
+							})
+						return {result, tagRefs}					
+					   })
+						.then(output =>{
+							res.send(output)
+			})
+				.catch(err => console.error(err + ' error at session metadata retrieval'))
+		})
 	})
-	  .catch(err => console.error( err + ' error at boomset api call'))
+	.catch(err => console.error(err + ' error inside attendee get'))
+
 });
 
 
@@ -106,7 +119,6 @@ app.post('/source', function(req,res){
 
 
 app.post('/', function(req, res){
-	console.log(req, 'request');
 	let notFound = 'Attendee not found. Please re-enter your information or contact FOST representatives for assistance'
 	if(!req.body.lastName || !req.body.zip){
 		res.send({errorMessage : notFound})
