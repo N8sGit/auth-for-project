@@ -27372,17 +27372,17 @@
 	
 	    _this.checkCookie = function () {
 	      var cookieValue = (0, _utils.getCook)('FOST');
+	
 	      if (cookieValue) {
+	        _this.getSource(cookieValue);
 	        _this.setState({ url: cookieValue });
 	      }
 	    };
 	
-	    _this.getSource = function () {
-	      var cookieValue = (0, _utils.getCook)('FOST');
-	      if (!cookieValue) {
-	        return;
-	      } else _axios2.default.post('/source', { url: cookieValue }).then(function (response) {
+	    _this.getSource = function (cookieValue) {
+	      _axios2.default.post('/source', { url: cookieValue }).then(function (response) {
 	        _this.setState({ source: response.data.source });
+	        console.log(_this.state.source);
 	      });
 	    };
 	
@@ -27396,15 +27396,17 @@
 	  _createClass(App, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
+	      console.log(this.state, 'state in didmount');
 	      this.getSource();
 	      this.checkCookie();
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      console.log('render hit');
 	      var url = this.state.url;
 	      var source = this.state.source;
-	
+	      console.log(source, 'source in render');
 	      if (!url) {
 	        return _react2.default.createElement(
 	          'div',
@@ -27412,7 +27414,7 @@
 	          _react2.default.createElement(_header2.default, { checkCookie: this.checkCookie.bind(this) }),
 	          this.props.children
 	        );
-	      } else if (source.hasOwnProperty('email')) return _react2.default.createElement(_schedule2.default, { url: url, source: source, email: source.email });
+	      } else if (source.email && url) return _react2.default.createElement(_schedule2.default, { url: url, source: source, email: source.email });
 	    }
 	  }]);
 	

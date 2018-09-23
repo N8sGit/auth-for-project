@@ -16,31 +16,32 @@ export default class App extends Component {
 
   checkCookie = () => {
     const cookieValue = getCook('FOST');
+   
     if(cookieValue){
+      this.getSource(cookieValue)
       this.setState({url : cookieValue})
     }
   }
 
-  getSource = () => {
-    const cookieValue = getCook('FOST')
-    if(!cookieValue){
-      return 
-    }
-    else axios.post('/source', { url: cookieValue})
+  getSource = (cookieValue) => {
+     axios.post('/source', { url: cookieValue})
       .then((response) =>{
         this.setState({source: response.data.source})
+        console.log(this.state.source);
       })
   }
 
   componentDidMount () {
+    console.log(this.state, 'state in didmount');
     this.getSource()
     this.checkCookie()
   }
 
     render() {
+    console.log('render hit');
     let url = this.state.url
     let source = this.state.source
-   
+   console.log(source, 'source in render');
    if(!url) {
     return (
       <div>
@@ -49,7 +50,7 @@ export default class App extends Component {
       </div>
     )
   } 
-  else if(source.hasOwnProperty('email'))  return <Display url = {url} source = {source} email = {source.email} /> 
+  else if(source.email && url)  return <Display url = {url} source = {source} email = {source.email} /> 
   
   }
 }
