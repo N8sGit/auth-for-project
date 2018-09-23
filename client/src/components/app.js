@@ -44,7 +44,7 @@ export default class App extends Component {
    if(!url) {
     return (
       <div>
-        <Header checkCookie = {this.checkCookie} />
+        <Header checkCookie = {this.checkCookie.bind(this)} />
         {this.props.children}
       </div>
     )

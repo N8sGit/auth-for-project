@@ -27409,7 +27409,7 @@
 	        return _react2.default.createElement(
 	          'div',
 	          null,
-	          _react2.default.createElement(_header2.default, { checkCookie: this.checkCookie }),
+	          _react2.default.createElement(_header2.default, { checkCookie: this.checkCookie.bind(this) }),
 	          this.props.children
 	        );
 	      } else if (source.hasOwnProperty('email')) return _react2.default.createElement(_schedule2.default, { url: url, source: source, email: source.email });
@@ -29189,58 +29189,69 @@
 	            var url = this.props.url;
 	            var sessions = this.state.sessions;
 	            var tags = this.state.tags;
-	            return _react2.default.createElement(
-	                'div',
-	                { id: 'schedule-list' },
-	                _react2.default.createElement(
-	                    'a',
-	                    { href: url },
-	                    ' Click here to manage your schedule '
-	                ),
-	                sessions.map(function (event, index) {
-	                    var dates = [event.humanize_dates.starts, event.humanize_dates.ends];
-	                    var name = event.name;
-	                    var location = event.location_info || 'TBD';
-	                    if (tags[index].tracks.length < 2) {
-	                        tags[index].tracks[1] = '';
-	                    }
-	                    return _react2.default.createElement(
-	                        'div',
-	                        { className: 'events' },
-	                        _react2.default.createElement(
-	                            'h3',
-	                            null,
-	                            ' ',
-	                            tags[index] ? tags[index].tracks[0] : '',
-	                            ' : ',
-	                            tags[index].tracks[1] || '',
-	                            ' '
-	                        ),
-	                        _react2.default.createElement(
-	                            'strong',
-	                            null,
-	                            ' ',
-	                            event.name
-	                        ),
-	                        _react2.default.createElement(
-	                            'ul',
-	                            null,
-	                            ' Room # : ',
-	                            location,
-	                            '  '
-	                        ),
-	                        _react2.default.createElement(
-	                            'ul',
-	                            null,
-	                            'Starts: ',
-	                            dates[0],
-	                            ' Ends : ',
-	                            dates[1],
-	                            ' '
-	                        )
-	                    );
-	                })
-	            );
+	
+	            if (sessions.length) {
+	                return _react2.default.createElement(
+	                    'div',
+	                    { id: 'schedule-list' },
+	                    _react2.default.createElement(
+	                        'a',
+	                        { href: url },
+	                        ' Click here to manage your schedule '
+	                    ),
+	                    sessions.map(function (event, index) {
+	                        var dates = [event.humanize_dates.starts, event.humanize_dates.ends];
+	                        var name = event.name;
+	                        var location = event.location_info || 'TBD';
+	                        if (tags[index].tracks.length < 2) {
+	                            tags[index].tracks[1] = '';
+	                        }
+	                        return _react2.default.createElement(
+	                            'div',
+	                            { className: 'events' },
+	                            _react2.default.createElement(
+	                                'h3',
+	                                null,
+	                                ' ',
+	                                tags[index] ? tags[index].tracks[0] : '',
+	                                ' : ',
+	                                tags[index].tracks[1] || '',
+	                                ' '
+	                            ),
+	                            _react2.default.createElement(
+	                                'strong',
+	                                null,
+	                                ' ',
+	                                event.name
+	                            ),
+	                            _react2.default.createElement(
+	                                'ul',
+	                                null,
+	                                ' Room # : ',
+	                                location
+	                            ),
+	                            _react2.default.createElement(
+	                                'ul',
+	                                null,
+	                                'Starts: ',
+	                                dates[0]
+	                            ),
+	                            _react2.default.createElement(
+	                                'ul',
+	                                null,
+	                                'Ends : ',
+	                                dates[1]
+	                            )
+	                        );
+	                    })
+	                );
+	            } else {
+	                return _react2.default.createElement(
+	                    'div',
+	                    null,
+	                    ' Loading... '
+	                );
+	            }
 	        }
 	    }]);
 	

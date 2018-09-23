@@ -88,14 +88,14 @@ app.post('/boomset', function(req, res) {
 								})
 							})
 						return {result, tagRefs}					
-					   })
-						.then(output =>{
-							res.send(output)
-			})
-				.catch(err => console.error(err + ' error at session metadata retrieval'))
+					})
+					 .then(output =>{
+						res.send(output)
+					})
+			  		  .catch(err => console.error(err + ' error at session metadata retrieval endpoint'))
 		})
 	})
-	.catch(err => console.error(err + ' error inside attendee get'))
+	  .catch(err => console.error(err + ' error inside attendee get'))
 
 });
 
