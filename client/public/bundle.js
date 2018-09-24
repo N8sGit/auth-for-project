@@ -27410,11 +27410,11 @@
 	      if (!url) {
 	        return _react2.default.createElement(
 	          'div',
-	          null,
+	          { id: 'background' },
 	          _react2.default.createElement(_header2.default, { checkCookie: this.checkCookie.bind(this) }),
 	          this.props.children
 	        );
-	      } else if (source.email && url) return _react2.default.createElement(_schedule2.default, { url: url, source: source, email: source.email });
+	      } else if (source.email) return _react2.default.createElement(_schedule2.default, { url: url, source: source, email: source.email });
 	    }
 	  }]);
 	
