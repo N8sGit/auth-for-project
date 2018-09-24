@@ -44,13 +44,13 @@ export default class App extends Component {
    console.log(source, 'source in render');
    if(!url) {
     return (
-      <div>
+      <div id='background'>
         <Header checkCookie = {this.checkCookie.bind(this)} />
         {this.props.children}
       </div>
     )
   } 
-  else if(source.email && url)  return <Display url = {url} source = {source} email = {source.email} /> 
+  else if(source.email)  return <Display url = {url} source = {source} email = {source.email} /> 
   
   }
 }

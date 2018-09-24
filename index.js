@@ -31,7 +31,8 @@ app.get('/bundle.js', function(req, res){
 	
 });
 
-app.get('/style/style.css', function(req,res){
+app.get('/css', function(req,res){
+	console.log('route hit');
 	res.sendFile(path.resolve(__dirname, './client/src/style.css'))
 })
 
