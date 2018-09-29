@@ -27516,6 +27516,7 @@
 	
 	      return _react2.default.createElement(
 	        'div',
+	        { className: 'main-form' },
 	        null,
 	        _react2.default.createElement(
 	          'form',
@@ -27537,7 +27538,7 @@
 	            { id: 'input-button', type: 'button', onClick: function onClick() {
 	                _this2.handleSubmit();
 	              } },
-	            ' Confirm '
+	            ' Go To Portal '
 	          )
 	        ),
 	        this.state.submitErr ? _react2.default.createElement(
@@ -27564,7 +27565,7 @@
 	          _react2.default.createElement(
 	            'h1',
 	            { to: '/', className: 'navbar-brand' },
-	            'Fost Scheduling Portal'
+	            'Session Selection Portal'
 	          ),
 	          _react2.default.createElement(
 	            'ul',
@@ -27575,20 +27576,18 @@
 	        _react2.default.createElement(
 	          'div',
 	          null,
+	          
 	          _react2.default.createElement(
-	            'h1',
-	            null,
-	            ' One-time Schedule Verification '
-	          ),
-	          _react2.default.createElement(
+	            'br',
 	            'p',
 	            null,
-	            ' To obtain your schedule please enter your last name and date of birth '
+	            ' To obtain your schedule, please authorize your device by entering your last name and zip code. '
 	          ),
 	          _react2.default.createElement(
+	            'br',
 	            'p',
 	            null,
-	            ' You will then be redirected to your schedule '
+	            ' Please note you will only have to enter this once.'
 	          )
 	        )
 	      );
