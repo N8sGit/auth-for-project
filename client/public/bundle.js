@@ -27488,8 +27488,7 @@
 	        lastName: _this.state.lastName.toLowerCase().trim() }).then(function (response) {
 	        if (response.data.url) {
 	          _this.setState({ url: response.data.url });
-	          window.location.href = cookieValue;
-	          //  this.props.checkCookie()
+	          _this.props.checkCookie();
 	        } else {
 	          _this.setState({ notFound: true });
 	        }

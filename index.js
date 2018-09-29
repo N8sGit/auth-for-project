@@ -44,20 +44,18 @@ app.use(function(req, res, next){
 app.post('/boomset', function(req, res) {
 	let attendeeData = req.body.source
 	let sessionIds, sessionsArr, tagRefs
-	
 	axios.get('https://www.boomset.com/restapi/eventsessions/settings/72056/get_sessions', 
 	{ headers: {Authorization: `Token ${boomsetKey.key}`}
 	})
 		.then(function(response){
 			sessionsArr = Array.from(response.data)
-			
 			axios.get(`https://www.boomset.com/restapi/guestlist/72056`, { headers: 
 			 {Authorization: `Token ${boomsetKey.key}`}}
 			)
 			 .then((response) => {
 				  let eventAttendees = Array.from(response.data.results)
 				  let foundAttendee = eventAttendees.find(function(value){
-					return value.contact.email === attendeeData.email
+					return value.contact.email === attendeeData.email && value.contact.last_name === attendeeData.lastName
 				})
 				 sessionIds = foundAttendee.sessions.out
 				let result = []
@@ -78,7 +76,6 @@ app.post('/boomset', function(req, res) {
 					)
 					 .then(response =>{
 						 let tags = {...response.data.session_tags}
-						
 							tagRefs.map((value, index) => {
 								tagRefs[index].tags.map((tag) =>{
 									for(let prop in tags){
@@ -125,7 +122,6 @@ app.post('/', function(req, res){
 		res.send({errorMessage : notFound})
 	}
 	let source, url;
-	
 	function confirmAttendee(){
 	for(let i = 0; i<data.length; i++){
 		if(data[i].lastName.toLowerCase() === req.body.lastName){
@@ -139,6 +135,8 @@ app.post('/', function(req, res){
 	confirmAttendee()
 
 	function confirmZip(source){
+		console.log(source);
+		console.log(source.zip, 'zip!!! !!!!')
 		if(source.zip === req.body.zip){
 			return true
 		}
