@@ -27376,13 +27376,16 @@
 	      if (cookieValue) {
 	        _this.getSource(cookieValue);
 	        _this.setState({ url: cookieValue });
+	        console.log(_this.state, 'state in check cookie');
 	      }
 	    };
 	
 	    _this.getSource = function (cookieValue) {
 	      _axios2.default.post('/source', { url: cookieValue }).then(function (response) {
-	        _this.setState({ source: response.data.source });
-	        console.log(_this.state.source);
+	        var state = _this.state;
+	        state.source = response.data.source;
+	        _this.setState({ state: state });
+	        console.log(_this.state.source, 'source in getsource');
 	      });
 	    };
 	
@@ -27394,11 +27397,24 @@
 	  }
 	
 	  _createClass(App, [{
+	    key: 'componentWillUpdate',
+	
+	
+	    // componentWillMount(){
+	    //   let cookieValue = getCook('FOST')
+	    //   this.getSource()
+	    // }
+	
+	    value: function componentWillUpdate(nextProps, nextState) {
+	      console.log(nextState, 'next State');
+	    }
+	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      console.log(this.state, 'state in didmount');
-	      this.getSource();
+	      console.log(this.state.source, 'source in didMount');
 	      this.checkCookie();
+	      console.log(this.state, 'state in didmount');
 	    }
 	  }, {
 	    key: 'render',
@@ -27407,14 +27423,16 @@
 	      var url = this.state.url;
 	      var source = this.state.source;
 	      console.log(source, 'source in render');
-	      if (!url) {
+	      if (url && source.email) {
+	        return _react2.default.createElement(_schedule2.default, { url: url, source: source });
+	      } else {
 	        return _react2.default.createElement(
 	          'div',
 	          { id: 'background' },
 	          _react2.default.createElement(_header2.default, { checkCookie: this.checkCookie.bind(this) }),
 	          this.props.children
 	        );
-	      } else if (source.email) return _react2.default.createElement(_schedule2.default, { url: url, source: source, email: source.email });
+	      }
 	    }
 	  }]);
 	
@@ -27488,8 +27506,7 @@
 	        lastName: _this.state.lastName.toLowerCase().trim() }).then(function (response) {
 	        if (response.data.url) {
 	          _this.setState({ url: response.data.url });
-	          window.location.href = cookieValue;
-	          //  this.props.checkCookie()
+	          _this.props.checkCookie();
 	        } else {
 	          _this.setState({ notFound: true });
 	        }
@@ -27516,7 +27533,6 @@
 	
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'main-form' },
 	        null,
 	        _react2.default.createElement(
 	          'form',
@@ -27538,7 +27554,7 @@
 	            { id: 'input-button', type: 'button', onClick: function onClick() {
 	                _this2.handleSubmit();
 	              } },
-	            ' Go To Portal '
+	            ' Confirm '
 	          )
 	        ),
 	        this.state.submitErr ? _react2.default.createElement(
@@ -27565,7 +27581,7 @@
 	          _react2.default.createElement(
 	            'h1',
 	            { to: '/', className: 'navbar-brand' },
-	            'Session Selection Portal'
+	            'Fost Scheduling Portal'
 	          ),
 	          _react2.default.createElement(
 	            'ul',
@@ -27576,18 +27592,20 @@
 	        _react2.default.createElement(
 	          'div',
 	          null,
-	          
 	          _react2.default.createElement(
-	            'br',
-	            'p',
+	            'h1',
 	            null,
-	            ' To obtain your schedule, please authorize your device by entering your last name and zip code. '
+	            ' One-time Schedule Verification '
 	          ),
 	          _react2.default.createElement(
-	            'br',
 	            'p',
 	            null,
-	            ' Please note you will only have to enter this once.'
+	            ' To obtain your schedule please enter your last name and date of birth '
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            ' You will then be redirected to your schedule '
 	          )
 	        )
 	      );

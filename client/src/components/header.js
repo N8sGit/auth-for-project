@@ -41,8 +41,7 @@ handleSubmit = () => {
     .then( (response) => {
       if(response.data.url){
         this.setState({url: response.data.url})
-        window.location.href= cookieValue
-      //  this.props.checkCookie()
+       this.props.checkCookie()
       }
       else {
         this.setState({notFound : true})

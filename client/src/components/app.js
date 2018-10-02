@@ -15,26 +15,39 @@ export default class App extends Component {
   }
 
   checkCookie = () => {
-    const cookieValue = getCook('FOST');
+    let cookieValue = getCook('FOST');
    
     if(cookieValue){
       this.getSource(cookieValue)
       this.setState({url : cookieValue})
+      console.log(this.state, 'state in check cookie')
     }
   }
 
   getSource = (cookieValue) => {
-     axios.post('/source', { url: cookieValue})
-      .then((response) =>{
-        this.setState({source: response.data.source})
-        console.log(this.state.source);
-      })
+    axios.post('/source', { url: cookieValue})
+    .then((response) =>{
+      let state = this.state
+      state.source = response.data.source
+      this.setState({state})
+      console.log(this.state.source, 'source in getsource');
+    })
+  }
+
+  // componentWillMount(){
+  //   let cookieValue = getCook('FOST')
+  //   this.getSource()
+  // }
+
+  componentWillUpdate(nextProps,nextState){
+    console.log(nextState, 'next State');
   }
 
   componentDidMount () {
     console.log(this.state, 'state in didmount');
-    this.getSource()
+    console.log(this.state.source, 'source in didMount');
     this.checkCookie()
+    console.log(this.state, 'state in didmount');
   }
 
     render() {
@@ -42,15 +55,19 @@ export default class App extends Component {
     let url = this.state.url
     let source = this.state.source
    console.log(source, 'source in render');
-   if(!url) {
+   if(url && source.email) {
     return (
-      <div id='background'>
-        <Header checkCookie = {this.checkCookie.bind(this)} />
-        {this.props.children}
-      </div>
+       <Display url = {url} source = {source} /> 
     )
   } 
-  else if(source.email)  return <Display url = {url} source = {source} email = {source.email} /> 
-  
+    else {
+      return (
+      <div id='background'>
+      <Header checkCookie = {this.checkCookie.bind(this)} />
+      {this.props.children}
+      </div> 
+      )
+    }
   }
 }
+ 
