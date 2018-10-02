@@ -29200,6 +29200,7 @@
 	            var _this2 = this;
 	
 	            _axios2.default.post('/boomset', { email: this.props.email, url: this.props.url, source: this.props.source }).then(function (response) {
+	                console.log(response.data.result, 'response result in schedule boomset req');
 	                _this2.setState({ sessions: response.data.result, tags: response.data.tagRefs });
 	            });
 	        }
@@ -29211,68 +29212,43 @@
 	            console.log(sessions, 'sessions');
 	            var tags = this.state.tags;
 	
-	            if (sessions.length > 0) {
-	                return _react2.default.createElement(
-	                    'div',
-	                    { id: 'schedule-list' },
-	                    _react2.default.createElement(
-	                        'a',
-	                        { href: url },
-	                        ' Click here to manage your schedule '
-	                    ),
-	                    sessions.map(function (event, index) {
-	                        var dates = [event.humanize_dates.starts, event.humanize_dates.ends];
-	                        var name = event.name;
-	                        var location = event.location_info || 'TBD';
-	                        if (tags[index].tracks.length < 2) {
-	                            tags[index].tracks[1] = '';
-	                        }
-	                        return _react2.default.createElement(
-	                            'div',
-	                            { className: 'events' },
-	                            _react2.default.createElement(
-	                                'h3',
-	                                null,
-	                                ' ',
-	                                tags[index] ? tags[index].tracks[0] : '',
-	                                ' : ',
-	                                tags[index].tracks[1] || '',
-	                                ' '
-	                            ),
-	                            _react2.default.createElement(
-	                                'strong',
-	                                null,
-	                                ' ',
-	                                event.name
-	                            ),
-	                            _react2.default.createElement(
-	                                'ul',
-	                                null,
-	                                ' Room # : ',
-	                                location
-	                            ),
-	                            _react2.default.createElement(
-	                                'ul',
-	                                null,
-	                                'Starts: ',
-	                                dates[0]
-	                            ),
-	                            _react2.default.createElement(
-	                                'ul',
-	                                null,
-	                                'Ends : ',
-	                                dates[1]
-	                            )
-	                        );
-	                    })
-	                );
-	            } else {
-	                return _react2.default.createElement(
-	                    'div',
-	                    null,
-	                    ' One moment please... '
-	                );
-	            }
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                ' I\'m trying to figure this out! '
+	            );
+	
+	            //     if(!sessions.length){
+	            //          return <div> One moment please... </div>
+	
+	            //     } else {
+	            //         return (
+	            //             <div id='schedule-list'> 
+	            //                 <a href={url}> Click here to manage your schedule </a>
+	            //             { 
+	            //                 sessions.map((event, index) => {
+	            //                         let dates = [event.humanize_dates.starts, event.humanize_dates.ends]
+	            //                         let name = event.name
+	            //                         let location = event.location_info || 'TBD'
+	            //                     if(tags[index].tracks.length<2){
+	            //                         tags[index].tracks[1] = ''
+	            //                     }
+	            //                     return (
+	            //                         <div className ="events">
+	            //                             <h3> {tags[index] ? tags[index].tracks[0] : '' } : {tags[index].tracks[1] || ''} </h3>
+	            //                             <strong> {event.name}</strong>
+	            //                             <ul> Room # : {location}</ul>
+	            //                             <ul>Starts: {dates[0]}</ul>
+	            //                             <ul>Ends : {dates[1]}</ul>
+	
+	            //                         </div>
+	            //                     )
+	            //                 })
+	            //             }
+	            //             </div>
+	            //         )
+	            //     }
+	            //   }
 	        }
 	    }]);
 	

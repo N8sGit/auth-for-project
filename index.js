@@ -21,10 +21,24 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static('./public'));
 app.use(cookieParser())
 
-let sessionsArr, boomRes, sessionIds, eventAttendees, tagRefs = [];
-let foundatendee = ''
+let attendeeData = ''
+let sessionIds, sessionsArr, tagRefs, boomRes, eventAttendees = []
 
 
+axios.get('https://www.boomset.com/restapi/eventsessions/settings/72056/get_sessions', 
+	{ headers: {Authorization: `Token ${boomsetKey.key}`}
+	})
+		.then(function(response){
+			sessionsArr = Array.from(response.data)
+			
+			axios.get(`https://www.boomset.com/restapi/guestlist/72056`, { headers: 
+			 {Authorization: `Token ${boomsetKey.key}`}}
+			)
+			 .then((response) => {
+				   eventAttendees = Array.from(response.data.results)
+			 })
+	}
+)
 
 
 
@@ -49,81 +63,32 @@ app.use(function(req, res, next){
 	next()
 });
 
-
-
-
-axios.get(`https://www.boomset.com/restapi/guestlist/72056`, { headers: 
-			 {Authorization: `Token ${boomsetKey.key}`}}
-			)
-			 .then((response) => {
-				 foundatendee = foundatendee
-				   eventAttendees = Array.from(response.data.results);
-				console.log(eventAttendees.length, 'event attendee length');
-				foundAttendee = eventAttendees.find(function(value){
-					return value.contact.email === attendeeData.email
-				})
-				console.log(foundAttendee, 'foundatendee');
-				if(foundatendee === ''){
-					res.send({message: 'There was a problem finding this attendee. Please contact FOST.'})
-				}
-				else  sessionIds = foundAttendee.sessions.out
-				console.log(sessionIds, 'sessionIds in the initiale lookup');
-})
-
-console.log(sessionsArr, boomRes, sessionIds, eventAttendees, tagRefs, foundatendee , 'ALL INITIAL');
 app.post('/boomset', function(req, res) {
-	let attendeeData = req.body.source
-	console.log(req.body.source);
-	axios.get('https://www.boomset.com/restapi/eventsessions/settings/72056/get_sessions', 
-	{ headers: {Authorization: `Token ${boomsetKey.key}`}
-	})
-		.then(function(response){
-			sessionsArr = Array.from(response.data)
-			console.log(sessionsArr.length, 'if sessionsArr.length greater than 0 it has data')})
-		.then(function(response){
-			axios.get(`https://www.boomset.com/restapi/events/72056/info`,{ headers: 
-						{Authorization: `Token ${boomsetKey.key}`}} 
-					)
-					 .then(response =>{
-						console.log(sessionIds, 'sessionIds');
-						console.log(response);
-						for(let i =0; i<sessionsArr.length; i++){
-							if (sessionIds.includes(sessionsArr[i].id.toString())){
-								console.log(sessionsArr[i].id);
-								boomRes.push(sessionsArr[i])
-							} 
-						}
-						console.log(boomRes, 'boomRes after session array iterated to find the corresponding info');
+	 attendeeData = req.body.source
+	
+	axios.get(`https://www.boomset.com/restapi/events/72056/info`,{ headers: 
+		{Authorization: `Token ${boomsetKey.key}`}} 
+		)
+		.then(response =>{
+		let tags = {...response.data.session_tags}
 						
-						tagRefs = boomRes.map( (value, index) => {
-							return { id: boomRes[index].id, tags: boomRes[index].tags, tracks: []}
-						})
-						console.log(tagRefs, 'tagRefs');
-
-						let tags = {...response.data.session_tags}
-						
-						console.log(tags, 'tags ');
-							tagRefs.map((value, index) => {
-								tagRefs[index].tags.map((tag) =>{
-									for(let prop in tags){
-										if(tags[prop].id === tag){
-											tagRefs[index].tracks.push(tags[prop].tag)
-										}
-									}
-								})
-							})
-							return boomRes;
-						})
-						console.log('before second then ');
-						return {boomRes, tagRefs}					
+		tagRefs.map((value, index) => {
+			tagRefs[index].tags.map((tag) =>{
+				for(let prop in tags){
+					if(tags[prop].id === tag){
+						tagRefs[index].tracks.push(tags[prop].tag)
+					}
+				}
+			})
+		})
+						return {result, tagRefs}					
 					})
 					 .then(output =>{
-						 console.log(output, 'api request output');
 						res.send(output)
 					})
 			  		  .catch(err => console.error(err + ' error at session metadata retrieval endpoint'))
-		})
-
+		
+	})
 
 
 
