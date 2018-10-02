@@ -29208,9 +29208,10 @@
 	        value: function render() {
 	            var url = this.props.url;
 	            var sessions = this.state.sessions;
+	            console.log(sessions, 'sessions');
 	            var tags = this.state.tags;
 	
-	            if (sessions.length) {
+	            if (sessions.length > 0) {
 	                return _react2.default.createElement(
 	                    'div',
 	                    { id: 'schedule-list' },
@@ -29269,7 +29270,7 @@
 	                return _react2.default.createElement(
 	                    'div',
 	                    null,
-	                    ' Loading... '
+	                    ' One moment please... '
 	                );
 	            }
 	        }

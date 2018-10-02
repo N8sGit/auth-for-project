@@ -25,9 +25,10 @@ export default class Display extends React.Component {
    render(){
     let url = this.props.url
     let sessions = this.state.sessions
+    console.log(sessions, 'sessions');
     let tags = this.state.tags
   
-    if(sessions.length){
+    if(sessions.length>0){
             return (
                 <div id='schedule-list'> 
                     <a href={url}> Click here to manage your schedule </a>
@@ -53,7 +54,7 @@ export default class Display extends React.Component {
                 }
                 </div>
             )
-    } else { return <div> Loading... </div>}
+    } else { return <div> One moment please... </div>}
   }
 
 }
