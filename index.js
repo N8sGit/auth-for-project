@@ -21,12 +21,15 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static('./public'));
 app.use(cookieParser())
 
-let attendeeData = ''
-let sessionIds, sessionsArr, tagRefs, boomRes, eventAttendees = []
+var attendeeData = '';
+var sessionIds, sessionsArr, eventAttendees = []
 
 
 axios.get('https://www.boomset.com/restapi/eventsessions/settings/72056/get_sessions', 
-	{ headers: {Authorization: `Token ${boomsetKey.key}`}
+	{ headers: {Authorization: `Token ${boomsetKey.key}`}, function(req, res){
+		sessionsArr = sessionsArr 
+		eventAttendees = eventAttendees
+	}
 	})
 		.then(function(response){
 			sessionsArr = Array.from(response.data)
@@ -41,7 +44,7 @@ axios.get('https://www.boomset.com/restapi/eventsessions/settings/72056/get_sess
 )
 
 
-
+console.log(sessionsArr, eventAttendees, '???');
 
 app.get('/', function(req, res) {
 	res.sendFile(path.resolve(__dirname, './client/public/index.html'));
@@ -65,13 +68,32 @@ app.use(function(req, res, next){
 
 app.post('/boomset', function(req, res) {
 	 attendeeData = req.body.source
+	 console.log(attendeeData, 'attendee data');
 	
 	axios.get(`https://www.boomset.com/restapi/events/72056/info`,{ headers: 
 		{Authorization: `Token ${boomsetKey.key}`}} 
 		)
 		.then(response =>{
+
+			let foundAttendee = eventAttendees.find(function(value){
+				return value.contact.email === attendeeData.email
+			})
+			 sessionIds = foundAttendee.sessions.out
+			let result = []
+			for(let i =0; i<sessionsArr.length; i++){
+				if (sessionIds.includes(sessionsArr[i].id.toString())){
+					result.push(sessionsArr[i])
+				} 
+			}
+			console.log(foundAttendee, 'foundattendee');
+
+
 		let tags = {...response.data.session_tags}
-						
+		
+		let tagRefs = result.map( (value, index) => {
+			return { id: result[index].id, tags: result[index].tags, tracks: []}
+		})
+
 		tagRefs.map((value, index) => {
 			tagRefs[index].tags.map((tag) =>{
 				for(let prop in tags){
@@ -84,6 +106,7 @@ app.post('/boomset', function(req, res) {
 						return {result, tagRefs}					
 					})
 					 .then(output =>{
+						 console.log(output, 'boomset output');
 						res.send(output)
 					})
 			  		  .catch(err => console.error(err + ' error at session metadata retrieval endpoint'))
