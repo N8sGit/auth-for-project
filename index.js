@@ -44,10 +44,14 @@ function getGuests(){
 					eventAttendees = Array.from(response.data.results)
 				})
 			})
+				.catch(err => console.err(err + ' error at getGuests'))
 }
 
 getGuests();
 setInterval(getGuests, 60000);
+
+console.log(eventAttendees, sessionsArr, 'event attendess and sessionarr');
+
 
 app.get('/', function(req, res) {
 	res.sendFile(path.resolve(__dirname, './client/public/index.html'));
@@ -60,7 +64,6 @@ app.get('/bundle.js', function(req, res){
 });
 
 app.get('/css', function(req,res){
-	console.log('route hit');
 	res.sendFile(path.resolve(__dirname, './client/src/style.css'))
 })
 
@@ -88,7 +91,6 @@ app.post('/boomset', function(req, res) {
 					result.push(sessionsArr[i])
 				} 
 			}
-			console.log(foundAttendee, 'foundattendee');
 
 
 		let tags = {...response.data.session_tags}
@@ -109,7 +111,7 @@ app.post('/boomset', function(req, res) {
 						return {result, tagRefs}					
 					})
 					 .then(output =>{
-						 console.log(output, 'boomset output');
+						 console.log('here');
 						res.send(output)
 					})
 			  		  .catch(err => console.error(err + ' error at session metadata retrieval endpoint'))
