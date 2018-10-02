@@ -25,26 +25,29 @@ var attendeeData = '';
 var sessionIds, sessionsArr, eventAttendees = []
 
 
-axios.get('https://www.boomset.com/restapi/eventsessions/settings/72056/get_sessions', 
+
+
+function getGuests(){
+	axios.get('https://www.boomset.com/restapi/eventsessions/settings/72056/get_sessions', 
 	{ headers: {Authorization: `Token ${boomsetKey.key}`}, function(req, res){
-		sessionsArr = sessionsArr 
-		eventAttendees = eventAttendees
-	}
+			sessionsArr = sessionsArr 
+			eventAttendees = eventAttendees
+		}
 	})
-		.then(function(response){
-			sessionsArr = Array.from(response.data)
-			
-			axios.get(`https://www.boomset.com/restapi/guestlist/72056`, { headers: 
-			 {Authorization: `Token ${boomsetKey.key}`}}
-			)
-			 .then((response) => {
-				   eventAttendees = Array.from(response.data.results)
-			 })
-	}
-)
+	  .then(function(response){
+				sessionsArr = Array.from(response.data)
+				
+				axios.get(`https://www.boomset.com/restapi/guestlist/72056`, { headers: 
+				{Authorization: `Token ${boomsetKey.key}`}}
+				)
+				.then((response) => {
+					eventAttendees = Array.from(response.data.results)
+				})
+			})
+}
 
-
-console.log(sessionsArr, eventAttendees, '???');
+getGuests();
+setInterval(getGuests, 60000);
 
 app.get('/', function(req, res) {
 	res.sendFile(path.resolve(__dirname, './client/public/index.html'));
