@@ -26,6 +26,7 @@ var sessionIds, sessionsArr, eventAttendees = []
 
 
 
+var startTime = Date.now()
 
 function getGuests(){
 	axios.get('https://www.boomset.com/restapi/eventsessions/settings/72056/get_sessions', 
@@ -33,6 +34,7 @@ function getGuests(){
 			sessionsArr = sessionsArr 
 			eventAttendees = eventAttendees
 		}
+	
 	})
 	  .then(function(response){
 				sessionsArr = Array.from(response.data)
@@ -42,6 +44,7 @@ function getGuests(){
 				)
 				.then((response) => {
 					eventAttendees = Array.from(response.data.results)
+					console.log(Date.now() - startTime, 'time change in initial request output');
 				})
 			})
 				.catch(err => console.err(err + ' error at getGuests'))
@@ -50,7 +53,6 @@ function getGuests(){
 getGuests();
 setInterval(getGuests, 60000);
 
-console.log(eventAttendees, sessionsArr, 'event attendess and sessionarr');
 
 
 app.get('/', function(req, res) {
@@ -73,13 +75,16 @@ app.use(function(req, res, next){
 });
 
 app.post('/boomset', function(req, res) {
+	console.log(Date.now() - startTime, 'time change entering the boomset route');
+
 	 attendeeData = req.body.source
-	 console.log(attendeeData, 'attendee data');
+
 	
 	axios.get(`https://www.boomset.com/restapi/events/72056/info`,{ headers: 
 		{Authorization: `Token ${boomsetKey.key}`}} 
 		)
 		.then(response =>{
+			console.log(Date.now() - startTime, 'time change before found attendee is retrieved');
 
 			let foundAttendee = eventAttendees.find(function(value){
 				return value.contact.email === attendeeData.email
@@ -91,6 +96,7 @@ app.post('/boomset', function(req, res) {
 					result.push(sessionsArr[i])
 				} 
 			}
+			console.log(Date.now() - startTime, 'time change before refs are made');
 
 
 		let tags = {...response.data.session_tags}
@@ -108,9 +114,14 @@ app.post('/boomset', function(req, res) {
 				}
 			})
 		})
+
+		console.log(Date.now() - startTime, 'time change after refs made');
+
 						return {result, tagRefs}					
 					})
 					 .then(output =>{
+						console.log(Date.now() - startTime, 'time change at output');
+
 						 console.log('here');
 						res.send(output)
 					})
