@@ -123,9 +123,7 @@ app.post('/boomset', function(req, res) {
 	var startTime = Date.now()
 	let attendeeData = req.body.source
 	let output = memoize(attendeeData)
-	//does this need {} around it? What is the front end recieving?
-	res.send({output})
-
+	res.send(output)
 })
 
 
