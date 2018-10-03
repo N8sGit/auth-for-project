@@ -23,8 +23,7 @@ app.use(cookieParser())
 
 var attendeeData = '';
 var sessionIds, sessionsArr, eventAttendees = []
-var eventResponse = {}
-var attendHash = {}
+var eventResponse, attendHash, eventInfo, output  = {}
 
 
 
@@ -34,6 +33,7 @@ function getGuests(){
 			sessionsArr = sessionsArr 
 			eventAttendees = eventAttendees
 			eventResponse = eventResponse
+			eventInfo = eventInfo
 		}
 	
 	})
@@ -49,7 +49,45 @@ function getGuests(){
 					console.log(Date.now() - startTime, 'time change in initial request output');
 				})
 			})
-				.catch(err => console.err(err + ' error at getGuests'))
+			  .then(function(response){
+					axios.get(`https://www.boomset.com/restapi/events/72056/info`,{ headers: 
+				{Authorization: `Token ${boomsetKey.key}`}} 
+				)
+				 .then(response =>{
+
+					let foundAttendee = eventAttendees.find(function(value){
+						return value.contact.email === attendeeData.email
+					})
+					
+					sessionIds = foundAttendee.sessions.out
+					
+					let result = []
+
+					for(let i =0; i<sessionsArr.length; i++){
+						if (sessionIds.includes(sessionsArr[i].id.toString())){
+							result.push(sessionsArr[i])
+						} 
+					}
+					let tags = {...response.data.session_tags}
+					eventInfo = response.data
+					
+					let tagRefs = result.map( (value, index) => {
+						return { id: result[index].id, tags: result[index].tags, tracks: []}
+					})
+
+					tagRefs.map((value, index) => {
+						tagRefs[index].tags.map((tag) =>{
+							for(let prop in tags){
+								if(tags[prop].id === tag){
+									tagRefs[index].tracks.push(tags[prop].tag)
+								}
+							}
+						})
+			})
+				output = {result, tagRefs}					
+		})
+	})
+		.catch(err => console.err(err + ' error at getGuests'))
 }
 
 getGuests();
@@ -115,55 +153,9 @@ app.use(function(req, res, next){
 app.post('/boomset', function(req, res) {
 	var startTime = Date.now()
 	 attendeeData = req.body.source
+	let output = memoize(eventAttendees, eventResponse)
+	res.send({output})
 
-if(attendHash[attendeeData.email]){
- 	let output = memoize()
- 	res.send(output)
-
-}
-else
-	{	
-		axios.get(`https://www.boomset.com/restapi/events/72056/info`,{ headers: 
-			{Authorization: `Token ${boomsetKey.key}`}} 
-			)
-			.then(response =>{
-
-				let foundAttendee = eventAttendees.find(function(value){
-					return value.contact.email === attendeeData.email
-				})
-				sessionIds = foundAttendee.sessions.out
-				let result = []
-
-				for(let i =0; i<sessionsArr.length; i++){
-					if (sessionIds.includes(sessionsArr[i].id.toString())){
-						result.push(sessionsArr[i])
-					} 
-				}
-			let tags = {...response.data.session_tags}
-			hashContent = response.data
-			
-			let tagRefs = result.map( (value, index) => {
-				return { id: result[index].id, tags: result[index].tags, tracks: []}
-			})
-
-			tagRefs.map((value, index) => {
-				tagRefs[index].tags.map((tag) =>{
-					for(let prop in tags){
-						if(tags[prop].id === tag){
-							tagRefs[index].tracks.push(tags[prop].tag)
-						}
-					}
-				})
-			})
-				return {result, tagRefs}					
-		})
-		 .then(output =>{
-			console.log(Date.now() - startTime, 'time change at output');
-			console.log('here');
-				res.send(output)
-			})
-			.catch(err => console.error(err + ' error at session metadata retrieval endpoint'))
-	}
 })
 
 
