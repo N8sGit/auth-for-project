@@ -73,9 +73,10 @@ app.use(function(req, res, next){
 	next()
 });
 
-var startTime = Date.now()
 
 app.post('/boomset', function(req, res) {
+	var startTime = Date.now()
+
 	console.log(Date.now() - startTime, 'time change entering the boomset route');
 
 	 attendeeData = req.body.source
