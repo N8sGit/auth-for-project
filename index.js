@@ -26,7 +26,6 @@ var sessionIds, sessionsArr, eventAttendees = []
 
 
 
-var startTime = Date.now()
 
 function getGuests(){
 	axios.get('https://www.boomset.com/restapi/eventsessions/settings/72056/get_sessions', 
@@ -73,6 +72,8 @@ app.use(function(req, res, next){
 	console.dir(req.path, '\n all paths')
 	next()
 });
+
+var startTime = Date.now()
 
 app.post('/boomset', function(req, res) {
 	console.log(Date.now() - startTime, 'time change entering the boomset route');
