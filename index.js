@@ -51,7 +51,6 @@ function getGuests(){
 getGuests();
 setInterval(getGuests, 60000);
 
-console.log(eventAttendees, 'hello????????');
 function memoize(attendeeData){
 	  let foundAttendee = eventAttendees.find(function(value){
 		  return value.contact.first_name.toLowerCase().trim() === attendeeData.firstName.toLowerCase() && value.contact.last_name.toLowerCase().trim() === attendeeData.lastName.toLowerCase()
@@ -88,7 +87,6 @@ function memoize(attendeeData){
 			  }
 		  })
 	  })
-	  console.log(result, tagRefs, 'data in memozize');
 	  return {result, tagRefs}
 
 }
