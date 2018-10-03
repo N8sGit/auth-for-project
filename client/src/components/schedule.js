@@ -9,7 +9,8 @@ export default class Display extends React.Component {
         this.state = {
             source: this.props.source,
             sessions: [],
-            tags : []
+            tags : [],
+            errorMessage : ''
         }
     }
 
@@ -17,8 +18,9 @@ export default class Display extends React.Component {
         console.log(this.props.source, 'source data on frontend');
         axios.post('/boomset', {email: this.props.email, url: this.props.url, source: this.props.source})
             .then((response) => {
-                console.log(response, 'boomset res');
-                this.setState({sessions: response.data.result, tags : response.data.tagRefs})
+                if(!response.data.result ){
+                    this.setState({errorMessage : response.data.errorMessage})
+                } else this.setState({sessions: response.data.result, tags : response.data.tagRefs})
             })
     }
 
@@ -27,7 +29,6 @@ export default class Display extends React.Component {
     let url = this.props.url
     let sessions = this.state.sessions
     let tags = this.state.tags
-    console.log(this.state);
   
     if(sessions){
         return (
@@ -58,7 +59,11 @@ export default class Display extends React.Component {
             </div>
         )
             
-    } else {
+    } else if(this.state.errorMessage){
+        return <div> There appears to be a problem with retrieving your schedule. Please try refreshing your browser. </div> 
+    } 
+    
+    else {
         return <div> One moment please. This make take a few seconds... </div>
     }
   }

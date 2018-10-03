@@ -27374,7 +27374,6 @@
 	      var cookieValue = (0, _utils.getCook)('FOST');
 	
 	      if (cookieValue) {
-	        console.log(cookieValue);
 	        _this.getSource(cookieValue);
 	        _this.setState({ url: cookieValue });
 	      }
@@ -27410,7 +27409,6 @@
 	    value: function render() {
 	      var url = this.state.url;
 	      var source = this.state.source;
-	      console.log(url, source);
 	      if (url && source.lastName) {
 	        return _react2.default.createElement(_schedule2.default, { url: url, source: source });
 	      } else {
@@ -27492,7 +27490,6 @@
 	
 	      _axios2.default.post('/', { message: 'this is data from the frontend', firstName: _this.state.firstName.toLowerCase().trim(),
 	        lastName: _this.state.lastName.toLowerCase().trim() }).then(function (response) {
-	        console.log(response, 'response');
 	        if (response.data.url) {
 	          _this.setState({ url: response.data.url });
 	          _this.props.checkCookie();
@@ -29185,7 +29182,8 @@
 	        _this.state = {
 	            source: _this.props.source,
 	            sessions: [],
-	            tags: []
+	            tags: [],
+	            errorMessage: ''
 	        };
 	        return _this;
 	    }
@@ -29197,8 +29195,9 @@
 	
 	            console.log(this.props.source, 'source data on frontend');
 	            _axios2.default.post('/boomset', { email: this.props.email, url: this.props.url, source: this.props.source }).then(function (response) {
-	                console.log(response, 'boomset res');
-	                _this2.setState({ sessions: response.data.result, tags: response.data.tagRefs });
+	                if (!response.data.result) {
+	                    _this2.setState({ errorMessage: response.data.errorMessage });
+	                } else _this2.setState({ sessions: response.data.result, tags: response.data.tagRefs });
 	            });
 	        }
 	    }, {
@@ -29207,7 +29206,6 @@
 	            var url = this.props.url;
 	            var sessions = this.state.sessions;
 	            var tags = this.state.tags;
-	            console.log(this.state);
 	
 	            if (sessions) {
 	                return _react2.default.createElement(
@@ -29268,6 +29266,12 @@
 	                            )
 	                        );
 	                    })
+	                );
+	            } else if (this.state.errorMessage) {
+	                return _react2.default.createElement(
+	                    'div',
+	                    null,
+	                    ' There appears to be a problem with retrieving your schedule. Please try refreshing your browser. '
 	                );
 	            } else {
 	                return _react2.default.createElement(

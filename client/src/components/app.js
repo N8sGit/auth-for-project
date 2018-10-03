@@ -18,7 +18,6 @@ export default class App extends Component {
     let cookieValue = getCook('FOST');
    
     if(cookieValue){
-      console.log(cookieValue);
       this.getSource(cookieValue)
       this.setState({url : cookieValue})
     }
@@ -44,7 +43,6 @@ export default class App extends Component {
     render() {
     let url = this.state.url
     let source = this.state.source
-    console.log(url, source);
    if(url && source.lastName) {
     return (
        <Display url = {url} source = {source} /> 

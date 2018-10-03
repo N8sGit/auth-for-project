@@ -53,22 +53,18 @@ setInterval(getGuests, 60000);
 
 console.log(eventAttendees, 'hello????????');
 function memoize(attendeeData){
-	console.log(attendeeData, 'aaasjjfn jdn');
 	  let foundAttendee = eventAttendees.find(function(value){
 		  return value.contact.first_name.toLowerCase().trim() === attendeeData.firstName.toLowerCase() && value.contact.last_name.toLowerCase().trim() === attendeeData.lastName.toLowerCase()
 	  })
 
 	  for(var i = 0; i<eventAttendees.length; i++){
 		if(eventAttendees[i].contact.first_name.toLowerCase() === attendeeData.firstName){
-			console.log('yay');
 		}
-		console.log(eventAttendees[i].contact.first_name, eventAttendees[i].contact.last_name, 'names');
 	  }
 
 	  if(!foundAttendee){
 		  return {errorMessage: 'No attendee found'}
 	  }
-	  console.log(foundAttendee, 'foundattendee');
 	  sessionIds = foundAttendee.sessions.out
 	  let result = []
 
@@ -77,7 +73,6 @@ function memoize(attendeeData){
 			  result.push(sessionsArr[i])
 		  } 
 	  }
-	  //this should be eventInfo...right?
 	  let tags = {...eventInfo.session_tags}
 	  
 	  let tagRefs = result.map( (value, index) => {
