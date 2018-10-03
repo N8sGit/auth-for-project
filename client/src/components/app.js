@@ -44,7 +44,8 @@ export default class App extends Component {
     render() {
     let url = this.state.url
     let source = this.state.source
-   if(url && source.email) {
+    console.log(url, source);
+   if(url && source.lastName) {
     return (
        <Display url = {url} source = {source} /> 
     )

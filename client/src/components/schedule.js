@@ -14,8 +14,10 @@ export default class Display extends React.Component {
     }
 
     componentWillMount(){
+        console.log(this.props.source, 'source data on frontend');
         axios.post('/boomset', {email: this.props.email, url: this.props.url, source: this.props.source})
             .then((response) => {
+                console.log(response, 'boomset res');
                 this.setState({sessions: response.data.result, tags : response.data.tagRefs})
             })
     }
@@ -25,11 +27,9 @@ export default class Display extends React.Component {
     let url = this.props.url
     let sessions = this.state.sessions
     let tags = this.state.tags
+    console.log(this.state);
   
-    if(!sessions.length){
-         return <div> One moment please. This make take a few seconds... </div>
-            
-    } else {
+    if(sessions){
         return (
             <div id='schedule-list'> 
                 <a id= 'url' href={url}> Click here to manage your schedule </a>
@@ -57,6 +57,9 @@ export default class Display extends React.Component {
             }
             </div>
         )
+            
+    } else {
+        return <div> One moment please. This make take a few seconds... </div>
     }
   }
 }

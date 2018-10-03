@@ -2,31 +2,32 @@
 
 #events-container{
     background-color: black;
-    padding: 5px;
     margin: 10px;
     margin-bottom: 12%;
 }
 
 .event-format{
     border: 1px solid #ddd;
-    margin-top: -1px; /* Prevent double borders */
+    margin-top: -1px; /* Prevent double borders */;
+    margin-bottom: 5px;
     background-color: #f6f6f6;
-    padding: 12px;
 }
 
 #event-name{
-    color: white;
+    color: black;
+    margin: 5px
 }
 
 #event-track{
     color: white;
+    margin-top: 3px;
 }
 
 * {
     box-sizing: border-box;
   }
   
-  ul {
+  #event-list {
     list-style-type: none;
     padding: 0;
     margin: 0;

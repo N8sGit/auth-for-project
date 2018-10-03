@@ -27410,7 +27410,8 @@
 	    value: function render() {
 	      var url = this.state.url;
 	      var source = this.state.source;
-	      if (url && source.email) {
+	      console.log(url, source);
+	      if (url && source.lastName) {
 	        return _react2.default.createElement(_schedule2.default, { url: url, source: source });
 	      } else {
 	        return _react2.default.createElement(
@@ -29194,7 +29195,9 @@
 	        value: function componentWillMount() {
 	            var _this2 = this;
 	
+	            console.log(this.props.source, 'source data on frontend');
 	            _axios2.default.post('/boomset', { email: this.props.email, url: this.props.url, source: this.props.source }).then(function (response) {
+	                console.log(response, 'boomset res');
 	                _this2.setState({ sessions: response.data.result, tags: response.data.tagRefs });
 	            });
 	        }
@@ -29204,14 +29207,9 @@
 	            var url = this.props.url;
 	            var sessions = this.state.sessions;
 	            var tags = this.state.tags;
+	            console.log(this.state);
 	
-	            if (!sessions.length) {
-	                return _react2.default.createElement(
-	                    'div',
-	                    null,
-	                    ' One moment please. This make take a few seconds... '
-	                );
-	            } else {
+	            if (sessions) {
 	                return _react2.default.createElement(
 	                    'div',
 	                    { id: 'schedule-list' },
@@ -29270,6 +29268,12 @@
 	                            )
 	                        );
 	                    })
+	                );
+	            } else {
+	                return _react2.default.createElement(
+	                    'div',
+	                    null,
+	                    ' One moment please. This make take a few seconds... '
 	                );
 	            }
 	        }

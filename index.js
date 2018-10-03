@@ -10,6 +10,7 @@ axios = require('axios'),
 boomsetKey = require('./secret'),
 rawData = require('./data')
 const data = Array.from(rawData)
+console.log(rawData);
 
 // App/Middleware Setup
 app.use(morgan('combined')); // Logging debugging
@@ -23,7 +24,6 @@ var sessionIds, sessionsArr, eventAttendees = []
 var eventInfo  = {}
 
 function getGuests(){
-	console.log('hellow');
   axios.get('https://www.boomset.com/restapi/eventsessions/settings/72056/get_sessions', 
   { headers: {Authorization: `Token ${boomsetKey.key}`}})
   
@@ -33,6 +33,7 @@ function getGuests(){
 			  {Authorization: `Token ${boomsetKey.key}`}})
 			  .then((response) => {
 				  eventAttendees = Array.from(response.data.results)
+				  console.log(eventAttendees, 'huh');
 			  })
 		  })
 			.then(function(response){
@@ -42,7 +43,6 @@ function getGuests(){
 			   .then(response => {
 
 			  eventInfo = response.data	
-			  console.log(eventInfo, eventAttendees, 'data in intiail');
 	  })
   })
 	  .catch(err => console.err(err + ' error at getGuests'))
@@ -51,17 +51,24 @@ function getGuests(){
 getGuests();
 setInterval(getGuests, 60000);
 
-
+console.log(eventAttendees, 'hello????????');
 function memoize(attendeeData){
-	console.log(eventAttendees, 'data');
+	console.log(attendeeData, 'aaasjjfn jdn');
 	  let foundAttendee = eventAttendees.find(function(value){
-		  return value.contact.firstName.toLowerCase() === attendeeData.firstName && value.contact.lastName.toLowerCase() === attendeeData.lastName
+		  return value.contact.first_name.toLowerCase().trim() === attendeeData.firstName.toLowerCase() && value.contact.last_name.toLowerCase().trim() === attendeeData.lastName.toLowerCase()
 	  })
+
+	  for(var i = 0; i<eventAttendees.length; i++){
+		if(eventAttendees[i].contact.first_name.toLowerCase() === attendeeData.firstName){
+			console.log('yay');
+		}
+		console.log(eventAttendees[i].contact.first_name, eventAttendees[i].contact.last_name, 'names');
+	  }
 
 	  if(!foundAttendee){
 		  return {errorMessage: 'No attendee found'}
 	  }
-
+	  console.log(foundAttendee, 'foundattendee');
 	  sessionIds = foundAttendee.sessions.out
 	  let result = []
 
@@ -86,7 +93,7 @@ function memoize(attendeeData){
 			  }
 		  })
 	  })
-	  
+	  console.log(result, tagRefs, 'data in memozize');
 	  return {result, tagRefs}
 
 }
@@ -130,9 +137,11 @@ app.post('/source', function(req,res){
   })
 
   app.post('/boomset', function(req, res) {
+	console.log('hello');
+	console.log(req.body, 'recbody');
    attendeeData = req.body.source
-   console.log(attendeeData, 'adat');
   let output = memoize(attendeeData)
+  console.log(output, 'boomset output');
   res.send(output)
 })
 
