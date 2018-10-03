@@ -14,7 +14,7 @@ const data = Array.from(rawData)
 // App/Middleware Setup
 app.use(morgan('combined')); // Logging debugging
 
-app.use(bodyParser.json({ type: '/' })); // Parses incoming requests as JSON
+app.use(bodyParser.json({ type: '*/*' })); // Parses incoming requests as JSON
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static('./public'));
 app.use(cookieParser())
@@ -24,15 +24,8 @@ var eventResponse, eventInfo  = {}
 
 function getGuests(){
   axios.get('https://www.boomset.com/restapi/eventsessions/settings/72056/get_sessions', 
-  { headers: {Authorization: `Token ${boomsetKey.key}`}, function(req, res){
-	  console.log('route entered');
-		  sessionsArr = sessionsArr 
-		  eventAttendees = eventAttendees
-		  eventResponse = eventResponse
-		  eventInfo = eventInfo
-	  }
+  { headers: {Authorization: `Token ${boomsetKey.key}`}})
   
-  })
 	.then(function(response){
 			  sessionsArr = Array.from(response.data)
 			  axios.get("https://www.boomset.com/restapi/guestlist/72056", { headers: 
@@ -40,6 +33,7 @@ function getGuests(){
 			  .then((response) => {
 				  eventAttendees = Array.from(response.data.results)
 				  eventResponse = response.data 
+				  console.log(eventAttendees, 'eventees');
 			  })
 		  })
 			.then(function(response){
@@ -60,10 +54,17 @@ setInterval(getGuests, 60000);
 console.log(sessionsArr, eventAttendees);
 
 function memoize(attendeeData){
-	console.log(attendeeData, 'attendeeData');	
+	console.log(attendeeData, 'attendeeData');
+	console.log(eventAttendees, 'here');	
 	  let foundAttendee = eventAttendees.find(function(value){
 		  return value.contact.email === attendeeData.email
 	  })
+	  console.log(foundAttendee, 'here?');
+
+	  if(!foundAttendee){
+		  return {errorMessage: 'No attendee found'}
+	  }
+
 	  sessionIds = foundAttendee.sessions.out
 	  let result = []
 
@@ -176,7 +177,6 @@ app.post('/', function(req, res){
 	  res.send({message:"data for the front end", url, source})
 	  
   }
-  else res.send({notFound})
 })
 
 
