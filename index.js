@@ -1,5 +1,4 @@
-const 
-path = require('path')
+const path = require('path')
 express = require('express'),
 cookieParser = require('cookie-parser')
 http = require('http'),
@@ -10,7 +9,6 @@ cheerio = require('cheerio'),
 axios = require('axios'),
 boomsetKey = require('./secret'),
 rawData = require('./data')
-
 const data = Array.from(rawData)
 
 // App/Middleware Setup
@@ -27,6 +25,7 @@ var eventResponse, eventInfo  = {}
 function getGuests(){
   axios.get('https://www.boomset.com/restapi/eventsessions/settings/72056/get_sessions', 
   { headers: {Authorization: `Token ${boomsetKey.key}`}, function(req, res){
+	  console.log('route entered');
 		  sessionsArr = sessionsArr 
 		  eventAttendees = eventAttendees
 		  eventResponse = eventResponse
@@ -36,7 +35,6 @@ function getGuests(){
   })
 	.then(function(response){
 			  sessionsArr = Array.from(response.data)
-			  
 			  axios.get("https://www.boomset.com/restapi/guestlist/72056", { headers: 
 			  {Authorization: `Token ${boomsetKey.key}`}})
 			  .then((response) => {
@@ -50,7 +48,7 @@ function getGuests(){
 			  )
 			   .then(response => {
 
-			  eventInfo = response.data				
+			  eventInfo = response.data	
 	  })
   })
 	  .catch(err => console.err(err + ' error at getGuests'))
@@ -59,6 +57,7 @@ function getGuests(){
 getGuests();
 setInterval(getGuests, 60000);
 
+console.log(sessionsArr, eventAttendees);
 
 function memoize(attendeeData){
 	console.log(attendeeData, 'attendeeData');	
@@ -93,8 +92,6 @@ function memoize(attendeeData){
 	  return {result, tagRefs}
 
 }
-
-console.log(memoize);
 
 
 
@@ -146,7 +143,8 @@ app.post('/source', function(req,res){
 
 
 app.post('/', function(req, res){
-	console.log(req.body);
+	console.log('route entered');
+	console.log(req.body, 'req.body');
   let notFound = 'Attendee not found. Please re-enter your information or contact FOST representatives for assistance'
   if(!req.body.lastName || !req.body.zip){
 	  res.send({errorMessage : notFound})

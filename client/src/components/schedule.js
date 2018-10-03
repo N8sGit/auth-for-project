@@ -31,12 +31,12 @@ export default class Display extends React.Component {
   
     // return (<div> I'm trying to figure this out! </div>)
     if(!sessions.length){
-         return <div> One moment please... </div>
+         return <div> One moment please. This make take a few seconds... </div>
             
     } else {
         return (
             <div id='schedule-list'> 
-                <a href={url}> Click here to manage your schedule </a>
+                <a id= 'url' href={url}> Click here to manage your schedule </a>
             { 
                 sessions.map((event, index) => {
                         let dates = [event.humanize_dates.starts, event.humanize_dates.ends]
@@ -46,12 +46,14 @@ export default class Display extends React.Component {
                         tags[index].tracks[1] = ''
                     }
                     return (
-                        <div className ="events">
-                            <h3> {tags[index] ? tags[index].tracks[0] : '' } : {tags[index].tracks[1] || ''} </h3>
-                            <strong> {event.name}</strong>
-                            <ul> Room # : {location}</ul>
-                            <ul>Starts: {dates[0]}</ul>
-                            <ul>Ends : {dates[1]}</ul>
+                        <div id ="events-container">
+                            <h3 id = 'event-track'> {tags[index] ? tags[index].tracks[0] : '' } : {tags[index].tracks[1] || ''} </h3>
+                            <strong id ='event-name' className ='event-format'> {name}</strong>
+                            <ul id ='event-list'>
+                            <li className ='event-format'> Room # : {location}</li>i
+                            <li className ='event-format'>Starts: {dates[0]}</li>
+                            <li className ='event-format'>Ends : {dates[1]}</li>
+                            </ul>
                             
                         </div>
                     )

@@ -27423,7 +27423,7 @@
 	      var url = this.state.url;
 	      var source = this.state.source;
 	      console.log(source, 'source in render');
-	      if (url && source) {
+	      if (url && source.email) {
 	        return _react2.default.createElement(_schedule2.default, { url: url, source: source });
 	      } else {
 	        return _react2.default.createElement(
@@ -27600,7 +27600,7 @@
 	          _react2.default.createElement(
 	            'p',
 	            null,
-	            ' To obtain your schedule please enter your last name and date of birth '
+	            ' To obtain your schedule please enter your last name and zip code '
 	          ),
 	          _react2.default.createElement(
 	            'p',
@@ -29217,7 +29217,7 @@
 	                return _react2.default.createElement(
 	                    'div',
 	                    null,
-	                    ' One moment please... '
+	                    ' One moment please. This make take a few seconds... '
 	                );
 	            } else {
 	                return _react2.default.createElement(
@@ -29225,7 +29225,7 @@
 	                    { id: 'schedule-list' },
 	                    _react2.default.createElement(
 	                        'a',
-	                        { href: url },
+	                        { id: 'url', href: url },
 	                        ' Click here to manage your schedule '
 	                    ),
 	                    sessions.map(function (event, index) {
@@ -29237,10 +29237,10 @@
 	                        }
 	                        return _react2.default.createElement(
 	                            'div',
-	                            { className: 'events' },
+	                            { id: 'events-container' },
 	                            _react2.default.createElement(
 	                                'h3',
-	                                null,
+	                                { id: 'event-track' },
 	                                ' ',
 	                                tags[index] ? tags[index].tracks[0] : '',
 	                                ' : ',
@@ -29249,27 +29249,32 @@
 	                            ),
 	                            _react2.default.createElement(
 	                                'strong',
-	                                null,
+	                                { id: 'event-name', className: 'event-format' },
 	                                ' ',
-	                                event.name
+	                                name
 	                            ),
 	                            _react2.default.createElement(
 	                                'ul',
-	                                null,
-	                                ' Room # : ',
-	                                location
-	                            ),
-	                            _react2.default.createElement(
-	                                'ul',
-	                                null,
-	                                'Starts: ',
-	                                dates[0]
-	                            ),
-	                            _react2.default.createElement(
-	                                'ul',
-	                                null,
-	                                'Ends : ',
-	                                dates[1]
+	                                { id: 'event-list' },
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    { className: 'event-format' },
+	                                    ' Room # : ',
+	                                    location
+	                                ),
+	                                'i',
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    { className: 'event-format' },
+	                                    'Starts: ',
+	                                    dates[0]
+	                                ),
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    { className: 'event-format' },
+	                                    'Ends : ',
+	                                    dates[1]
+	                                )
 	                            )
 	                        );
 	                    })
