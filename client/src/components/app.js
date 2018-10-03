@@ -55,7 +55,7 @@ export default class App extends Component {
     let url = this.state.url
     let source = this.state.source
    console.log(source, 'source in render');
-   if(url && source.email) {
+   if(url && source) {
     return (
        <Display url = {url} source = {source} /> 
     )

@@ -27423,7 +27423,7 @@
 	      var url = this.state.url;
 	      var source = this.state.source;
 	      console.log(source, 'source in render');
-	      if (url && source.email) {
+	      if (url && source) {
 	        return _react2.default.createElement(_schedule2.default, { url: url, source: source });
 	      } else {
 	        return _react2.default.createElement(
