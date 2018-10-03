@@ -33,7 +33,6 @@ export default class App extends Component {
 
   componentDidMount () {
     console.log(this.state, 'state in didmount');
-    this.getSource()
     this.checkCookie()
   }
 

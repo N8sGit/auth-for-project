@@ -27397,7 +27397,6 @@
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      console.log(this.state, 'state in didmount');
-	      this.getSource();
 	      this.checkCookie();
 	    }
 	  }, {
@@ -27475,21 +27474,22 @@
 	    };
 	
 	    _this.handleZip = function (event) {
-	      _this.setState({ zip: event.target.value });
+	      _this.setState({ firstName: event.target.value });
 	    };
 	
 	    _this.handleSubmit = function () {
-	      if (!_this.state.lastName || !_this.state.zip) {
+	      if (!_this.state.lastName || !_this.state.firstName) {
 	        _this.setState({ submitErr: true });
 	        return;
 	      }
 	
-	      _axios2.default.post('/', { message: 'this is data from the frontend', zip: _this.state.zip,
+	      _axios2.default.post('/', { message: 'this is data from the frontend', firstName: _this.state.firstName.toLowerCase().trim(),
 	        lastName: _this.state.lastName.toLowerCase().trim() }).then(function (response) {
 	        if (response.data.url) {
 	          _this.setState({ url: response.data.url });
+	          _this.props.checkCookie();
+	          var cookieValue = (0, _utils.getCook)('FOST');
 	          window.location.href = cookieValue;
-	          //  this.props.checkCookie()
 	        } else {
 	          _this.setState({ notFound: true });
 	        }
@@ -27501,7 +27501,7 @@
 	    _this.state = {
 	      data: '',
 	      lastName: '',
-	      zip: '',
+	      firstName: '',
 	      url: '',
 	      submitErr: false,
 	      notFound: false
@@ -27516,7 +27516,6 @@
 	
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'main-form' },
 	        null,
 	        _react2.default.createElement(
 	          'form',
@@ -27530,21 +27529,21 @@
 	          _react2.default.createElement(
 	            'label',
 	            null,
-	            'ZIP:',
-	            _react2.default.createElement('input', { type: 'text', value: this.state.zip, onChange: this.handleZip })
+	            'First Name:',
+	            _react2.default.createElement('input', { type: 'text', value: this.state.firstName, onChange: this.handleZip })
 	          ),
 	          _react2.default.createElement(
 	            'button',
 	            { id: 'input-button', type: 'button', onClick: function onClick() {
 	                _this2.handleSubmit();
 	              } },
-	            ' Go To Portal '
+	            ' Confirm '
 	          )
 	        ),
 	        this.state.submitErr ? _react2.default.createElement(
 	          'p',
 	          { className: 'submit-error' },
-	          ' Please enter a last name and ZIP code. '
+	          ' Please enter a last and first name. '
 	        ) : '',
 	        this.state.notFound ? _react2.default.createElement(
 	          'p',
@@ -27565,7 +27564,7 @@
 	          _react2.default.createElement(
 	            'h1',
 	            { to: '/', className: 'navbar-brand' },
-	            'Session Selection Portal'
+	            'Fost Scheduling Portal'
 	          ),
 	          _react2.default.createElement(
 	            'ul',
@@ -27576,18 +27575,20 @@
 	        _react2.default.createElement(
 	          'div',
 	          null,
-	          
 	          _react2.default.createElement(
-	            'br',
-	            'p',
+	            'h1',
 	            null,
-	            ' To obtain your schedule, please authorize your device by entering your last name and zip code. '
+	            ' One-time Schedule Verification '
 	          ),
 	          _react2.default.createElement(
-	            'br',
 	            'p',
 	            null,
-	            ' Please note you will only have to enter this once.'
+	            ' To obtain your schedule please enter your first and last name '
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            ' You will then be redirected to your schedule '
 	          )
 	        )
 	      );
@@ -29176,16 +29177,15 @@
 	        return _this;
 	    }
 	
-	    _createClass(Display, [{
-	        key: 'componentWillMount',
-	        value: function componentWillMount() {
-	            var _this2 = this;
+	    // componentWillMount(){
+	    //     axios.post('/boomset', {email: this.props.email, url: this.props.url, source: this.props.source})
+	    //         .then((response) => {
+	    //             this.setState({sessions: response.data.result, tags : response.data.tagRefs})
+	    //         })
+	    // }
 	
-	            _axios2.default.post('/boomset', { email: this.props.email, url: this.props.url, source: this.props.source }).then(function (response) {
-	                _this2.setState({ sessions: response.data.result, tags: response.data.tagRefs });
-	            });
-	        }
-	    }, {
+	
+	    _createClass(Display, [{
 	        key: 'render',
 	        value: function render() {
 	            var url = this.props.url;

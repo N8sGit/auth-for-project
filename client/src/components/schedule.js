@@ -14,12 +14,12 @@ export default class Display extends React.Component {
         }
     }
 
-    componentWillMount(){
-        axios.post('/boomset', {email: this.props.email, url: this.props.url, source: this.props.source})
-            .then((response) => {
-                this.setState({sessions: response.data.result, tags : response.data.tagRefs})
-            })
-    }
+    // componentWillMount(){
+    //     axios.post('/boomset', {email: this.props.email, url: this.props.url, source: this.props.source})
+    //         .then((response) => {
+    //             this.setState({sessions: response.data.result, tags : response.data.tagRefs})
+    //         })
+    // }
 
 
    render(){
