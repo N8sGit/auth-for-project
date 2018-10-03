@@ -21,11 +21,8 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static('./public'));
 app.use(cookieParser())
 
-var attendeeData = '';
 var sessionIds, sessionsArr, eventAttendees = []
 var eventResponse, attendHash, eventInfo, output  = {}
-
-
 
 function getGuests(){
 	axios.get('https://www.boomset.com/restapi/eventsessions/settings/72056/get_sessions', 
@@ -53,38 +50,9 @@ function getGuests(){
 					axios.get(`https://www.boomset.com/restapi/events/72056/info`,{ headers: 
 				{Authorization: `Token ${boomsetKey.key}`}} 
 				)
-				 .then(response =>{
+				 .then(response => {
 
-					let foundAttendee = eventAttendees.find(function(value){
-						return value.contact.email === attendeeData.email
-					})
-					
-					sessionIds = foundAttendee.sessions.out
-					
-					let result = []
-
-					for(let i =0; i<sessionsArr.length; i++){
-						if (sessionIds.includes(sessionsArr[i].id.toString())){
-							result.push(sessionsArr[i])
-						} 
-					}
-					let tags = {...response.data.session_tags}
-					eventInfo = response.data
-					
-					let tagRefs = result.map( (value, index) => {
-						return { id: result[index].id, tags: result[index].tags, tracks: []}
-					})
-
-					tagRefs.map((value, index) => {
-						tagRefs[index].tags.map((tag) =>{
-							for(let prop in tags){
-								if(tags[prop].id === tag){
-									tagRefs[index].tracks.push(tags[prop].tag)
-								}
-							}
-						})
-			})
-				output = {result, tagRefs}					
+				eventInfo = response.data				
 		})
 	})
 		.catch(err => console.err(err + ' error at getGuests'))
@@ -94,7 +62,7 @@ getGuests();
 setInterval(getGuests, 60000);
 
 
-function memoize(eventAttendees, eventResponse){	
+function memoize(attendeeData){	
 		let foundAttendee = eventAttendees.find(function(value){
 			return value.contact.email === attendeeData.email
 		})
@@ -106,7 +74,8 @@ function memoize(eventAttendees, eventResponse){
 				result.push(sessionsArr[i])
 			} 
 		}
-		let tags = {...eventResponse.session_tags}
+		//this should be eventInfo...right?
+		let tags = {...eventInfo.session_tags}
 		
 		let tagRefs = result.map( (value, index) => {
 			return { id: result[index].id, tags: result[index].tags, tracks: []}
@@ -152,8 +121,9 @@ app.use(function(req, res, next){
 
 app.post('/boomset', function(req, res) {
 	var startTime = Date.now()
-	 attendeeData = req.body.source
-	let output = memoize(eventAttendees, eventResponse)
+	let attendeeData = req.body.source
+	let output = memoize(attendeeData)
+	//does this need {} around it? What is the front end recieving?
 	res.send({output})
 
 })
