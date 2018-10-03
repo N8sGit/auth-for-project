@@ -39,6 +39,7 @@ handleSubmit = () => {
     lastName: this.state.lastName.toLowerCase().trim()}
   )
     .then( (response) => {
+      console.log(response, 'response');
       if(response.data.url){
         this.setState({url: response.data.url})
        this.props.checkCookie()

@@ -20,9 +20,10 @@ app.use(express.static('./public'));
 app.use(cookieParser())
 
 var sessionIds, sessionsArr, eventAttendees = []
-var eventResponse, eventInfo  = {}
+var eventInfo  = {}
 
 function getGuests(){
+	console.log('hellow');
   axios.get('https://www.boomset.com/restapi/eventsessions/settings/72056/get_sessions', 
   { headers: {Authorization: `Token ${boomsetKey.key}`}})
   
@@ -32,7 +33,6 @@ function getGuests(){
 			  {Authorization: `Token ${boomsetKey.key}`}})
 			  .then((response) => {
 				  eventAttendees = Array.from(response.data.results)
-				  eventResponse = response.data 
 			  })
 		  })
 			.then(function(response){
@@ -42,6 +42,7 @@ function getGuests(){
 			   .then(response => {
 
 			  eventInfo = response.data	
+			  console.log(eventInfo, eventAttendees, 'data in intiail');
 	  })
   })
 	  .catch(err => console.err(err + ' error at getGuests'))
@@ -52,8 +53,9 @@ setInterval(getGuests, 60000);
 
 
 function memoize(attendeeData){
+	console.log(eventAttendees, 'data');
 	  let foundAttendee = eventAttendees.find(function(value){
-		  return value.contact.email === attendeeData.email
+		  return value.contact.firstName.toLowerCase() === attendeeData.firstName && value.contact.lastName.toLowerCase() === attendeeData.lastName
 	  })
 
 	  if(!foundAttendee){
@@ -123,11 +125,13 @@ app.post('/source', function(req,res){
 		return false 
 	}
 	confirmSource();
+	console.log(source, 'source');
 	res.send({source})
   })
 
   app.post('/boomset', function(req, res) {
    attendeeData = req.body.source
+   console.log(attendeeData, 'adat');
   let output = memoize(attendeeData)
   res.send(output)
 })
@@ -156,16 +160,19 @@ app.post('/', function(req, res){
   return false 
 }
   confirmAttendee()
-
+console.log(source, 'source');
   function confirmZip(source){
-	  if(source.firstName === req.body.firstName){
+	  if(source.firstName.toLowerCase() === req.body.firstName){
 		  return true
 	  }
 	  else return false 
   }
   
-
+  console.log('here');
+  console.log(source, confirmZip(source));
   if(source && confirmZip(source)){ 
+	  console.log('exit point');
+	  console.log(source, confirmZip(source), 'here');
 	  res.cookie('FOST', url, { expires: new Date(Date.now() + 1000000000000000000)})
 	  res.send({message:"data for the front end", url, source})
 	  

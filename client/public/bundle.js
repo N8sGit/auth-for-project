@@ -27374,6 +27374,7 @@
 	      var cookieValue = (0, _utils.getCook)('FOST');
 	
 	      if (cookieValue) {
+	        console.log(cookieValue);
 	        _this.getSource(cookieValue);
 	        _this.setState({ url: cookieValue });
 	      }
@@ -27490,6 +27491,7 @@
 	
 	      _axios2.default.post('/', { message: 'this is data from the frontend', firstName: _this.state.firstName.toLowerCase().trim(),
 	        lastName: _this.state.lastName.toLowerCase().trim() }).then(function (response) {
+	        console.log(response, 'response');
 	        if (response.data.url) {
 	          _this.setState({ url: response.data.url });
 	          _this.props.checkCookie();
@@ -29171,10 +29173,6 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	// import {boomsetKey} from '../../../secret'
-	// console.log(boomsetKey, 'key?');
-	
-	
 	var Display = function (_React$Component) {
 	    _inherits(Display, _React$Component);
 	
@@ -29207,7 +29205,6 @@
 	            var sessions = this.state.sessions;
 	            var tags = this.state.tags;
 	
-	            // return (<div> I'm trying to figure this out! </div>)
 	            if (!sessions.length) {
 	                return _react2.default.createElement(
 	                    'div',

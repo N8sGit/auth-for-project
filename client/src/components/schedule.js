@@ -1,7 +1,6 @@
 import React from "react"
 import axios from 'axios'
-// import {boomsetKey} from '../../../secret'
-// console.log(boomsetKey, 'key?');
+
 
 
 export default class Display extends React.Component {
@@ -27,7 +26,6 @@ export default class Display extends React.Component {
     let sessions = this.state.sessions
     let tags = this.state.tags
   
-    // return (<div> I'm trying to figure this out! </div>)
     if(!sessions.length){
          return <div> One moment please. This make take a few seconds... </div>
             

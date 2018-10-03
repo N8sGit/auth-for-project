@@ -18,6 +18,7 @@ export default class App extends Component {
     let cookieValue = getCook('FOST');
    
     if(cookieValue){
+      console.log(cookieValue);
       this.getSource(cookieValue)
       this.setState({url : cookieValue})
     }
