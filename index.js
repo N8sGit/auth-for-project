@@ -33,7 +33,6 @@ function getGuests(){
 			  .then((response) => {
 				  eventAttendees = Array.from(response.data.results)
 				  eventResponse = response.data 
-				  console.log(eventAttendees, 'eventees');
 			  })
 		  })
 			.then(function(response){
@@ -51,15 +50,11 @@ function getGuests(){
 getGuests();
 setInterval(getGuests, 60000);
 
-console.log(sessionsArr, eventAttendees);
 
 function memoize(attendeeData){
-	console.log(attendeeData, 'attendeeData');
-	console.log(eventAttendees, 'here');	
 	  let foundAttendee = eventAttendees.find(function(value){
 		  return value.contact.email === attendeeData.email
 	  })
-	  console.log(foundAttendee, 'here?');
 
 	  if(!foundAttendee){
 		  return {errorMessage: 'No attendee found'}
@@ -133,7 +128,6 @@ app.post('/source', function(req,res){
 
   app.post('/boomset', function(req, res) {
    attendeeData = req.body.source
-   console.log(attendeeData, 'attendeeData');
   let output = memoize(attendeeData)
   res.send(output)
 })
@@ -145,7 +139,7 @@ app.post('/source', function(req,res){
 
 app.post('/', function(req, res){
   let notFound = 'Attendee not found. Please re-enter your information or contact FOST representatives for assistance'
-  if(!req.body.lastName || !req.body.zip){
+  if(!req.body.lastName || !req.body.firstName){
 	  res.send({errorMessage : notFound})
   }
   let source, url;
@@ -163,7 +157,7 @@ app.post('/', function(req, res){
   confirmAttendee()
 
   function confirmZip(source){
-	  if(source.zip === req.body.zip){
+	  if(source.firstName === req.body.firstName){
 		  return true
 	  }
 	  else return false 

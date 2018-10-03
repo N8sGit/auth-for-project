@@ -27376,7 +27376,6 @@
 	      if (cookieValue) {
 	        _this.getSource(cookieValue);
 	        _this.setState({ url: cookieValue });
-	        console.log(_this.state, 'state in check cookie');
 	      }
 	    };
 	
@@ -27385,7 +27384,6 @@
 	        var state = _this.state;
 	        state.source = response.data.source;
 	        _this.setState({ state: state });
-	        console.log(_this.state.source, 'source in getsource');
 	      });
 	    };
 	
@@ -27398,31 +27396,19 @@
 	
 	  _createClass(App, [{
 	    key: 'componentWillUpdate',
-	
-	
-	    // componentWillMount(){
-	    //   let cookieValue = getCook('FOST')
-	    //   this.getSource()
-	    // }
-	
 	    value: function componentWillUpdate(nextProps, nextState) {
 	      console.log(nextState, 'next State');
 	    }
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      console.log(this.state, 'state in didmount');
-	      console.log(this.state.source, 'source in didMount');
 	      this.checkCookie();
-	      console.log(this.state, 'state in didmount');
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      console.log('render hit');
 	      var url = this.state.url;
 	      var source = this.state.source;
-	      console.log(source, 'source in render');
 	      if (url && source.email) {
 	        return _react2.default.createElement(_schedule2.default, { url: url, source: source });
 	      } else {
@@ -27493,16 +27479,16 @@
 	    };
 	
 	    _this.handleZip = function (event) {
-	      _this.setState({ zip: event.target.value });
+	      _this.setState({ firstName: event.target.value });
 	    };
 	
 	    _this.handleSubmit = function () {
-	      if (!_this.state.lastName || !_this.state.zip) {
+	      if (!_this.state.lastName || !_this.state.firstName) {
 	        _this.setState({ submitErr: true });
 	        return;
 	      }
 	
-	      _axios2.default.post('/', { message: 'this is data from the frontend', zip: _this.state.zip,
+	      _axios2.default.post('/', { message: 'this is data from the frontend', zip: _this.state.firstName,
 	        lastName: _this.state.lastName.toLowerCase().trim() }).then(function (response) {
 	        if (response.data.url) {
 	          _this.setState({ url: response.data.url });
@@ -27518,7 +27504,7 @@
 	    _this.state = {
 	      data: '',
 	      lastName: '',
-	      zip: '',
+	      firstName: '',
 	      url: '',
 	      submitErr: false,
 	      notFound: false
@@ -27546,8 +27532,8 @@
 	          _react2.default.createElement(
 	            'label',
 	            null,
-	            'ZIP:',
-	            _react2.default.createElement('input', { type: 'text', value: this.state.zip, onChange: this.handleZip })
+	            'firstName:',
+	            _react2.default.createElement('input', { type: 'text', value: this.state.firstName, onChange: this.handleZip })
 	          ),
 	          _react2.default.createElement(
 	            'button',
@@ -27605,7 +27591,12 @@
 	          _react2.default.createElement(
 	            'p',
 	            null,
-	            ' To obtain your schedule please enter your last name and zip code '
+	            ' To obtain your schedule please enter your first and last name '
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            ' If you do not see results immediately, wait 20 seconds for the schedule data to load '
 	          ),
 	          _react2.default.createElement(
 	            'p',
@@ -29205,7 +29196,6 @@
 	            var _this2 = this;
 	
 	            _axios2.default.post('/boomset', { email: this.props.email, url: this.props.url, source: this.props.source }).then(function (response) {
-	                console.log(response.data.result, 'response result in schedule boomset req');
 	                _this2.setState({ sessions: response.data.result, tags: response.data.tagRefs });
 	            });
 	        }
@@ -29214,7 +29204,6 @@
 	        value: function render() {
 	            var url = this.props.url;
 	            var sessions = this.state.sessions;
-	            console.log(sessions, 'sessions');
 	            var tags = this.state.tags;
 	
 	            // return (<div> I'm trying to figure this out! </div>)

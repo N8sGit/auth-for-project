@@ -13,7 +13,7 @@ class Header extends Component {
     this.state = {
       data: '',
       lastName: '',
-      zip : '',
+      firstName : '',
       url: '',
       submitErr : false,
       notFound: false
@@ -26,16 +26,16 @@ handleChange = (event) => {
  }
 
  handleZip = (event) => {
-  this.setState({zip: event.target.value})
+  this.setState({firstName: event.target.value})
  }
 
 handleSubmit = () => {
-  if(!this.state.lastName || !this.state.zip){
+  if(!this.state.lastName || !this.state.firstName){
     this.setState({submitErr: true})
     return
   }
   
-  axios.post('/', {message: 'this is data from the frontend', zip: this.state.zip, 
+  axios.post('/', {message: 'this is data from the frontend', zip: this.state.firstName, 
     lastName: this.state.lastName.toLowerCase().trim()}
   )
     .then( (response) => {
@@ -60,8 +60,8 @@ handleSubmit = () => {
                 <input type="text" value={this.state.lastName} onChange={this.handleChange} />
               </label>
               <label>
-                ZIP:
-                <input  type='text' value = {this.state.zip} onChange={this.handleZip} />
+                firstName:
+                <input  type='text' value = {this.state.firstName} onChange={this.handleZip} />
               </label>
               <button id='input-button' type='button' onClick ={ () => { this.handleSubmit()} }> Confirm </button>
           </form>
@@ -85,7 +85,8 @@ handleSubmit = () => {
     <div >
       <h1> One-time Schedule Verification </h1>
       <p> </p>
-      <p> To obtain your schedule please enter your last name and zip code </p> 
+      <p> To obtain your schedule please enter your first and last name </p> 
+      <p> If you do not see results immediately, wait 20 seconds for the schedule data to load </p>
       <p> You will then be redirected to your schedule </p>
       
     </div>

@@ -20,7 +20,6 @@ export default class App extends Component {
     if(cookieValue){
       this.getSource(cookieValue)
       this.setState({url : cookieValue})
-      console.log(this.state, 'state in check cookie')
     }
   }
 
@@ -30,31 +29,20 @@ export default class App extends Component {
       let state = this.state
       state.source = response.data.source
       this.setState({state})
-      console.log(this.state.source, 'source in getsource');
     })
   }
-
-  // componentWillMount(){
-  //   let cookieValue = getCook('FOST')
-  //   this.getSource()
-  // }
 
   componentWillUpdate(nextProps,nextState){
     console.log(nextState, 'next State');
   }
 
   componentDidMount () {
-    console.log(this.state, 'state in didmount');
-    console.log(this.state.source, 'source in didMount');
     this.checkCookie()
-    console.log(this.state, 'state in didmount');
   }
 
     render() {
-    console.log('render hit');
     let url = this.state.url
     let source = this.state.source
-   console.log(source, 'source in render');
    if(url && source.email) {
     return (
        <Display url = {url} source = {source} /> 

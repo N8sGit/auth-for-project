@@ -17,7 +17,6 @@ export default class Display extends React.Component {
     componentWillMount(){
         axios.post('/boomset', {email: this.props.email, url: this.props.url, source: this.props.source})
             .then((response) => {
-                console.log(response.data.result, 'response result in schedule boomset req');
                 this.setState({sessions: response.data.result, tags : response.data.tagRefs})
             })
     }
@@ -26,7 +25,6 @@ export default class Display extends React.Component {
    render(){
     let url = this.props.url
     let sessions = this.state.sessions
-    console.log(sessions, 'sessions');
     let tags = this.state.tags
   
     // return (<div> I'm trying to figure this out! </div>)
