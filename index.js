@@ -23,7 +23,8 @@ app.use(cookieParser())
 
 var attendeeData = '';
 var sessionIds, sessionsArr, eventAttendees = []
-
+var attendHash = {}
+var hashContent = undefined
 
 
 
@@ -52,6 +53,46 @@ function getGuests(){
 getGuests();
 setInterval(getGuests, 60000);
 
+attendHashKey = attendeeData.email.toString()
+attendHash = { attendeeHashKey: hashContent}
+console.log(attendHash, 'attendHash');
+
+function memoize(){	
+		let foundAttendee = eventAttendees.find(function(value){
+			return value.contact.email === attendeeData.email
+		})
+		sessionIds = foundAttendee.sessions.out
+		let result = []
+
+		for(let i =0; i<sessionsArr.length; i++){
+			if (sessionIds.includes(sessionsArr[i].id.toString())){
+				result.push(sessionsArr[i])
+			} 
+		}
+
+
+		let tags = {...response.data.session_tags}
+		
+		let tagRefs = result.map( (value, index) => {
+			return { id: result[index].id, tags: result[index].tags, tracks: []}
+		})
+
+		tagRefs.map((value, index) => {
+			tagRefs[index].tags.map((tag) =>{
+				for(let prop in tags){
+					if(tags[prop].id === tag){
+						tagRefs[index].tracks.push(tags[prop].tag)
+					}
+				}
+			})
+		})
+		
+		return {result, tagRefs}
+
+}
+
+console.log(memoize);
+
 
 
 app.get('/', function(req, res) {
@@ -76,60 +117,61 @@ app.use(function(req, res, next){
 
 app.post('/boomset', function(req, res) {
 	var startTime = Date.now()
-
-	console.log(Date.now() - startTime, 'time change entering the boomset route');
+ if(hashContent) {
+		hashContent = hashContent
+	} else{ hashContent = {}}
 
 	 attendeeData = req.body.source
 
-	
-	axios.get(`https://www.boomset.com/restapi/events/72056/info`,{ headers: 
-		{Authorization: `Token ${boomsetKey.key}`}} 
-		)
-		.then(response =>{
-			console.log(Date.now() - startTime, 'time change before found attendee is retrieved');
+if(attendHash[attendeeData.email]){
+ 	let output = memoize()
+ 	res.send(output)
 
-			let foundAttendee = eventAttendees.find(function(value){
-				return value.contact.email === attendeeData.email
-			})
-			 sessionIds = foundAttendee.sessions.out
-			let result = []
-			for(let i =0; i<sessionsArr.length; i++){
-				if (sessionIds.includes(sessionsArr[i].id.toString())){
-					result.push(sessionsArr[i])
-				} 
-			}
-			console.log(Date.now() - startTime, 'time change before refs are made');
+}
+else
+	{	
+		axios.get(`https://www.boomset.com/restapi/events/72056/info`,{ headers: 
+			{Authorization: `Token ${boomsetKey.key}`}} 
+			)
+			.then(response =>{
 
+				let foundAttendee = eventAttendees.find(function(value){
+					return value.contact.email === attendeeData.email
+				})
+				sessionIds = foundAttendee.sessions.out
+				let result = []
 
-		let tags = {...response.data.session_tags}
-		
-		let tagRefs = result.map( (value, index) => {
-			return { id: result[index].id, tags: result[index].tags, tracks: []}
-		})
-
-		tagRefs.map((value, index) => {
-			tagRefs[index].tags.map((tag) =>{
-				for(let prop in tags){
-					if(tags[prop].id === tag){
-						tagRefs[index].tracks.push(tags[prop].tag)
-					}
+				for(let i =0; i<sessionsArr.length; i++){
+					if (sessionIds.includes(sessionsArr[i].id.toString())){
+						result.push(sessionsArr[i])
+					} 
 				}
+			let tags = {...response.data.session_tags}
+			hashContent = response.data
+			
+			let tagRefs = result.map( (value, index) => {
+				return { id: result[index].id, tags: result[index].tags, tracks: []}
 			})
+
+			tagRefs.map((value, index) => {
+				tagRefs[index].tags.map((tag) =>{
+					for(let prop in tags){
+						if(tags[prop].id === tag){
+							tagRefs[index].tracks.push(tags[prop].tag)
+						}
+					}
+				})
+			})
+				return {result, tagRefs}					
 		})
-
-		console.log(Date.now() - startTime, 'time change after refs made');
-
-						return {result, tagRefs}					
-					})
-					 .then(output =>{
-						console.log(Date.now() - startTime, 'time change at output');
-
-						 console.log('here');
-						res.send(output)
-					})
-			  		  .catch(err => console.error(err + ' error at session metadata retrieval endpoint'))
-		
-	})
+		 .then(output =>{
+			console.log(Date.now() - startTime, 'time change at output');
+			console.log('here');
+				res.send(output)
+			})
+			.catch(err => console.error(err + ' error at session metadata retrieval endpoint'))
+	}
+})
 
 
 
