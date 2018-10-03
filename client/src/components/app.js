@@ -33,11 +33,11 @@ export default class App extends Component {
 
   componentDidMount () {
     console.log(this.state, 'state in didmount');
-    this.getSource()
     this.checkCookie()
   }
 
     render() {
+      
     console.log('render hit');
     let url = this.state.url
     let source = this.state.source
@@ -50,7 +50,7 @@ export default class App extends Component {
       </div>
     )
   } 
-  else if(source.email)  return <Display url = {url} source = {source} email = {source.email} /> 
+  else   window.location.herf = url
   
   }
 }
