@@ -75,6 +75,9 @@ handleSubmit = () => {
 
 
   render() {
+    if(this.state.url){
+      window.location.href = this.state.url
+    }
     return (
     <div>
         <nav className="">

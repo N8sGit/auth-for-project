@@ -27402,6 +27402,7 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	
 	      console.log('render hit');
 	      var url = this.state.url;
 	      var source = this.state.source;
@@ -27413,7 +27414,7 @@
 	          _react2.default.createElement(_header2.default, { checkCookie: this.checkCookie.bind(this) }),
 	          this.props.children
 	        );
-	      } else if (source.email) return _react2.default.createElement(_schedule2.default, { url: url, source: source, email: source.email });
+	      } else window.location.herf = url;
 	    }
 	  }]);
 	
@@ -27555,6 +27556,9 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      if (this.state.url) {
+	        window.location.href = this.state.url;
+	      }
 	      return _react2.default.createElement(
 	        'div',
 	        null,
