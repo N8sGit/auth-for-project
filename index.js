@@ -144,8 +144,6 @@ app.post('/source', function(req,res){
 
 
 app.post('/', function(req, res){
-	console.log('route entered');
-	console.log(req.body, 'req.body');
   let notFound = 'Attendee not found. Please re-enter your information or contact FOST representatives for assistance'
   if(!req.body.lastName || !req.body.zip){
 	  res.send({errorMessage : notFound})
