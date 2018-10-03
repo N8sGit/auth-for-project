@@ -23,8 +23,8 @@ app.use(cookieParser())
 
 var attendeeData = '';
 var sessionIds, sessionsArr, eventAttendees = []
+var eventResponse = {}
 var attendHash = {}
-var hashContent = undefined
 
 
 
@@ -33,6 +33,7 @@ function getGuests(){
 	{ headers: {Authorization: `Token ${boomsetKey.key}`}, function(req, res){
 			sessionsArr = sessionsArr 
 			eventAttendees = eventAttendees
+			eventResponse = eventResponse
 		}
 	
 	})
@@ -44,6 +45,7 @@ function getGuests(){
 				)
 				.then((response) => {
 					eventAttendees = Array.from(response.data.results)
+					eventResponse = response.data 
 					console.log(Date.now() - startTime, 'time change in initial request output');
 				})
 			})
@@ -53,11 +55,8 @@ function getGuests(){
 getGuests();
 setInterval(getGuests, 60000);
 
-attendHashKey = attendeeData.email.toString()
-attendHash = { attendeeHashKey: hashContent}
-console.log(attendHash, 'attendHash');
 
-function memoize(){	
+function memoize(eventAttendees, eventResponse){	
 		let foundAttendee = eventAttendees.find(function(value){
 			return value.contact.email === attendeeData.email
 		})
@@ -69,9 +68,7 @@ function memoize(){
 				result.push(sessionsArr[i])
 			} 
 		}
-
-
-		let tags = {...response.data.session_tags}
+		let tags = {...eventResponse.session_tags}
 		
 		let tagRefs = result.map( (value, index) => {
 			return { id: result[index].id, tags: result[index].tags, tracks: []}
@@ -117,10 +114,6 @@ app.use(function(req, res, next){
 
 app.post('/boomset', function(req, res) {
 	var startTime = Date.now()
- if(hashContent) {
-		hashContent = hashContent
-	} else{ hashContent = {}}
-
 	 attendeeData = req.body.source
 
 if(attendHash[attendeeData.email]){
