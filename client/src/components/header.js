@@ -35,7 +35,7 @@ handleSubmit = () => {
     return
   }
   
-  axios.post('/', {message: 'this is data from the frontend', zip: this.state.firstName, 
+  axios.post('/', {message: 'this is data from the frontend', firstName: this.state.firstName.toLowerCase().trim(), 
     lastName: this.state.lastName.toLowerCase().trim()}
   )
     .then( (response) => {
@@ -60,12 +60,12 @@ handleSubmit = () => {
                 <input type="text" value={this.state.lastName} onChange={this.handleChange} />
               </label>
               <label>
-                firstName:
+                First Name:
                 <input  type='text' value = {this.state.firstName} onChange={this.handleZip} />
               </label>
               <button id='input-button' type='button' onClick ={ () => { this.handleSubmit()} }> Confirm </button>
           </form>
-          { this.state.submitErr ? <p className='submit-error'> Please enter a last name and ZIP code. </p> : '' }
+          { this.state.submitErr ? <p className='submit-error'> Please enter a last and first name. </p> : '' }
           {this.state.notFound ? <p className = 'submit-error'> Attendee not found. Please try re-entering your info </p> : ''}
       </div>  
     
@@ -73,6 +73,7 @@ handleSubmit = () => {
 
 
   render() {
+    console.log(this.state);
     return (
     <div>
         <nav className="">

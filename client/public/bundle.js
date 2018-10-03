@@ -27488,7 +27488,7 @@
 	        return;
 	      }
 	
-	      _axios2.default.post('/', { message: 'this is data from the frontend', zip: _this.state.firstName,
+	      _axios2.default.post('/', { message: 'this is data from the frontend', firstName: _this.state.firstName.toLowerCase().trim(),
 	        lastName: _this.state.lastName.toLowerCase().trim() }).then(function (response) {
 	        if (response.data.url) {
 	          _this.setState({ url: response.data.url });
@@ -27532,7 +27532,7 @@
 	          _react2.default.createElement(
 	            'label',
 	            null,
-	            'firstName:',
+	            'First Name:',
 	            _react2.default.createElement('input', { type: 'text', value: this.state.firstName, onChange: this.handleZip })
 	          ),
 	          _react2.default.createElement(
@@ -27546,7 +27546,7 @@
 	        this.state.submitErr ? _react2.default.createElement(
 	          'p',
 	          { className: 'submit-error' },
-	          ' Please enter a last name and ZIP code. '
+	          ' Please enter a last and first name. '
 	        ) : '',
 	        this.state.notFound ? _react2.default.createElement(
 	          'p',
@@ -27558,6 +27558,7 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      console.log(this.state);
 	      return _react2.default.createElement(
 	        'div',
 	        null,
